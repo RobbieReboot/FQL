@@ -32,13 +32,34 @@ Mike Lischke
 
 ### FQL Usage
 
-Statements so far :
+```
+// Example code so far
+VAR MyVar1 = "Hello";
+VAR MyVar2 = "World";
+VAR xxx = MyVar2;
+PRINT $"String interpolation says {MyVar1} {xxx}";
+PRINT "Hello World String!";
+PRINT MyVar1;
 
-VAR <id> := (STRING | INT | SYMBOL)
+// Single line comment for connection stirng.
 
-PRINT ( INTERPOLATION_STRING | STRING | SYMBOL)
+CONNECTION "Data Source=.\;Integrated Security=SSPI;Initial Catalog=sqldb-daprservice;MultipleActiveResultSets=True;Encrypt=false;TrustServerCertificate=true";
+
+VAR receiptCount = COUNT()
 
 
+/*
+
+MULTI line comment for local Database connection details.
+
+Creating Database                       : sqldb-receipt-service
+Creating User                           : dapruser
+- Password                              : ySwp0aGAmhI1jns0wgkb5zmH9iuW7AMQ
+Creating Server user                    : dapruser
+Setting db_owner                        : dapruser
+
+*/
+```
 
 
 ### Documentation

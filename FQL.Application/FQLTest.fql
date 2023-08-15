@@ -14,7 +14,7 @@ VAR receiptCount = COUNT()
 
 /*
 
-MULTI line comment for Database connection details.
+MULTI line comment for local Database connection details.
 
 Creating Database                       : sqldb-receipt-service
 Creating User                           : dapruser
