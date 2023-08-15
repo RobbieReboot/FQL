@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;3021;8618</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;3021;8618</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  
+	  <Antlr4 Include="FQLLexer.g4">
+      <Listener>false</Listener>
+      <Visitor>true</Visitor>
+      <GAtn>false</GAtn>
+      <Package>FQL.Parser</Package>
+      <Error>true</Error>
+      <AntOutDir>$(ProjectDir)Parser</AntOutDir>
+		<Log>false</Log>
+		<LongMessages>false</LongMessages>
+		<AntlrToolJar>$(SolutionDir)antlr\antlr-4.13.0-complete.jar</AntlrToolJar>
+		<JavaExec>C:\Program Files\Microsoft\jdk-11.0.16.101-hotspot\bin\java.exe</JavaExec>
+
+    </Antlr4>
+    <Antlr4 Include="FQLParser.g4">
+      <Listener>false</Listener>
+      <Visitor>true</Visitor>
+      <GAtn>false</GAtn>
+      <Package>FQL.Parser</Package>
+      <Error>true</Error>
+      <AntOutDir>$(ProjectDir)Parser</AntOutDir>
+	    <log>false</log>
+	    <LongMessages>false</LongMessages>
+	    <AntlrToolJar>$(SolutionDir)antlr\antlr-4.13.0-complete.jar</AntlrToolJar>
+	    <JavaExec>C:\Program Files\Microsoft\jdk-11.0.16.101-hotspot\bin\java.exe</JavaExec>
+    </Antlr4>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.0" />
+    <PackageReference Include="Antlr4BuildTasks" Version="12.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Parser\" />
+  </ItemGroup>
+
+  <!--<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="REM echo &quot;Running Pre-Build&quot;&#xD;&#xA;REM java -jar $(SolutionDir)antlr\antlr-4.13.0-complete.jar -o Parser -visitor -Dlanguage=CSharp $(ProjectDir)\FQLLexer.g4&#xD;&#xA;REM java -jar $(SolutionDir)antlr\antlr-4.13.0-complete.jar -o Parser -visitor -Dlanguage=CSharp $(ProjectDir)\FQLParser.g4" />
+  </Target>-->
+
+</Project>

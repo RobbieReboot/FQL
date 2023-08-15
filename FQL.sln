@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FQL.Parser", "FQL.Parser\FQL.Parser.csproj", "{CB7F90BA-92E3-4D0B-85DE-A84B998CD285}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FQL.Tests", "FQL.Tests\FQL.Tests.csproj", "{1C4D4CC7-6170-4588-A47F-DD55890C68F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Antlr", "Antlr", "{AA47A275-B3BB-4080-8B99-0DD13AE6D46C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FQL.Application", "FQL.Application\FQL.Application.csproj", "{986A5FBA-96EB-4A39-BF40-5029CED78117}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0022F8DE-0E24-4754-9132-07AEB18A2B17}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB7F90BA-92E3-4D0B-85DE-A84B998CD285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB7F90BA-92E3-4D0B-85DE-A84B998CD285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB7F90BA-92E3-4D0B-85DE-A84B998CD285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB7F90BA-92E3-4D0B-85DE-A84B998CD285}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C4D4CC7-6170-4588-A47F-DD55890C68F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C4D4CC7-6170-4588-A47F-DD55890C68F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C4D4CC7-6170-4588-A47F-DD55890C68F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C4D4CC7-6170-4588-A47F-DD55890C68F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{986A5FBA-96EB-4A39-BF40-5029CED78117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{986A5FBA-96EB-4A39-BF40-5029CED78117}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{986A5FBA-96EB-4A39-BF40-5029CED78117}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{986A5FBA-96EB-4A39-BF40-5029CED78117}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC94A6BC-3851-4C1C-9A35-208DF6474CE3}
+	EndGlobalSection
+EndGlobal

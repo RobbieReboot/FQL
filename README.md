@@ -1,20 +1,57 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# FQL - Fleet Query Language
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Getting started
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+There are two methods for building ANTLR parsers. 
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+### Manual method:
+This method allows more control form the command line.
+1. Download and install [Java](https://www.java.com/download/ie_manual.jsp)
+1. Download the Antlr-4 Tool from the [Antlr Download page](https://www.antlr.org/download.html)  
+1. move the Antlr4 jar file to a project sub folder, usually an `antlr` folder within the project.
+1. add a post-build step to execute Antlr and create the lexer & parsers  
+    e.g.:  
+```Powershell
+    java -jar $(SolutionDir)antlr\antlr-4.13.0-complete.jar -o Parser -visitor -Dlanguage=CSharp $(ProjectDir)\YourLexer.g4  
+    java -jar $(SolutionDir)antlr\antlr-4.13.0-complete.jar -o Parser -visitor -Dlanguage=CSharp $(ProjectDir)\YourParser.g4"
+```    
+
+### Preferred method
+
+Add the [ANTLR4BuildTasks](https://github.com/kaby76/Antlr4BuildTasks/tree/master) from Nuget for VS2022  
+Do not install any other Antlr Build package, including the 'official' tooling. It's 3 years out of date and no longer updated.
+
+### Using VSCode
+VSCode has a handy extension for syntax highlighting & graphing tools to inspect the Antlr4 Grammars.
+```
+ANTLR4 grammar syntax support
+v2.3.1
+Mike Lischke
+```
+
+### FQL Usage
+
+Statements so far :
+
+VAR <id> := (STRING | INT | SYMBOL)
+
+PRINT ( INTERPOLATION_STRING | STRING | SYMBOL)
+
+
+
+
+### Documentation
+
+Read the [getting started documentation](https://github.com/antlr/antlr4/blob/master/doc/getting-started.md) on github, or the [MEGA tutorial](https://tomassetti.me/antlr-mega-tutorial/) on the language engineering website [Strumenta](https://strumenta.com/).
+
+## Books
+Get [The Definitive ANTLR 4 Reference](https://www.amazon.co.uk/Definitive-ANTLR-4-Reference/dp/1934356999/ref=sr_1_1?crid=18NZ4S6UJ440R&keywords=ANTLR&qid=1691662200&sprefix=antlr%2Caps%2C71&sr=8-1) from Amazon
+
+
+
+
+
+
+
+
