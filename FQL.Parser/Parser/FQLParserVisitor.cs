@@ -45,62 +45,62 @@ public interface IFQLParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitStatements([NotNull] FQLParser.StatementsContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="FQLParser.stmt"/>.
+	/// Visit a parse tree produced by <see cref="FQLParser.statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitStmt([NotNull] FQLParser.StmtContext context);
+	Result VisitStatement([NotNull] FQLParser.StatementContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="FQLParser.assign_stmt"/>.
+	/// Visit a parse tree produced by <see cref="FQLParser.assignment"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitAssign_stmt([NotNull] FQLParser.Assign_stmtContext context);
+	Result VisitAssignment([NotNull] FQLParser.AssignmentContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="FQLParser.read_stmt"/>.
+	/// Visit a parse tree produced by <see cref="FQLParser.readStatement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitRead_stmt([NotNull] FQLParser.Read_stmtContext context);
+	Result VisitReadStatement([NotNull] FQLParser.ReadStatementContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="FQLParser.write_stmt"/>.
+	/// Visit a parse tree produced by <see cref="FQLParser.writeStatement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitWrite_stmt([NotNull] FQLParser.Write_stmtContext context);
+	Result VisitWriteStatement([NotNull] FQLParser.WriteStatementContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="FQLParser.id_list"/>.
+	/// Visit a parse tree produced by <see cref="FQLParser.identifierList"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitId_list([NotNull] FQLParser.Id_listContext context);
+	Result VisitIdentifierList([NotNull] FQLParser.IdentifierListContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="FQLParser.expr_list"/>.
+	/// Visit a parse tree produced by <see cref="FQLParser.expressionList"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitExpr_list([NotNull] FQLParser.Expr_listContext context);
+	Result VisitExpressionList([NotNull] FQLParser.ExpressionListContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>OpExpr</c>
-	/// labeled alternative in <see cref="FQLParser.expr"/>.
+	/// Visit a parse tree produced by the <c>ComplexFactor</c>
+	/// labeled alternative in <see cref="FQLParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitOpExpr([NotNull] FQLParser.OpExprContext context);
+	Result VisitComplexFactor([NotNull] FQLParser.ComplexFactorContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>SimpleFactor</c>
-	/// labeled alternative in <see cref="FQLParser.expr"/>.
+	/// labeled alternative in <see cref="FQLParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitSimpleFactor([NotNull] FQLParser.SimpleFactorContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>IdentFactor</c>
+	/// Visit a parse tree produced by the <c>IdentifierFactor</c>
 	/// labeled alternative in <see cref="FQLParser.factor"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitIdentFactor([NotNull] FQLParser.IdentFactorContext context);
+	Result VisitIdentifierFactor([NotNull] FQLParser.IdentifierFactorContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>StringFactor</c>
 	/// labeled alternative in <see cref="FQLParser.factor"/>.
@@ -129,16 +129,22 @@ public interface IFQLParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitInteger([NotNull] FQLParser.IntegerContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="FQLParser.op"/>.
+	/// Visit a parse tree produced by <see cref="FQLParser.operator"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitOp([NotNull] FQLParser.OpContext context);
+	Result VisitOperator([NotNull] FQLParser.OperatorContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="FQLParser.ident"/>.
+	/// Visit a parse tree produced by <see cref="FQLParser.identifier"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitIdent([NotNull] FQLParser.IdentContext context);
+	Result VisitIdentifier([NotNull] FQLParser.IdentifierContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="FQLParser.string"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitString([NotNull] FQLParser.StringContext context);
 }
 } // namespace FQL.Parser

@@ -11,63 +11,14 @@ namespace FQL.Parser
 
         public override object VisitProgram(FQLParser.ProgramContext context)
         {
-            foreach (var stmt in context.statements().children)
+            foreach (var statement in context.statements().children)
             {
-                Visit(stmt);
+                Visit(statement);
             }
 
             return null;
         }
 
-
-        public override object VisitAssign_stmt(FQLParser.Assign_stmtContext context)
-        {
-            var name = context.ident().GetText();
-            var value = Visit(context.expr());
-            _symbolTable.Add(name, value);
-
-            Console.WriteLine($"new symbol : {name}, value : {value}");
-
-            return null;
-        }
-
-        public override object VisitOpExpr(FQLParser.OpExprContext context)
-        {
-            var left = Visit(context.factor());
-            var right = Visit(context.expr());
-            //            if (context.op().GetText() == "+")
-            return (((int)left) + ((int)right));
-        }
-
-
-        public override object VisitSimpleFactor(FQLParser.SimpleFactorContext context)
-        {
-            return Visit(context.factor());
-        }
-
-        public override object VisitIdentFactor(FQLParser.IdentFactorContext context)
-        {
-            var identifier = context.id.GetText();
-            return _symbolTable[identifier];
-        }
-
-        public override object VisitStringFactor(FQLParser.StringFactorContext context)
-        {
-            return context.str.Text;
-        }
-
-        public override object VisitIntFactor(FQLParser.IntFactorContext context)
-        {
-            if (Int32.TryParse(context.i.GetText(),out var result))
-                return result;
-
-            throw new Exception("Couldn't parse Int factor.");
-        }
-
-        public override object VisitParenExpr(FQLParser.ParenExprContext context)
-        {
-            return Visit(context.expr());
-        }
         // Symbol table to store variables.
 
         ////public override object VisitCountValue([NotNull] FQLParser.CountValueContext context)

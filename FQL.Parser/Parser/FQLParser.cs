@@ -49,12 +49,14 @@ public partial class FQLParser : Parser {
 		OP_RANGE=54, STRING=55, ID=56, NUMBER=57, WS=58, SINGLE_LINE_COMMENT=59, 
 		MULTI_LINE_COMMENT=60;
 	public const int
-		RULE_program = 0, RULE_statements = 1, RULE_stmt = 2, RULE_assign_stmt = 3, 
-		RULE_read_stmt = 4, RULE_write_stmt = 5, RULE_id_list = 6, RULE_expr_list = 7, 
-		RULE_expr = 8, RULE_factor = 9, RULE_integer = 10, RULE_op = 11, RULE_ident = 12;
+		RULE_program = 0, RULE_statements = 1, RULE_statement = 2, RULE_assignment = 3, 
+		RULE_readStatement = 4, RULE_writeStatement = 5, RULE_identifierList = 6, 
+		RULE_expressionList = 7, RULE_expression = 8, RULE_factor = 9, RULE_integer = 10, 
+		RULE_operator = 11, RULE_identifier = 12, RULE_string = 13;
 	public static readonly string[] ruleNames = {
-		"program", "statements", "stmt", "assign_stmt", "read_stmt", "write_stmt", 
-		"id_list", "expr_list", "expr", "factor", "integer", "op", "ident"
+		"program", "statements", "statement", "assignment", "readStatement", "writeStatement", 
+		"identifierList", "expressionList", "expression", "factor", "integer", 
+		"operator", "identifier", "string"
 	};
 
 	private static readonly string[] _LiteralNames = {
@@ -136,13 +138,13 @@ public partial class FQLParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 26;
-			Match(BEGIN);
-			State = 27;
-			statements(0);
 			State = 28;
-			Match(END);
+			Match(BEGIN);
 			State = 29;
+			statements(0);
+			State = 30;
+			Match(END);
+			State = 31;
 			Match(Eof);
 			}
 		}
@@ -158,8 +160,8 @@ public partial class FQLParser : Parser {
 	}
 
 	public partial class StatementsContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public StmtContext stmt() {
-			return GetRuleContext<StmtContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public StatementContext statement() {
+			return GetRuleContext<StatementContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public StatementsContext statements() {
 			return GetRuleContext<StatementsContext>(0);
@@ -194,11 +196,11 @@ public partial class FQLParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			{
-			State = 32;
-			stmt();
+			State = 34;
+			statement();
 			}
 			Context.Stop = TokenStream.LT(-1);
-			State = 38;
+			State = 40;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,0,Context);
 			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
@@ -210,14 +212,14 @@ public partial class FQLParser : Parser {
 					{
 					_localctx = new StatementsContext(_parentctx, _parentState);
 					PushNewRecursionContext(_localctx, _startState, RULE_statements);
-					State = 34;
+					State = 36;
 					if (!(Precpred(Context, 2))) throw new FailedPredicateException(this, "Precpred(Context, 2)");
-					State = 35;
-					stmt();
+					State = 37;
+					statement();
 					}
 					} 
 				}
-				State = 40;
+				State = 42;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,0,Context);
 			}
@@ -234,62 +236,62 @@ public partial class FQLParser : Parser {
 		return _localctx;
 	}
 
-	public partial class StmtContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public Assign_stmtContext assign_stmt() {
-			return GetRuleContext<Assign_stmtContext>(0);
+	public partial class StatementContext : ParserRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public AssignmentContext assignment() {
+			return GetRuleContext<AssignmentContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode SEMICOLON() { return GetToken(FQLParser.SEMICOLON, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public Read_stmtContext read_stmt() {
-			return GetRuleContext<Read_stmtContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public ReadStatementContext readStatement() {
+			return GetRuleContext<ReadStatementContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public Write_stmtContext write_stmt() {
-			return GetRuleContext<Write_stmtContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public WriteStatementContext writeStatement() {
+			return GetRuleContext<WriteStatementContext>(0);
 		}
-		public StmtContext(ParserRuleContext parent, int invokingState)
+		public StatementContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_stmt; } }
+		public override int RuleIndex { get { return RULE_statement; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitStmt(this);
+			if (typedVisitor != null) return typedVisitor.VisitStatement(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public StmtContext stmt() {
-		StmtContext _localctx = new StmtContext(Context, State);
-		EnterRule(_localctx, 4, RULE_stmt);
+	public StatementContext statement() {
+		StatementContext _localctx = new StatementContext(Context, State);
+		EnterRule(_localctx, 4, RULE_statement);
 		try {
-			State = 50;
+			State = 52;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case VAR:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 41;
-				assign_stmt();
-				State = 42;
+				State = 43;
+				assignment();
+				State = 44;
 				Match(SEMICOLON);
 				}
 				break;
 			case READ:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 44;
-				read_stmt();
-				State = 45;
+				State = 46;
+				readStatement();
+				State = 47;
 				Match(SEMICOLON);
 				}
 				break;
 			case WRITE:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 47;
-				write_stmt();
-				State = 48;
+				State = 49;
+				writeStatement();
+				State = 50;
 				Match(SEMICOLON);
 				}
 				break;
@@ -308,85 +310,43 @@ public partial class FQLParser : Parser {
 		return _localctx;
 	}
 
-	public partial class Assign_stmtContext : ParserRuleContext {
+	public partial class AssignmentContext : ParserRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode VAR() { return GetToken(FQLParser.VAR, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public IdentContext ident() {
-			return GetRuleContext<IdentContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public IdentifierContext identifier() {
+			return GetRuleContext<IdentifierContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ASSIGNMENT() { return GetToken(FQLParser.ASSIGNMENT, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ExprContext expr() {
-			return GetRuleContext<ExprContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
 		}
-		public Assign_stmtContext(ParserRuleContext parent, int invokingState)
+		public AssignmentContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_assign_stmt; } }
+		public override int RuleIndex { get { return RULE_assignment; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitAssign_stmt(this);
+			if (typedVisitor != null) return typedVisitor.VisitAssignment(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public Assign_stmtContext assign_stmt() {
-		Assign_stmtContext _localctx = new Assign_stmtContext(Context, State);
-		EnterRule(_localctx, 6, RULE_assign_stmt);
+	public AssignmentContext assignment() {
+		AssignmentContext _localctx = new AssignmentContext(Context, State);
+		EnterRule(_localctx, 6, RULE_assignment);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 52;
-			Match(VAR);
-			State = 53;
-			ident();
 			State = 54;
-			Match(ASSIGNMENT);
+			Match(VAR);
 			State = 55;
-			expr();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Read_stmtContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode READ() { return GetToken(FQLParser.READ, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public Id_listContext id_list() {
-			return GetRuleContext<Id_listContext>(0);
-		}
-		public Read_stmtContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_read_stmt; } }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitRead_stmt(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-
-	[RuleVersion(0)]
-	public Read_stmtContext read_stmt() {
-		Read_stmtContext _localctx = new Read_stmtContext(Context, State);
-		EnterRule(_localctx, 8, RULE_read_stmt);
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
+			identifier();
+			State = 56;
+			Match(ASSIGNMENT);
 			State = 57;
-			Match(READ);
-			State = 58;
-			id_list(0);
+			expression();
 			}
 		}
 		catch (RecognitionException re) {
@@ -400,35 +360,35 @@ public partial class FQLParser : Parser {
 		return _localctx;
 	}
 
-	public partial class Write_stmtContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode WRITE() { return GetToken(FQLParser.WRITE, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public Expr_listContext expr_list() {
-			return GetRuleContext<Expr_listContext>(0);
+	public partial class ReadStatementContext : ParserRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode READ() { return GetToken(FQLParser.READ, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public IdentifierListContext identifierList() {
+			return GetRuleContext<IdentifierListContext>(0);
 		}
-		public Write_stmtContext(ParserRuleContext parent, int invokingState)
+		public ReadStatementContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_write_stmt; } }
+		public override int RuleIndex { get { return RULE_readStatement; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitWrite_stmt(this);
+			if (typedVisitor != null) return typedVisitor.VisitReadStatement(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public Write_stmtContext write_stmt() {
-		Write_stmtContext _localctx = new Write_stmtContext(Context, State);
-		EnterRule(_localctx, 10, RULE_write_stmt);
+	public ReadStatementContext readStatement() {
+		ReadStatementContext _localctx = new ReadStatementContext(Context, State);
+		EnterRule(_localctx, 8, RULE_readStatement);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
+			State = 59;
+			Match(READ);
 			State = 60;
-			Match(WRITE);
-			State = 61;
-			expr_list(0);
+			identifierList(0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -442,49 +402,91 @@ public partial class FQLParser : Parser {
 		return _localctx;
 	}
 
-	public partial class Id_listContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public IdentContext ident() {
-			return GetRuleContext<IdentContext>(0);
+	public partial class WriteStatementContext : ParserRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode WRITE() { return GetToken(FQLParser.WRITE, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionListContext expressionList() {
+			return GetRuleContext<ExpressionListContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public Id_listContext id_list() {
-			return GetRuleContext<Id_listContext>(0);
+		public WriteStatementContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_writeStatement; } }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitWriteStatement(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public WriteStatementContext writeStatement() {
+		WriteStatementContext _localctx = new WriteStatementContext(Context, State);
+		EnterRule(_localctx, 10, RULE_writeStatement);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 62;
+			Match(WRITE);
+			State = 63;
+			expressionList(0);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class IdentifierListContext : ParserRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public IdentifierContext identifier() {
+			return GetRuleContext<IdentifierContext>(0);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public IdentifierListContext identifierList() {
+			return GetRuleContext<IdentifierListContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode COMMA() { return GetToken(FQLParser.COMMA, 0); }
-		public Id_listContext(ParserRuleContext parent, int invokingState)
+		public IdentifierListContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_id_list; } }
+		public override int RuleIndex { get { return RULE_identifierList; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitId_list(this);
+			if (typedVisitor != null) return typedVisitor.VisitIdentifierList(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public Id_listContext id_list() {
-		return id_list(0);
+	public IdentifierListContext identifierList() {
+		return identifierList(0);
 	}
 
-	private Id_listContext id_list(int _p) {
+	private IdentifierListContext identifierList(int _p) {
 		ParserRuleContext _parentctx = Context;
 		int _parentState = State;
-		Id_listContext _localctx = new Id_listContext(Context, _parentState);
-		Id_listContext _prevctx = _localctx;
+		IdentifierListContext _localctx = new IdentifierListContext(Context, _parentState);
+		IdentifierListContext _prevctx = _localctx;
 		int _startState = 12;
-		EnterRecursionRule(_localctx, 12, RULE_id_list, _p);
+		EnterRecursionRule(_localctx, 12, RULE_identifierList, _p);
 		try {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
 			{
-			State = 64;
-			ident();
+			State = 66;
+			identifier();
 			}
 			Context.Stop = TokenStream.LT(-1);
-			State = 71;
+			State = 73;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,2,Context);
 			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
@@ -494,18 +496,18 @@ public partial class FQLParser : Parser {
 					_prevctx = _localctx;
 					{
 					{
-					_localctx = new Id_listContext(_parentctx, _parentState);
-					PushNewRecursionContext(_localctx, _startState, RULE_id_list);
-					State = 66;
-					if (!(Precpred(Context, 2))) throw new FailedPredicateException(this, "Precpred(Context, 2)");
-					State = 67;
-					Match(COMMA);
+					_localctx = new IdentifierListContext(_parentctx, _parentState);
+					PushNewRecursionContext(_localctx, _startState, RULE_identifierList);
 					State = 68;
-					ident();
+					if (!(Precpred(Context, 2))) throw new FailedPredicateException(this, "Precpred(Context, 2)");
+					State = 69;
+					Match(COMMA);
+					State = 70;
+					identifier();
 					}
 					} 
 				}
-				State = 73;
+				State = 75;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,2,Context);
 			}
@@ -522,49 +524,49 @@ public partial class FQLParser : Parser {
 		return _localctx;
 	}
 
-	public partial class Expr_listContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ExprContext expr() {
-			return GetRuleContext<ExprContext>(0);
+	public partial class ExpressionListContext : ParserRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public Expr_listContext expr_list() {
-			return GetRuleContext<Expr_listContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionListContext expressionList() {
+			return GetRuleContext<ExpressionListContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode COMMA() { return GetToken(FQLParser.COMMA, 0); }
-		public Expr_listContext(ParserRuleContext parent, int invokingState)
+		public ExpressionListContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_expr_list; } }
+		public override int RuleIndex { get { return RULE_expressionList; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitExpr_list(this);
+			if (typedVisitor != null) return typedVisitor.VisitExpressionList(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public Expr_listContext expr_list() {
-		return expr_list(0);
+	public ExpressionListContext expressionList() {
+		return expressionList(0);
 	}
 
-	private Expr_listContext expr_list(int _p) {
+	private ExpressionListContext expressionList(int _p) {
 		ParserRuleContext _parentctx = Context;
 		int _parentState = State;
-		Expr_listContext _localctx = new Expr_listContext(Context, _parentState);
-		Expr_listContext _prevctx = _localctx;
+		ExpressionListContext _localctx = new ExpressionListContext(Context, _parentState);
+		ExpressionListContext _prevctx = _localctx;
 		int _startState = 14;
-		EnterRecursionRule(_localctx, 14, RULE_expr_list, _p);
+		EnterRecursionRule(_localctx, 14, RULE_expressionList, _p);
 		try {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
 			{
-			State = 75;
-			expr();
+			State = 77;
+			expression();
 			}
 			Context.Stop = TokenStream.LT(-1);
-			State = 82;
+			State = 84;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,3,Context);
 			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
@@ -574,18 +576,18 @@ public partial class FQLParser : Parser {
 					_prevctx = _localctx;
 					{
 					{
-					_localctx = new Expr_listContext(_parentctx, _parentState);
-					PushNewRecursionContext(_localctx, _startState, RULE_expr_list);
-					State = 77;
-					if (!(Precpred(Context, 2))) throw new FailedPredicateException(this, "Precpred(Context, 2)");
-					State = 78;
-					Match(COMMA);
+					_localctx = new ExpressionListContext(_parentctx, _parentState);
+					PushNewRecursionContext(_localctx, _startState, RULE_expressionList);
 					State = 79;
-					expr();
+					if (!(Precpred(Context, 2))) throw new FailedPredicateException(this, "Precpred(Context, 2)");
+					State = 80;
+					Match(COMMA);
+					State = 81;
+					expression();
 					}
 					} 
 				}
-				State = 84;
+				State = 86;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,3,Context);
 			}
@@ -602,23 +604,41 @@ public partial class FQLParser : Parser {
 		return _localctx;
 	}
 
-	public partial class ExprContext : ParserRuleContext {
-		public ExprContext(ParserRuleContext parent, int invokingState)
+	public partial class ExpressionContext : ParserRuleContext {
+		public ExpressionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_expr; } }
+		public override int RuleIndex { get { return RULE_expression; } }
 	 
-		public ExprContext() { }
-		public virtual void CopyFrom(ExprContext context) {
+		public ExpressionContext() { }
+		public virtual void CopyFrom(ExpressionContext context) {
 			base.CopyFrom(context);
 		}
 	}
-	public partial class SimpleFactorContext : ExprContext {
+	public partial class ComplexFactorContext : ExpressionContext {
 		[System.Diagnostics.DebuggerNonUserCode] public FactorContext factor() {
 			return GetRuleContext<FactorContext>(0);
 		}
-		public SimpleFactorContext(ExprContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode] public OperatorContext @operator() {
+			return GetRuleContext<OperatorContext>(0);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
+		}
+		public ComplexFactorContext(ExpressionContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitComplexFactor(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class SimpleFactorContext : ExpressionContext {
+		[System.Diagnostics.DebuggerNonUserCode] public FactorContext factor() {
+			return GetRuleContext<FactorContext>(0);
+		}
+		public SimpleFactorContext(ExpressionContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
@@ -626,50 +646,32 @@ public partial class FQLParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
-	public partial class OpExprContext : ExprContext {
-		[System.Diagnostics.DebuggerNonUserCode] public FactorContext factor() {
-			return GetRuleContext<FactorContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public OpContext op() {
-			return GetRuleContext<OpContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public ExprContext expr() {
-			return GetRuleContext<ExprContext>(0);
-		}
-		public OpExprContext(ExprContext context) { CopyFrom(context); }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitOpExpr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
 
 	[RuleVersion(0)]
-	public ExprContext expr() {
-		ExprContext _localctx = new ExprContext(Context, State);
-		EnterRule(_localctx, 16, RULE_expr);
+	public ExpressionContext expression() {
+		ExpressionContext _localctx = new ExpressionContext(Context, State);
+		EnterRule(_localctx, 16, RULE_expression);
 		try {
-			State = 90;
+			State = 92;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,4,Context) ) {
 			case 1:
-				_localctx = new OpExprContext(_localctx);
+				_localctx = new ComplexFactorContext(_localctx);
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 85;
-				factor();
-				State = 86;
-				op();
 				State = 87;
-				expr();
+				factor();
+				State = 88;
+				@operator();
+				State = 89;
+				expression();
 				}
 				break;
 			case 2:
 				_localctx = new SimpleFactorContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 89;
+				State = 91;
 				factor();
 				}
 				break;
@@ -698,6 +700,19 @@ public partial class FQLParser : Parser {
 			base.CopyFrom(context);
 		}
 	}
+	public partial class IdentifierFactorContext : FactorContext {
+		public IdentifierContext id;
+		[System.Diagnostics.DebuggerNonUserCode] public IdentifierContext identifier() {
+			return GetRuleContext<IdentifierContext>(0);
+		}
+		public IdentifierFactorContext(FactorContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitIdentifierFactor(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
 	public partial class StringFactorContext : FactorContext {
 		public IToken str;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode STRING() { return GetToken(FQLParser.STRING, 0); }
@@ -709,23 +724,10 @@ public partial class FQLParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
-	public partial class IdentFactorContext : FactorContext {
-		public IdentContext id;
-		[System.Diagnostics.DebuggerNonUserCode] public IdentContext ident() {
-			return GetRuleContext<IdentContext>(0);
-		}
-		public IdentFactorContext(FactorContext context) { CopyFrom(context); }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitIdentFactor(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
 	public partial class ParenExprContext : FactorContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OPEN_PARENS() { return GetToken(FQLParser.OPEN_PARENS, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ExprContext expr() {
-			return GetRuleContext<ExprContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CLOSE_PARENS() { return GetToken(FQLParser.CLOSE_PARENS, 0); }
 		public ParenExprContext(FactorContext context) { CopyFrom(context); }
@@ -755,22 +757,22 @@ public partial class FQLParser : Parser {
 		FactorContext _localctx = new FactorContext(Context, State);
 		EnterRule(_localctx, 18, RULE_factor);
 		try {
-			State = 99;
+			State = 101;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case ID:
-				_localctx = new IdentFactorContext(_localctx);
+				_localctx = new IdentifierFactorContext(_localctx);
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 92;
-				((IdentFactorContext)_localctx).id = ident();
+				State = 94;
+				((IdentifierFactorContext)_localctx).id = identifier();
 				}
 				break;
 			case STRING:
 				_localctx = new StringFactorContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 93;
+				State = 95;
 				((StringFactorContext)_localctx).str = Match(STRING);
 				}
 				break;
@@ -779,7 +781,7 @@ public partial class FQLParser : Parser {
 				_localctx = new IntFactorContext(_localctx);
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 94;
+				State = 96;
 				((IntFactorContext)_localctx).i = integer();
 				}
 				break;
@@ -787,11 +789,11 @@ public partial class FQLParser : Parser {
 				_localctx = new ParenExprContext(_localctx);
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 95;
-				Match(OPEN_PARENS);
-				State = 96;
-				expr();
 				State = 97;
+				Match(OPEN_PARENS);
+				State = 98;
+				expression();
+				State = 99;
 				Match(CLOSE_PARENS);
 				}
 				break;
@@ -834,17 +836,17 @@ public partial class FQLParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 102;
+			State = 104;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
 			if (_la==MINUS) {
 				{
-				State = 101;
+				State = 103;
 				Match(MINUS);
 				}
 			}
 
-			State = 104;
+			State = 106;
 			Match(NUMBER);
 			}
 		}
@@ -859,31 +861,31 @@ public partial class FQLParser : Parser {
 		return _localctx;
 	}
 
-	public partial class OpContext : ParserRuleContext {
+	public partial class OperatorContext : ParserRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode PLUS() { return GetToken(FQLParser.PLUS, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MINUS() { return GetToken(FQLParser.MINUS, 0); }
-		public OpContext(ParserRuleContext parent, int invokingState)
+		public OperatorContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_op; } }
+		public override int RuleIndex { get { return RULE_operator; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitOp(this);
+			if (typedVisitor != null) return typedVisitor.VisitOperator(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public OpContext op() {
-		OpContext _localctx = new OpContext(Context, State);
-		EnterRule(_localctx, 22, RULE_op);
+	public OperatorContext @operator() {
+		OperatorContext _localctx = new OperatorContext(Context, State);
+		EnterRule(_localctx, 22, RULE_operator);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 106;
+			State = 108;
 			_la = TokenStream.LA(1);
 			if ( !(_la==PLUS || _la==MINUS) ) {
 			ErrorHandler.RecoverInline(this);
@@ -905,30 +907,67 @@ public partial class FQLParser : Parser {
 		return _localctx;
 	}
 
-	public partial class IdentContext : ParserRuleContext {
+	public partial class IdentifierContext : ParserRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(FQLParser.ID, 0); }
-		public IdentContext(ParserRuleContext parent, int invokingState)
+		public IdentifierContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_ident; } }
+		public override int RuleIndex { get { return RULE_identifier; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitIdent(this);
+			if (typedVisitor != null) return typedVisitor.VisitIdentifier(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public IdentContext ident() {
-		IdentContext _localctx = new IdentContext(Context, State);
-		EnterRule(_localctx, 24, RULE_ident);
+	public IdentifierContext identifier() {
+		IdentifierContext _localctx = new IdentifierContext(Context, State);
+		EnterRule(_localctx, 24, RULE_identifier);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 108;
+			State = 110;
 			Match(ID);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class StringContext : ParserRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode STRING() { return GetToken(FQLParser.STRING, 0); }
+		public StringContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_string; } }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IFQLParserVisitor<TResult> typedVisitor = visitor as IFQLParserVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitString(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public StringContext @string() {
+		StringContext _localctx = new StringContext(Context, State);
+		EnterRule(_localctx, 26, RULE_string);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 112;
+			Match(STRING);
 			}
 		}
 		catch (RecognitionException re) {
@@ -945,8 +984,8 @@ public partial class FQLParser : Parser {
 	public override bool Sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
 		case 1: return statements_sempred((StatementsContext)_localctx, predIndex);
-		case 6: return id_list_sempred((Id_listContext)_localctx, predIndex);
-		case 7: return expr_list_sempred((Expr_listContext)_localctx, predIndex);
+		case 6: return identifierList_sempred((IdentifierListContext)_localctx, predIndex);
+		case 7: return expressionList_sempred((ExpressionListContext)_localctx, predIndex);
 		}
 		return true;
 	}
@@ -956,13 +995,13 @@ public partial class FQLParser : Parser {
 		}
 		return true;
 	}
-	private bool id_list_sempred(Id_listContext _localctx, int predIndex) {
+	private bool identifierList_sempred(IdentifierListContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 1: return Precpred(Context, 2);
 		}
 		return true;
 	}
-	private bool expr_list_sempred(Expr_listContext _localctx, int predIndex) {
+	private bool expressionList_sempred(ExpressionListContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 2: return Precpred(Context, 2);
 		}
@@ -970,37 +1009,38 @@ public partial class FQLParser : Parser {
 	}
 
 	private static int[] _serializedATN = {
-		4,1,60,111,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
-		7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,1,0,1,0,1,0,1,0,1,0,
-		1,1,1,1,1,1,1,1,1,1,5,1,37,8,1,10,1,12,1,40,9,1,1,2,1,2,1,2,1,2,1,2,1,
-		2,1,2,1,2,1,2,3,2,51,8,2,1,3,1,3,1,3,1,3,1,3,1,4,1,4,1,4,1,5,1,5,1,5,1,
-		6,1,6,1,6,1,6,1,6,1,6,5,6,70,8,6,10,6,12,6,73,9,6,1,7,1,7,1,7,1,7,1,7,
-		1,7,5,7,81,8,7,10,7,12,7,84,9,7,1,8,1,8,1,8,1,8,1,8,3,8,91,8,8,1,9,1,9,
-		1,9,1,9,1,9,1,9,1,9,3,9,100,8,9,1,10,3,10,103,8,10,1,10,1,10,1,11,1,11,
-		1,12,1,12,1,12,0,3,2,12,14,13,0,2,4,6,8,10,12,14,16,18,20,22,24,0,1,1,
-		0,18,19,107,0,26,1,0,0,0,2,31,1,0,0,0,4,50,1,0,0,0,6,52,1,0,0,0,8,57,1,
-		0,0,0,10,60,1,0,0,0,12,63,1,0,0,0,14,74,1,0,0,0,16,90,1,0,0,0,18,99,1,
-		0,0,0,20,102,1,0,0,0,22,106,1,0,0,0,24,108,1,0,0,0,26,27,5,1,0,0,27,28,
-		3,2,1,0,28,29,5,2,0,0,29,30,5,0,0,1,30,1,1,0,0,0,31,32,6,1,-1,0,32,33,
-		3,4,2,0,33,38,1,0,0,0,34,35,10,2,0,0,35,37,3,4,2,0,36,34,1,0,0,0,37,40,
-		1,0,0,0,38,36,1,0,0,0,38,39,1,0,0,0,39,3,1,0,0,0,40,38,1,0,0,0,41,42,3,
-		6,3,0,42,43,5,17,0,0,43,51,1,0,0,0,44,45,3,8,4,0,45,46,5,17,0,0,46,51,
-		1,0,0,0,47,48,3,10,5,0,48,49,5,17,0,0,49,51,1,0,0,0,50,41,1,0,0,0,50,44,
-		1,0,0,0,50,47,1,0,0,0,51,5,1,0,0,0,52,53,5,7,0,0,53,54,3,24,12,0,54,55,
-		5,28,0,0,55,56,3,16,8,0,56,7,1,0,0,0,57,58,5,3,0,0,58,59,3,12,6,0,59,9,
-		1,0,0,0,60,61,5,4,0,0,61,62,3,14,7,0,62,11,1,0,0,0,63,64,6,6,-1,0,64,65,
-		3,24,12,0,65,71,1,0,0,0,66,67,10,2,0,0,67,68,5,15,0,0,68,70,3,24,12,0,
-		69,66,1,0,0,0,70,73,1,0,0,0,71,69,1,0,0,0,71,72,1,0,0,0,72,13,1,0,0,0,
-		73,71,1,0,0,0,74,75,6,7,-1,0,75,76,3,16,8,0,76,82,1,0,0,0,77,78,10,2,0,
-		0,78,79,5,15,0,0,79,81,3,16,8,0,80,77,1,0,0,0,81,84,1,0,0,0,82,80,1,0,
-		0,0,82,83,1,0,0,0,83,15,1,0,0,0,84,82,1,0,0,0,85,86,3,18,9,0,86,87,3,22,
-		11,0,87,88,3,16,8,0,88,91,1,0,0,0,89,91,3,18,9,0,90,85,1,0,0,0,90,89,1,
-		0,0,0,91,17,1,0,0,0,92,100,3,24,12,0,93,100,5,55,0,0,94,100,3,20,10,0,
-		95,96,5,12,0,0,96,97,3,16,8,0,97,98,5,13,0,0,98,100,1,0,0,0,99,92,1,0,
-		0,0,99,93,1,0,0,0,99,94,1,0,0,0,99,95,1,0,0,0,100,19,1,0,0,0,101,103,5,
-		19,0,0,102,101,1,0,0,0,102,103,1,0,0,0,103,104,1,0,0,0,104,105,5,57,0,
-		0,105,21,1,0,0,0,106,107,7,0,0,0,107,23,1,0,0,0,108,109,5,56,0,0,109,25,
-		1,0,0,0,7,38,50,71,82,90,99,102
+		4,1,60,115,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
+		7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,1,0,1,0,1,
+		0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,5,1,39,8,1,10,1,12,1,42,9,1,1,2,1,2,1,2,
+		1,2,1,2,1,2,1,2,1,2,1,2,3,2,53,8,2,1,3,1,3,1,3,1,3,1,3,1,4,1,4,1,4,1,5,
+		1,5,1,5,1,6,1,6,1,6,1,6,1,6,1,6,5,6,72,8,6,10,6,12,6,75,9,6,1,7,1,7,1,
+		7,1,7,1,7,1,7,5,7,83,8,7,10,7,12,7,86,9,7,1,8,1,8,1,8,1,8,1,8,3,8,93,8,
+		8,1,9,1,9,1,9,1,9,1,9,1,9,1,9,3,9,102,8,9,1,10,3,10,105,8,10,1,10,1,10,
+		1,11,1,11,1,12,1,12,1,13,1,13,1,13,0,3,2,12,14,14,0,2,4,6,8,10,12,14,16,
+		18,20,22,24,26,0,1,1,0,18,19,110,0,28,1,0,0,0,2,33,1,0,0,0,4,52,1,0,0,
+		0,6,54,1,0,0,0,8,59,1,0,0,0,10,62,1,0,0,0,12,65,1,0,0,0,14,76,1,0,0,0,
+		16,92,1,0,0,0,18,101,1,0,0,0,20,104,1,0,0,0,22,108,1,0,0,0,24,110,1,0,
+		0,0,26,112,1,0,0,0,28,29,5,1,0,0,29,30,3,2,1,0,30,31,5,2,0,0,31,32,5,0,
+		0,1,32,1,1,0,0,0,33,34,6,1,-1,0,34,35,3,4,2,0,35,40,1,0,0,0,36,37,10,2,
+		0,0,37,39,3,4,2,0,38,36,1,0,0,0,39,42,1,0,0,0,40,38,1,0,0,0,40,41,1,0,
+		0,0,41,3,1,0,0,0,42,40,1,0,0,0,43,44,3,6,3,0,44,45,5,17,0,0,45,53,1,0,
+		0,0,46,47,3,8,4,0,47,48,5,17,0,0,48,53,1,0,0,0,49,50,3,10,5,0,50,51,5,
+		17,0,0,51,53,1,0,0,0,52,43,1,0,0,0,52,46,1,0,0,0,52,49,1,0,0,0,53,5,1,
+		0,0,0,54,55,5,7,0,0,55,56,3,24,12,0,56,57,5,28,0,0,57,58,3,16,8,0,58,7,
+		1,0,0,0,59,60,5,3,0,0,60,61,3,12,6,0,61,9,1,0,0,0,62,63,5,4,0,0,63,64,
+		3,14,7,0,64,11,1,0,0,0,65,66,6,6,-1,0,66,67,3,24,12,0,67,73,1,0,0,0,68,
+		69,10,2,0,0,69,70,5,15,0,0,70,72,3,24,12,0,71,68,1,0,0,0,72,75,1,0,0,0,
+		73,71,1,0,0,0,73,74,1,0,0,0,74,13,1,0,0,0,75,73,1,0,0,0,76,77,6,7,-1,0,
+		77,78,3,16,8,0,78,84,1,0,0,0,79,80,10,2,0,0,80,81,5,15,0,0,81,83,3,16,
+		8,0,82,79,1,0,0,0,83,86,1,0,0,0,84,82,1,0,0,0,84,85,1,0,0,0,85,15,1,0,
+		0,0,86,84,1,0,0,0,87,88,3,18,9,0,88,89,3,22,11,0,89,90,3,16,8,0,90,93,
+		1,0,0,0,91,93,3,18,9,0,92,87,1,0,0,0,92,91,1,0,0,0,93,17,1,0,0,0,94,102,
+		3,24,12,0,95,102,5,55,0,0,96,102,3,20,10,0,97,98,5,12,0,0,98,99,3,16,8,
+		0,99,100,5,13,0,0,100,102,1,0,0,0,101,94,1,0,0,0,101,95,1,0,0,0,101,96,
+		1,0,0,0,101,97,1,0,0,0,102,19,1,0,0,0,103,105,5,19,0,0,104,103,1,0,0,0,
+		104,105,1,0,0,0,105,106,1,0,0,0,106,107,5,57,0,0,107,21,1,0,0,0,108,109,
+		7,0,0,0,109,23,1,0,0,0,110,111,5,56,0,0,111,25,1,0,0,0,112,113,5,55,0,
+		0,113,27,1,0,0,0,7,40,52,73,84,92,101,104
 	};
 
 	public static readonly ATN _ATN =

@@ -8,73 +8,78 @@ program
    ;
 
 statements
-   : statements stmt
-   | stmt
+   : statements statement
+   | statement
    ;
 
-stmt
-   : assign_stmt SEMICOLON
-   | read_stmt SEMICOLON
-   | write_stmt SEMICOLON
+statement
+   : assignment SEMICOLON   
+   | readStatement SEMICOLON    
+   | writeStatement SEMICOLON   
+//   | printStatement SEMICOLON
    ;
 
-assign_stmt
-   : VAR ident ASSIGNMENT expr
+//printStatement
+//    : PRINT printParams
+//    ;
+
+//printParams
+//    : STRING_INTERPOLATION      # printInterpolationString
+//    | STRING                    # printStringLiteral
+//    | identifier                # printSymbolReference
+//    ;
+
+assignment
+   : VAR identifier ASSIGNMENT expression
    ;
 
-read_stmt
-   : READ id_list
+readStatement
+   : READ identifierList
    ;
 
-write_stmt
-   : WRITE expr_list
+writeStatement
+   : WRITE expressionList
    ;
 
-id_list
-   : id_list COMMA ident
-   | ident
+identifierList
+   : identifierList COMMA identifier
+   | identifier
    ;
 
-expr_list
-   : expr_list COMMA expr
-   | expr
+expressionList
+   : expressionList COMMA expression
+   | expression
    ;
 
-expr
-   : factor op expr     # OpExpr                //Use left recursion to avoid Null on expr recursive Visit
-   | factor             # SimpleFactor
+expression
+   : factor operator expression # ComplexFactor                //Use left recursion to avoid Null on expression recursive Visit
+   | factor                     # SimpleFactor
    ;
 
 factor
-   : id = ident     # IdentFactor
-   | str = STRING   # StringFactor
-   | i = integer    # IntFactor
-   | OPEN_PARENS expr CLOSE_PARENS # ParenExpr
+   : id = identifier            # IdentifierFactor
+   | str = STRING               # StringFactor
+   | i = integer                # IntFactor
+   | OPEN_PARENS expression CLOSE_PARENS # ParenExpr
    ;
 
 integer
    : MINUS? NUMBER
    ;
 
-op
+operator
    : PLUS
    | MINUS
    ;
 
-ident
+identifier
    : ID
    ;
 
-
-
-
-
-
-
-
-
-
-
+string
+    : STRING
+//    | STRING_INTERPOLATION
+    ;
 
 
 

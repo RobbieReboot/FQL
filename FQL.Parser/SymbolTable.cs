@@ -12,18 +12,18 @@ namespace FQL.Parser
     /// </summary>
     public class SymbolTable
     {
-        private readonly Dictionary<string, object> _symbols = new(128);
+        private readonly Dictionary<string, object?> _symbols = new(128);
 
         public SymbolTable() { }
 
-        public object this[string key]
+        public object? this[string key]
         {
             get => _symbols[key];
             set => _symbols[key] = value;
         }
 
-        public void Add(string key, object value) => _symbols.Add(key,value);
+        public void Add(string key, object? value) => _symbols.Add(key,value);
 
-        public bool TryGetValue(string varName, out object o) => _symbols.TryGetValue( varName, out o);
+        public bool TryGetValue(string varName, out object? o) => _symbols.TryGetValue( varName, out o);
     }
 }
