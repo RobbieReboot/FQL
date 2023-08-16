@@ -1,25 +1,122 @@
 lexer grammar FQLLexer;
 
+channels { COMMENTS_CHANNEL, DIRECTIVE }
 
-SINGLE_LINE_COMMENT: '//' ~('\n')* '\n'?;
-VAR: 'VAR';
-PRINT: 'PRINT';
-CONNECTION: 'CONNECTION';
-EQUALS: '=';
-SEMI: ';';
-LPAREN: '(';
-RPAREN: ')';
-COUNT: 'COUNT';
-LCURLY: '{';
-RCURLY: '}';
-INT: [0-9]+ ;
-MULTI_LINE_COMMENT: '/*' .*? '*/' ;
+//COmmands
+
+BEGIN
+	: 'BEGIN'
+	;
+END
+	: 'END'
+	;
+
+READ
+	: 'READ'
+	;
+WRITE
+	: 'WRITE'
+	;
+
+PRINT
+	: 'PRINT'
+	;
+CONNECTION
+	: 'CONNECTION'
+	;
+
+VAR
+	: 'var'
+	;
 
 
-SYMBOL: [a-zA-Z_][a-zA-Z0-9_]*;
 
-STRING: '"' (~["\r\n])* '"';
-STRING_INTERPOLATION: '$"' (ESC | ~["])* '"';
-ESC: '{' SYMBOL '}';
 
-WS: [ \t\r\n]+ -> skip;
+//B.1.9 Operators And Punctuators
+OPEN_BRACE:               '{';
+CLOSE_BRACE:              '}';
+OPEN_BRACKET:             '[';
+CLOSE_BRACKET:            ']';
+OPEN_PARENS:              '(';
+CLOSE_PARENS:             ')';
+DOT:                      '.';
+COMMA:                    ',';
+COLON:                    ':';
+SEMICOLON:                ';';
+PLUS:                     '+';
+MINUS:                    '-';
+STAR:                     '*';
+DIV:                      '/';
+PERCENT:                  '%';
+AMP:                      '&';
+BITWISE_OR:               '|';
+CARET:                    '^';
+BANG:                     '!';
+TILDE:                    '~';
+ASSIGNMENT:               '=';
+LT:                       '<';
+GT:                       '>';
+INTERR:                   '?';
+DOUBLE_COLON:             '::';
+OP_COALESCING:            '??';
+OP_INC:                   '++';
+OP_DEC:                   '--';
+OP_AND:                   '&&';
+OP_OR:                    '||';
+OP_PTR:                   '->';
+OP_EQ:                    '==';
+OP_NE:                    '!=';
+OP_LE:                    '<=';
+OP_GE:                    '>=';
+OP_ADD_ASSIGNMENT:        '+=';
+OP_SUB_ASSIGNMENT:        '-=';
+OP_MULT_ASSIGNMENT:       '*=';
+OP_DIV_ASSIGNMENT:        '/=';
+OP_MOD_ASSIGNMENT:        '%=';
+OP_AND_ASSIGNMENT:        '&=';
+OP_OR_ASSIGNMENT:         '|=';
+OP_XOR_ASSIGNMENT:        '^=';
+OP_LEFT_SHIFT:            '<<';
+OP_LEFT_SHIFT_ASSIGNMENT: '<<=';
+OP_COALESCING_ASSIGNMENT: '??=';
+OP_RANGE:                 '..';
+
+STRING
+	: '"' (~["\r\n])* '"'
+	;
+
+ID
+	: [a-zA-Z_][a-zA-Z0-9_]*
+	;
+
+NUMBER
+   : ('0' .. '9')+
+   ;
+
+WS
+   : [ \r\n] -> skip
+   ;
+
+SINGLE_LINE_COMMENT
+	: '//' ~[\r\n\u0085\u2028\u2029]*  -> channel(COMMENTS_CHANNEL)
+	;
+
+MULTI_LINE_COMMENT
+	: '/*' .*? '*/' -> channel(COMMENTS_CHANNEL)
+	;
+
+//EQUALS: '=';
+//SEMI: ';';
+//LPAREN: '(';
+//RPAREN: ')';
+//COUNT: 'COUNT';
+//LCURLY: '{';
+//RCURLY: '}';
+//INT: [0-9]+ ;
+
+//SYMBOL: [a-zA-Z_][a-zA-Z0-9_]*;
+
+//STRING: '"' (~["\r\n])* '"';
+// STRING_INTERPOLATION: '$"' (ESC | ~["])* '"';
+// ESC: '{' SYMBOL '}';
+

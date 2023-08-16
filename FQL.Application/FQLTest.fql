@@ -1,15 +1,21 @@
-﻿VAR MyVar1 = "Hello";
-VAR MyVar2 = "World";
-VAR xxx = MyVar2;
-PRINT $"String interpolation says {MyVar1} {xxx}";
-PRINT "Hello World String!";
-PRINT MyVar1;
+BEGIN
+
+var MyVar1 = 23+945;
+var MyVar2 = "Hello";
+
+END
+
+// var MyVar2 = "World";
+// var xxx = MyVar2;
+// PRINT $"String interpolation says {MyVar1} {xxx}";
+// PRINT "Hello World String!";
+// PRINT MyVar1;
 
 // Single line comment for connection stirng.
 
-CONNECTION "Data Source=.\;Integrated Security=SSPI;Initial Catalog=sqldb-daprservice;MultipleActiveResultSets=True;Encrypt=false;TrustServerCertificate=true";
+// CONNECTION "Data Source=.\;Integrated Security=SSPI;Initial Catalog=sqldb-daprservice;MultipleActiveResultSets=True;Encrypt=false;TrustServerCertificate=true";
 
-VAR receiptCount = COUNT()
+// VAR receiptCount = COUNT()
 
 
 /*
