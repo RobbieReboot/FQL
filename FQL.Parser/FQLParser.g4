@@ -3,8 +3,12 @@ options { tokenVocab=FQLLexer; }
 
 // Parser rules
 program
-   : BEGIN statements END EOF
+   : statements EOF
    ;
+
+//
+// Statements 
+//
 
 statements
    : statements statement
@@ -15,18 +19,18 @@ statement
    : assignment SEMICOLON   
    | readStatement SEMICOLON    
    | writeStatement SEMICOLON   
-   //| printStatement SEMICOLON
+   | printStatement SEMICOLON
+   | connectionStatement SEMICOLON
    ;
 
-//printStatement
-//    : PRINT printParams
-//    ;
+printStatement
+    : PRINT printParams
+    ;
 
-//printParams
-//    : interpolatedString        # printInterpolationString
-//    | STRING                    # printStringLiteral
-//    | identifier                # printSymbolReference
-//    ;
+printParams
+    : string                    # printString
+    | identifier                # printIdentifier
+    ;
 
 assignment
    : VAR identifier ASSIGNMENT expression
@@ -39,6 +43,13 @@ readStatement
 writeStatement
    : WRITE expressionList
    ;
+
+connectionStatement
+    : CONNECTION string
+    ;
+
+
+
 
 identifierList
    : identifierList COMMA identifier

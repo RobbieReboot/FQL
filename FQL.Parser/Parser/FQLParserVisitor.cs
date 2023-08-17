@@ -51,6 +51,26 @@ public interface IFQLParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitStatement([NotNull] FQLParser.StatementContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="FQLParser.printStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPrintStatement([NotNull] FQLParser.PrintStatementContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>printString</c>
+	/// labeled alternative in <see cref="FQLParser.printParams"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPrintString([NotNull] FQLParser.PrintStringContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>printIdentifier</c>
+	/// labeled alternative in <see cref="FQLParser.printParams"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPrintIdentifier([NotNull] FQLParser.PrintIdentifierContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="FQLParser.assignment"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -68,6 +88,12 @@ public interface IFQLParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitWriteStatement([NotNull] FQLParser.WriteStatementContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="FQLParser.connectionStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitConnectionStatement([NotNull] FQLParser.ConnectionStatementContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="FQLParser.identifierList"/>.
 	/// </summary>

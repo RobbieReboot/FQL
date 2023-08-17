@@ -1,33 +1,24 @@
-BEGIN
-	var MyVar3 = $"Interpolated : {MyVar1}, {MyVar2}";
-	var MyVar1 = (5+4)+10;
-	var MyVar2 = "Hello";
+var MyVar1 = (5+4)+10;
+var MyVar2 = "Hello";
+var MyVar3 = "World";
+var MyVar4 = $"Interpolated : {MyVar2}, {MyVar3}";
 
-END
+print $"String interpolation says {MyVar2} {MyVar3}";
+print MyVar4;
 
-// var MyVar2 = "World";
-// var xxx = MyVar2;
-// PRINT $"String interpolation says {MyVar1} {xxx}";
-// PRINT "Hello World String!";
-// PRINT MyVar1;
+var database = "sqldb-daprservice";
 
 // Single line comment for connection stirng.
-
-// CONNECTION "Data Source=.\;Integrated Security=SSPI;Initial Catalog=sqldb-daprservice;MultipleActiveResultSets=True;Encrypt=false;TrustServerCertificate=true";
+connection $"Data Source=.\;Integrated Security=SSPI;Initial Catalog={database};MultipleActiveResultSets=True;Encrypt=false;TrustServerCertificate=true";
 
 // VAR receiptCount = COUNT()
 
-
 /*
-
 MULTI line comment for local Database connection details.
-
-Creating Database                       : sqldb-receipt-service
-Creating User                           : dapruser
-- Password                              : ySwp0aGAmhI1jns0wgkb5zmH9iuW7AMQ
-Creating Server user                    : dapruser
-Setting db_owner                        : dapruser
-
+Database                       : sqldb-receipt-service
+User                           : dapruser
+Password                              : ySwp0aGAmhI1jns0wgkb5zmH9iuW7AMQ
 */
 
-
+print $"Connection String = {connection}";
+print "Done.";

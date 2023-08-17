@@ -19,6 +19,7 @@ namespace FQL.Parser
             return null;
         }
 
+
         // Symbol table to store variables.
 
         ////public override object VisitCountValue([NotNull] FQLParser.CountValueContext context)
@@ -28,34 +29,16 @@ namespace FQL.Parser
         //    return _database.TryGetValue(tableName, out int count) ? count : 0;
         //}
 
-
-        //public override object VisitPrintStatement([NotNull] FQLParser.PrintStatementContext context)
-        //{
-
-        //}
-
-
-        
-        //public override object VisitPrintStringLiteral(FQLParser.PrintStringLiteralContext context)
-        //{
-        //    Console.WriteLine(context.STRING().GetText());
-        //    return base.VisitPrintStringLiteral(context);
-        //}
-
-
-        //public override object VisitPrintSymbolReference(FQLParser.PrintSymbolReferenceContext context)
-        //{
-        //    var symbol = context.SYMBOL().GetText();
-        //    var result = _symbolTable.TryGetValue(symbol, out object value);
-        //    Console.WriteLine(value);
-        //    return base.VisitPrintSymbolReference(context);
-        //}
-
-
+        public override object VisitConnectionStatement(FQLParser.ConnectionStatementContext context)
+        {
+            var conStr = Visit(context.@string());
+            _symbolTable.Add("connection",conStr);
+            return null;
+        }
         //public override object VisitConnectionString(FQLParser.ConnectionStringContext context)
         //{
         //    var conStr = context.STRING().GetText();
-        //    _symbolTable.Add("ConnectionString",conStr);
+        //    _symbolTable.Add("ConnectionString", conStr);
         //    Console.WriteLine($"Got COnnection String : {conStr}");
         //    return base.VisitConnectionString(context);
         //}

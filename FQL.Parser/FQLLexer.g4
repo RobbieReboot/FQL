@@ -6,24 +6,24 @@ channels { COMMENTS_CHANNEL, DIRECTIVE }
 //Commands
 
 BEGIN
-	: 'BEGIN'
+	: 'begin'
 	;
 END
-	: 'END'
+	: 'end'
 	;
 
 READ
-	: 'READ'
+	: 'read'
 	;
 WRITE
-	: 'WRITE'
+	: 'write'
 	;
 
 PRINT
-	: 'PRINT'
+	: 'print'
 	;
 CONNECTION
-	: 'CONNECTION'
+	: 'connection'
 	;
 
 VAR

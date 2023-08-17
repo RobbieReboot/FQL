@@ -5,7 +5,9 @@ namespace AntlrCSharpTests;
 [TestClass]
 public class ParserTest
 {
-    private FQLParser Setup(string text)
+    private SymbolTable SymbolTable => ProgramVisitor._symbolTable;
+
+    private FQLParser Arrange(string text)
     {
         AntlrInputStream inputStream = new AntlrInputStream(text);
         FQLLexer fqlLexer = new FQLLexer(inputStream);
@@ -16,40 +18,69 @@ public class ParserTest
     }
 
     [TestMethod]
-    public void SymbolDefinitionShouldAddToSymbolTable()
+    public void VariableDeclarationShouldAddToSymbolTable()
     {
-    //    FQLParser parser = Setup("VAR aSymbol = \"something\"");
+        FQLParser parser = Arrange("var aSymbol = \"something\"");
 
-    //    var context = parser.varDeclaration();
-    //    ProgramVisitor visitor = new ProgramVisitor();
-    //    visitor.Visit(context);
+        var context = parser.assignment();
+        ProgramVisitor visitor = new ProgramVisitor();
+        visitor.Visit(context);
 
-    //    Assert.AreEqual("something", ProgramVisitor._symbolTable["aSymbol"]);
+        Assert.AreEqual("something", SymbolTable["aSymbol"]);
     }
 
     [TestMethod]
-    public void TestLine()
+    public void VariableDefinitionShouldCalculateExpression()
     {
-        //FQLParser parser = Setup("john says \"hello\" \n");
+        FQLParser parser = Arrange("var result = 3+2");
 
-        //FQLParser.LineContext context = parser.line();
-        //BasicFQLVisitor visitor = new BasicFQLVisitor();
-        //FQLLine line = (FQLLine)visitor.VisitLine(context);
+        var context = parser.assignment();
+        ProgramVisitor visitor = new ProgramVisitor();
+        var result = visitor.Visit(context);
 
-        //Assert.AreEqual("john", line.Person);
-        //Assert.AreEqual("hello", line.Text);
+        Assert.AreEqual(5, SymbolTable["result"]);
+    }
+
+
+    [TestMethod]
+    public void ExpressionShouldCalculateAddition()
+    {
+        FQLParser parser = Arrange("3+2");
+
+        var context = parser.expression();
+        ProgramVisitor visitor = new ProgramVisitor();
+        var result = visitor.Visit(context);
+
+        Assert.AreEqual(result, 5);
+    }
+
+
+    [TestMethod]
+    public void ExpressionShouldCalculateParenthesisedExpression()
+    {
+        FQLParser parser = Arrange("3+2+(5+10)");
+
+        var context = parser.expression();
+        ProgramVisitor visitor = new ProgramVisitor();
+        var result = visitor.Visit(context);
+
+        Assert.AreEqual(result, 20);
     }
 
     [TestMethod]
-    public void TestWrongLine()
+    public void ExpressionShouldReturnInterpolatedString()
     {
-        //FQLParser parser = Setup("john sayan \"hello\" \n");
+        SymbolTable.Add("Var1", "Hello");
+        SymbolTable.Add("Var2", "World");
+        FQLParser parser = Arrange("$\"{Var1} {Var2}\"");
 
-        //var context = parser.line();
+        var context = parser.expression();
+        ProgramVisitor visitor = new ProgramVisitor();
+        var result = visitor.Visit(context);
 
-        //Assert.IsInstanceOfType(context, typeof(FQLParser.LineContext));
-        //Assert.AreEqual("john", context.name().GetText());
-        //Assert.IsNull(context.SAYS());
-        //Assert.AreEqual("johnsayan\"hello\"\n", context.GetText());
+        Assert.AreEqual(result, "Hello World");
     }
+
+
+
 }
