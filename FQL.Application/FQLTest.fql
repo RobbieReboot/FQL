@@ -1,9 +1,7 @@
 BEGIN
-
-var MyVar1 = (5+4)+10;
-var MyVar2 = "Hello";
-var MyVar3 = $"Interpolated : {MyVar1}, {MyVar2}";
-
+	var MyVar3 = $"Interpolated : {MyVar1}, {MyVar2}";
+	var MyVar1 = (5+4)+10;
+	var MyVar2 = "Hello";
 
 END
 

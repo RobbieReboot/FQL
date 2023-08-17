@@ -1,7 +1,6 @@
 parser grammar FQLParser;
 options { tokenVocab=FQLLexer; }
 
-
 // Parser rules
 program
    : BEGIN statements END EOF
@@ -16,7 +15,7 @@ statement
    : assignment SEMICOLON   
    | readStatement SEMICOLON    
    | writeStatement SEMICOLON   
-//   | printStatement SEMICOLON
+   //| printStatement SEMICOLON
    ;
 
 //printStatement
@@ -24,7 +23,7 @@ statement
 //    ;
 
 //printParams
-//    : STRING_INTERPOLATION      # printInterpolationString
+//    : interpolatedString        # printInterpolationString
 //    | STRING                    # printStringLiteral
 //    | identifier                # printSymbolReference
 //    ;
@@ -58,7 +57,7 @@ expression
 
 factor
    : id = identifier            # IdentifierFactor
-   | str = STRING               # StringFactor
+   | str = string               # StringFactor
    | i = integer                # IntFactor
    | OPEN_PARENS expression CLOSE_PARENS # ParenExpr
    ;
@@ -77,48 +76,15 @@ identifier
    ;
 
 string
-    : STRING
-//    | STRING_INTERPOLATION
+    : interpolatedString    # InterpolationString
+    | STRING                # StringLiteral
     ;
 
-
-
-/*
-
-program
-    : statement*  EOF
+interpolatedString 
+    : INTERPOLATED_STRING_START ( STRING_CONTENT | interpolation )* STRING_END 
     ;
 
-
-statement
-    : varDeclaration
-    | printStatement
-    | connectionString
-    | SINGLE_LINE_COMMENT
-    | DELIMITED_COMMENT
+interpolation     
+    : INTERPOLATION_START INTERPOLATION_ID INTERPOLATION_END 
     ;
 
-varDeclaration: VAR SYMBOL EQUALS expression SEMICOLON;
-
-expression
-    : STRING            # stringLiteral 
-    | INT               # intLiteral
-    | SYMBOL            # var
-    ;
-
-printStatement
-    : PRINT printParams SEMICOLON
-    ;
-
-printParams
-    : STRING_INTERPOLATION      # printInterpolationString
-    | STRING                    # printStringLiteral
-    | SYMBOL                    # printSymbolReference
-    ;
-
-
-connectionString
-    : CONNECTION STRING SEMI
-    ;
-
-*/

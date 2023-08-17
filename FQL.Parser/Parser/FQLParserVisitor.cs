@@ -141,10 +141,30 @@ public interface IFQLParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitIdentifier([NotNull] FQLParser.IdentifierContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="FQLParser.string"/>.
+	/// Visit a parse tree produced by the <c>InterpolationString</c>
+	/// labeled alternative in <see cref="FQLParser.string"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitString([NotNull] FQLParser.StringContext context);
+	Result VisitInterpolationString([NotNull] FQLParser.InterpolationStringContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>StringLiteral</c>
+	/// labeled alternative in <see cref="FQLParser.string"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitStringLiteral([NotNull] FQLParser.StringLiteralContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="FQLParser.interpolatedString"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitInterpolatedString([NotNull] FQLParser.InterpolatedStringContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="FQLParser.interpolation"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitInterpolation([NotNull] FQLParser.InterpolationContext context);
 }
 } // namespace FQL.Parser

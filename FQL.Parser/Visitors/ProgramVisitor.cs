@@ -28,45 +28,14 @@ namespace FQL.Parser
         //    return _database.TryGetValue(tableName, out int count) ? count : 0;
         //}
 
-        //public override object VisitVar([NotNull] FQLParser.VarContext context)
-        //{
-        //    string varName = context.children[0].GetText();
-        //    return _symbolTable.TryGetValue(varName, out object value) ? value : null;
-        //}
-
-        //public override object VisitStringLiteral([NotNull] FQLParser.StringLiteralContext context)
-        //{
-        //    return context.STRING().GetText().Trim('"');
-        //}
-
 
         //public override object VisitPrintStatement([NotNull] FQLParser.PrintStatementContext context)
         //{
-                
+
         //}
 
-        //public override object VisitPrintInterpolationString(FQLParser.PrintInterpolationStringContext context)
-        //{
-        //    string interpolatedString = context.STRING_INTERPOLATION().GetText().Trim('$', '"');
 
-        //    var interpList = Regex.Matches(interpolatedString, @"\{([^}]*)\}")
-        //        .Cast<Match>()
-        //        .Select(m => m.Groups[1].Value)
-        //        .ToArray();
-
-        //    foreach (var symbol in interpList)
-        //    {
-        //        var result = _symbolTable.TryGetValue(symbol, out object value);
-        //        if (result == true)
-        //        {
-        //            interpolatedString = interpolatedString.Replace("{" + symbol + "}", value.ToString());
-        //        }
-        //    }
-
-        //    Console.WriteLine(interpolatedString);
-        //    return base.VisitPrintInterpolationString(context);
-        //}
-
+        
         //public override object VisitPrintStringLiteral(FQLParser.PrintStringLiteralContext context)
         //{
         //    Console.WriteLine(context.STRING().GetText());

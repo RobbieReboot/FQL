@@ -2,7 +2,8 @@ lexer grammar FQLLexer;
 
 channels { COMMENTS_CHANNEL, DIRECTIVE }
 
-//COmmands
+
+//Commands
 
 BEGIN
 	: 'BEGIN'
@@ -29,12 +30,33 @@ VAR
 	: 'var'
 	;
 
-
-
-
 //B.1.9 Operators And Punctuators
 OPEN_BRACE:               '{';
 CLOSE_BRACE:              '}';
+
+
+
+// Interpolation String
+INTERPOLATED_STRING_START   : '$"' -> pushMode(INTERPOLATED_STRING_MODE) ;
+
+mode INTERPOLATED_STRING_MODE;
+
+STRING_END                 : '"' -> popMode ;
+INTERPOLATION_START        : '{' -> pushMode(INTERPOLATION_MODE) ;
+STRING_CONTENT             : ~["{}]+ ;  // Everything except " and { and }
+
+mode INTERPOLATION_MODE;
+
+INTERPOLATION_END          : '}' -> popMode ;
+INTERPOLATION_ID           : [a-zA-Z_][a-zA-Z0-9_]* ;  // ID recognition within interpolation
+
+// ID token already captures the variable name pattern, so we don't need a separate VAR_NAME rule.
+mode DEFAULT_MODE;
+
+
+
+
+
 OPEN_BRACKET:             '[';
 CLOSE_BRACKET:            ']';
 OPEN_PARENS:              '(';
@@ -81,6 +103,9 @@ OP_LEFT_SHIFT_ASSIGNMENT: '<<=';
 OP_COALESCING_ASSIGNMENT: '??=';
 OP_RANGE:                 '..';
 
+
+
+
 STRING
 	: '"' (~["\r\n])* '"'
 	;
@@ -93,10 +118,6 @@ NUMBER
    : ('0' .. '9')+
    ;
 
-WS
-   : [ \r\n] -> skip
-   ;
-
 SINGLE_LINE_COMMENT
 	: '//' ~[\r\n\u0085\u2028\u2029]*  -> channel(COMMENTS_CHANNEL)
 	;
@@ -106,18 +127,7 @@ MULTI_LINE_COMMENT
 	;
 
 
-//EQUALS: '=';
-//SEMI: ';';
-//LPAREN: '(';
-//RPAREN: ')';
-//COUNT: 'COUNT';
-//LCURLY: '{';
-//RCURLY: '}';
-//INT: [0-9]+ ;
 
-//SYMBOL: [a-zA-Z_][a-zA-Z0-9_]*;
-
-//STRING: '"' (~["\r\n])* '"';
-// STRING_INTERPOLATION: '$"' (ESC | ~["])* '"';
-// ESC: '{' SYMBOL '}';
-
+WS                         
+	: [ \r\n\t] -> skip 
+	;
