@@ -29,12 +29,6 @@ namespace FQL.Parser
         //    return _database.TryGetValue(tableName, out int count) ? count : 0;
         //}
 
-        public override object VisitConnectionStatement(FQLParser.ConnectionStatementContext context)
-        {
-            var conStr = Visit(context.@string());
-            _symbolTable.Add("connection",conStr);
-            return null;
-        }
         //public override object VisitConnectionString(FQLParser.ConnectionStringContext context)
         //{
         //    var conStr = context.STRING().GetText();

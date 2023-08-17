@@ -11,14 +11,13 @@ var database = "sqldb-daprservice";
 // Single line comment for connection stirng.
 connection $"Data Source=.\;Integrated Security=SSPI;Initial Catalog={database};MultipleActiveResultSets=True;Encrypt=false;TrustServerCertificate=true";
 
-// VAR receiptCount = COUNT()
+// do some db commands
 
-/*
-MULTI line comment for local Database connection details.
+/* MULTI line comment for local Database connection details.
 Database                       : sqldb-receipt-service
 User                           : dapruser
 Password                              : ySwp0aGAmhI1jns0wgkb5zmH9iuW7AMQ
 */
 
-print $"Connection String = {connection}";
+print $"Connection String = {connection}";		// Auto creates internal symbol for connection string.
 print "Done.";
