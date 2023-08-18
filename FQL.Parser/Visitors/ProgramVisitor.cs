@@ -18,23 +18,5 @@ namespace FQL.Parser
 
             return null;
         }
-
-
-        // Symbol table to store variables.
-
-        ////public override object VisitCountValue([NotNull] FQLParser.CountValueContext context)
-        //{
-        //    string tableName = context.STRING().GetText().Trim('"');
-        //    // Simulate querying a database
-        //    return _database.TryGetValue(tableName, out int count) ? count : 0;
-        //}
-
-        //public override object VisitConnectionString(FQLParser.ConnectionStringContext context)
-        //{
-        //    var conStr = context.STRING().GetText();
-        //    _symbolTable.Add("ConnectionString", conStr);
-        //    Console.WriteLine($"Got COnnection String : {conStr}");
-        //    return base.VisitConnectionString(context);
-        //}
     }
 }

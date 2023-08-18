@@ -5,10 +5,18 @@ public partial class ProgramVisitor
     public override object VisitAssignment(FQLParser.AssignmentContext context)
     {
         var name = context.identifier().GetText();
-        var value = Visit(context.expression());
-        _symbolTable.Add(name, value);
+        object? val = null;
+        if (context.expression() != null)
+        {
+            val = Visit(context.expression());
+        }
+        else
+        {
+            val = Visit(context.@string());
+        }
+        _symbolTable.Add(name, val);
 
-        Console.WriteLine($"new symbol : {name}, value : {value}");
+        //Console.WriteLine($"new symbol : {name}, value : {val}");
 
         return null;
     }

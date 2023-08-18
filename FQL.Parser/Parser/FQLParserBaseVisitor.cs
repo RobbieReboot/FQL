@@ -158,7 +158,7 @@ public partial class FQLParserBaseVisitor<Result> : AbstractParseTreeVisitor<Res
 	/// <return>The visitor result.</return>
 	public virtual Result VisitExpressionList([NotNull] FQLParser.ExpressionListContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>ComplexFactor</c>
+	/// Visit a parse tree produced by the <c>AdditiveExpr</c>
 	/// labeled alternative in <see cref="FQLParser.expression"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -167,10 +167,10 @@ public partial class FQLParserBaseVisitor<Result> : AbstractParseTreeVisitor<Res
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitComplexFactor([NotNull] FQLParser.ComplexFactorContext context) { return VisitChildren(context); }
+	public virtual Result VisitAdditiveExpr([NotNull] FQLParser.AdditiveExprContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>SimpleFactor</c>
-	/// labeled alternative in <see cref="FQLParser.expression"/>.
+	/// Visit a parse tree produced by the <c>MultiplicativeExpr</c>
+	/// labeled alternative in <see cref="FQLParser.mulDivExpr"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -178,10 +178,21 @@ public partial class FQLParserBaseVisitor<Result> : AbstractParseTreeVisitor<Res
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitSimpleFactor([NotNull] FQLParser.SimpleFactorContext context) { return VisitChildren(context); }
+	public virtual Result VisitMultiplicativeExpr([NotNull] FQLParser.MultiplicativeExprContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by the <c>ExponentationExpr</c>
+	/// labeled alternative in <see cref="FQLParser.powExpr"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitExponentationExpr([NotNull] FQLParser.ExponentationExprContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by the <c>IdentifierFactor</c>
-	/// labeled alternative in <see cref="FQLParser.factor"/>.
+	/// labeled alternative in <see cref="FQLParser.atom"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -191,19 +202,8 @@ public partial class FQLParserBaseVisitor<Result> : AbstractParseTreeVisitor<Res
 	/// <return>The visitor result.</return>
 	public virtual Result VisitIdentifierFactor([NotNull] FQLParser.IdentifierFactorContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>StringFactor</c>
-	/// labeled alternative in <see cref="FQLParser.factor"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitStringFactor([NotNull] FQLParser.StringFactorContext context) { return VisitChildren(context); }
-	/// <summary>
 	/// Visit a parse tree produced by the <c>IntFactor</c>
-	/// labeled alternative in <see cref="FQLParser.factor"/>.
+	/// labeled alternative in <see cref="FQLParser.atom"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -213,8 +213,19 @@ public partial class FQLParserBaseVisitor<Result> : AbstractParseTreeVisitor<Res
 	/// <return>The visitor result.</return>
 	public virtual Result VisitIntFactor([NotNull] FQLParser.IntFactorContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by the <c>FloatFactor</c>
+	/// labeled alternative in <see cref="FQLParser.atom"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitFloatFactor([NotNull] FQLParser.FloatFactorContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by the <c>ParenExpr</c>
-	/// labeled alternative in <see cref="FQLParser.factor"/>.
+	/// labeled alternative in <see cref="FQLParser.atom"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.

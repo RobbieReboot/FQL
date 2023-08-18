@@ -38,7 +38,7 @@ public class ParserTest
         ProgramVisitor visitor = new ProgramVisitor();
         var result = visitor.Visit(context);
 
-        Assert.AreEqual(5, SymbolTable["result"]);
+        Assert.AreEqual(5.0, (double)SymbolTable["result"]);
     }
 
 
@@ -51,30 +51,30 @@ public class ParserTest
         ProgramVisitor visitor = new ProgramVisitor();
         var result = visitor.Visit(context);
 
-        Assert.AreEqual(result, 5);
+        Assert.AreEqual(result, 5.0);
     }
 
 
     [TestMethod]
     public void ExpressionShouldCalculateParenthesisedExpression()
     {
-        FQLParser parser = Arrange("3+2+(5+10)");
+        FQLParser parser = Arrange("10*(5+5)");
 
         var context = parser.expression();
         ProgramVisitor visitor = new ProgramVisitor();
-        var result = visitor.Visit(context);
+        double result = (double)visitor.Visit(context);
 
-        Assert.AreEqual(result, 20);
+        Assert.AreEqual(result, 100.0);
     }
 
     [TestMethod]
-    public void ExpressionShouldReturnInterpolatedString()
+    public void InterpolationStringShouldReturnInterpolatedString()
     {
         SymbolTable.Add("Var1", "Hello");
         SymbolTable.Add("Var2", "World");
         FQLParser parser = Arrange("$\"{Var1} {Var2}\"");
 
-        var context = parser.expression();
+        var context = parser.@string();
         ProgramVisitor visitor = new ProgramVisitor();
         var result = visitor.Visit(context);
 

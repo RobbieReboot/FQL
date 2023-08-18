@@ -60,7 +60,7 @@ SEMICOLON:                ';';
 PLUS:                     '+';
 MINUS:                    '-';
 ASTERISK:                 '*';
-DIV:                      '/';
+DIVIDE:                   '/';
 PERCENT:                  '%';
 AMP:                      '&';
 BITWISE_OR:               '|';
@@ -88,9 +88,12 @@ ID
 	: [a-zA-Z_][a-zA-Z0-9_]*
 	;
 
-NUMBER
+INTEGER
    : ('0' .. '9')+
    ;
+FLOAT
+	: [0-9]+ '.' [0-9]+ 
+	;
 
 SINGLE_LINE_COMMENT
 	: '//' ~[\r\n\u0085\u2028\u2029]*  -> channel(COMMENTS_CHANNEL)

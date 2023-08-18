@@ -28,12 +28,12 @@ printStatement
     ;
 
 printParams
-    : string                    # printString
-    | identifier                # printIdentifier
+    : string                                    # printString
+    | identifier                                # printIdentifier
     ;
 
 assignment
-   : VAR identifier ASSIGNMENT expression
+   : VAR identifier ASSIGNMENT ( expression | string )
    ;
 
 readStatement
@@ -48,9 +48,6 @@ connectionStatement
     : CONNECTION string
     ;
 
-
-
-
 identifierList
    : identifierList COMMA identifier
    | identifier
@@ -61,20 +58,29 @@ expressionList
    | expression
    ;
 
-expression
-   : factor operator expression # ComplexFactor                //Use left recursion to avoid Null on expression recursive Visit
-   | factor                     # SimpleFactor
-   ;
 
-factor
-   : id = identifier            # IdentifierFactor
-   | str = string               # StringFactor
-   | i = integer                # IntFactor
-   | OPEN_PARENS expression CLOSE_PARENS # ParenExpr
+expression
+    : mulDivExpr (( PLUS | MINUS ) mulDivExpr)*  # AdditiveExpr
+    ;
+
+mulDivExpr
+    : powExpr ((ASTERISK | DIVIDE) powExpr)*   # MultiplicativeExpr
+    ;
+    
+powExpr
+    : atom (CARET powExpr)?                    # ExponentationExpr
+    ;
+
+atom
+   : id = identifier                            # IdentifierFactor
+   //| str = string                               # StringFactor
+   | i = integer                                # IntFactor
+   | f = FLOAT                                   # FloatFactor
+   | OPEN_PARENS expression CLOSE_PARENS        # ParenExpr
    ;
 
 integer
-   : MINUS? NUMBER
+   : MINUS? INTEGER
    ;
 
 operator
@@ -87,8 +93,8 @@ identifier
    ;
 
 string
-    : interpolatedString    # InterpolationString
-    | STRING                # StringLiteral
+    : interpolatedString                        # InterpolationString
+    | STRING                                    # StringLiteral
     ;
 
 interpolatedString 

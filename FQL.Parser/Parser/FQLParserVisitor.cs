@@ -107,43 +107,50 @@ public interface IFQLParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitExpressionList([NotNull] FQLParser.ExpressionListContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>ComplexFactor</c>
+	/// Visit a parse tree produced by the <c>AdditiveExpr</c>
 	/// labeled alternative in <see cref="FQLParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitComplexFactor([NotNull] FQLParser.ComplexFactorContext context);
+	Result VisitAdditiveExpr([NotNull] FQLParser.AdditiveExprContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>SimpleFactor</c>
-	/// labeled alternative in <see cref="FQLParser.expression"/>.
+	/// Visit a parse tree produced by the <c>MultiplicativeExpr</c>
+	/// labeled alternative in <see cref="FQLParser.mulDivExpr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitSimpleFactor([NotNull] FQLParser.SimpleFactorContext context);
+	Result VisitMultiplicativeExpr([NotNull] FQLParser.MultiplicativeExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>ExponentationExpr</c>
+	/// labeled alternative in <see cref="FQLParser.powExpr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitExponentationExpr([NotNull] FQLParser.ExponentationExprContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>IdentifierFactor</c>
-	/// labeled alternative in <see cref="FQLParser.factor"/>.
+	/// labeled alternative in <see cref="FQLParser.atom"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitIdentifierFactor([NotNull] FQLParser.IdentifierFactorContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>StringFactor</c>
-	/// labeled alternative in <see cref="FQLParser.factor"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitStringFactor([NotNull] FQLParser.StringFactorContext context);
-	/// <summary>
 	/// Visit a parse tree produced by the <c>IntFactor</c>
-	/// labeled alternative in <see cref="FQLParser.factor"/>.
+	/// labeled alternative in <see cref="FQLParser.atom"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitIntFactor([NotNull] FQLParser.IntFactorContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>FloatFactor</c>
+	/// labeled alternative in <see cref="FQLParser.atom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFloatFactor([NotNull] FQLParser.FloatFactorContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>ParenExpr</c>
-	/// labeled alternative in <see cref="FQLParser.factor"/>.
+	/// labeled alternative in <see cref="FQLParser.atom"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>

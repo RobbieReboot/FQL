@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using FQL.Parser.TypeSystem;
 
 namespace FQL.Parser;
 
@@ -10,25 +11,20 @@ public partial class ProgramVisitor
         return _symbolTable[identifier];
     }
 
-    public override object VisitStringFactor(FQLParser.StringFactorContext context)
-    {
-        return Visit(context.str);
-        //return context.str.STRING().GetText().Trim('"');
-    }
-
     public override object VisitIntFactor(FQLParser.IntFactorContext context)
     {
-        if (Int32.TryParse(context.i.GetText(), out var result))
-            return result;
+        if (int.TryParse(context.i.GetText(), out var result))
+            return result; //new IntegerResult(result);
+
+        throw new Exception("Couldn't parse Int factor.");
+    }
+  
+    public override object VisitFloatFactor(FQLParser.FloatFactorContext context)
+    {
+        if (double.TryParse(context.f.Text, out var result))
+            return result; //new DoubleResult(result);
 
         throw new Exception("Couldn't parse Int factor.");
     }
 
-    public override object VisitParenExpr(FQLParser.ParenExprContext context)
-    {
-        return Visit(context.expression());
-    }
-
-    
-    // string rule alterns
 }
