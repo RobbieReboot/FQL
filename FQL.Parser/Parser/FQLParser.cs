@@ -41,15 +41,11 @@ public partial class FQLParser : Parser {
 		CLOSE_BRACE=9, INTERPOLATED_STRING_START=10, STRING_END=11, INTERPOLATION_START=12, 
 		STRING_CONTENT=13, INTERPOLATION_END=14, INTERPOLATION_ID=15, OPEN_BRACKET=16, 
 		CLOSE_BRACKET=17, OPEN_PARENS=18, CLOSE_PARENS=19, DOT=20, COMMA=21, COLON=22, 
-		SEMICOLON=23, PLUS=24, MINUS=25, STAR=26, DIV=27, PERCENT=28, AMP=29, 
+		SEMICOLON=23, PLUS=24, MINUS=25, ASTERISK=26, DIV=27, PERCENT=28, AMP=29, 
 		BITWISE_OR=30, CARET=31, BANG=32, TILDE=33, ASSIGNMENT=34, LT=35, GT=36, 
-		INTERR=37, DOUBLE_COLON=38, OP_COALESCING=39, OP_INC=40, OP_DEC=41, OP_AND=42, 
-		OP_OR=43, OP_PTR=44, OP_EQ=45, OP_NE=46, OP_LE=47, OP_GE=48, OP_ADD_ASSIGNMENT=49, 
-		OP_SUB_ASSIGNMENT=50, OP_MULT_ASSIGNMENT=51, OP_DIV_ASSIGNMENT=52, OP_MOD_ASSIGNMENT=53, 
-		OP_AND_ASSIGNMENT=54, OP_OR_ASSIGNMENT=55, OP_XOR_ASSIGNMENT=56, OP_LEFT_SHIFT=57, 
-		OP_LEFT_SHIFT_ASSIGNMENT=58, OP_COALESCING_ASSIGNMENT=59, OP_RANGE=60, 
-		STRING=61, ID=62, NUMBER=63, SINGLE_LINE_COMMENT=64, MULTI_LINE_COMMENT=65, 
-		WS=66;
+		OP_INC=37, OP_DEC=38, OP_AND=39, OP_OR=40, OP_EQ=41, OP_NE=42, OP_LE=43, 
+		OP_GE=44, STRING=45, ID=46, NUMBER=47, SINGLE_LINE_COMMENT=48, MULTI_LINE_COMMENT=49, 
+		WS=50;
 	public const int
 		RULE_program = 0, RULE_statements = 1, RULE_statement = 2, RULE_printStatement = 3, 
 		RULE_printParams = 4, RULE_assignment = 5, RULE_readStatement = 6, RULE_writeStatement = 7, 
@@ -68,24 +64,18 @@ public partial class FQLParser : Parser {
 		null, "'begin'", "'end'", "'read'", "'write'", "'print'", "'connection'", 
 		"'var'", null, null, "'$\"'", "'\"'", null, null, null, null, "'['", "']'", 
 		"'('", "')'", "'.'", "','", "':'", "';'", "'+'", "'-'", "'*'", "'/'", 
-		"'%'", "'&'", "'|'", "'^'", "'!'", "'~'", "'='", "'<'", "'>'", "'?'", 
-		"'::'", "'??'", "'++'", "'--'", "'&&'", "'||'", "'->'", "'=='", "'!='", 
-		"'<='", "'>='", "'+='", "'-='", "'*='", "'/='", "'%='", "'&='", "'|='", 
-		"'^='", "'<<'", "'<<='", "'??='", "'..'"
+		"'%'", "'&'", "'|'", "'^'", "'!'", "'~'", "'='", "'<'", "'>'", "'++'", 
+		"'--'", "'&&'", "'||'", "'=='", "'!='", "'<='", "'>='"
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, "BEGIN", "END", "READ", "WRITE", "PRINT", "CONNECTION", "VAR", "OPEN_BRACE", 
 		"CLOSE_BRACE", "INTERPOLATED_STRING_START", "STRING_END", "INTERPOLATION_START", 
 		"STRING_CONTENT", "INTERPOLATION_END", "INTERPOLATION_ID", "OPEN_BRACKET", 
 		"CLOSE_BRACKET", "OPEN_PARENS", "CLOSE_PARENS", "DOT", "COMMA", "COLON", 
-		"SEMICOLON", "PLUS", "MINUS", "STAR", "DIV", "PERCENT", "AMP", "BITWISE_OR", 
-		"CARET", "BANG", "TILDE", "ASSIGNMENT", "LT", "GT", "INTERR", "DOUBLE_COLON", 
-		"OP_COALESCING", "OP_INC", "OP_DEC", "OP_AND", "OP_OR", "OP_PTR", "OP_EQ", 
-		"OP_NE", "OP_LE", "OP_GE", "OP_ADD_ASSIGNMENT", "OP_SUB_ASSIGNMENT", "OP_MULT_ASSIGNMENT", 
-		"OP_DIV_ASSIGNMENT", "OP_MOD_ASSIGNMENT", "OP_AND_ASSIGNMENT", "OP_OR_ASSIGNMENT", 
-		"OP_XOR_ASSIGNMENT", "OP_LEFT_SHIFT", "OP_LEFT_SHIFT_ASSIGNMENT", "OP_COALESCING_ASSIGNMENT", 
-		"OP_RANGE", "STRING", "ID", "NUMBER", "SINGLE_LINE_COMMENT", "MULTI_LINE_COMMENT", 
-		"WS"
+		"SEMICOLON", "PLUS", "MINUS", "ASTERISK", "DIV", "PERCENT", "AMP", "BITWISE_OR", 
+		"CARET", "BANG", "TILDE", "ASSIGNMENT", "LT", "GT", "OP_INC", "OP_DEC", 
+		"OP_AND", "OP_OR", "OP_EQ", "OP_NE", "OP_LE", "OP_GE", "STRING", "ID", 
+		"NUMBER", "SINGLE_LINE_COMMENT", "MULTI_LINE_COMMENT", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -1358,7 +1348,7 @@ public partial class FQLParser : Parser {
 	}
 
 	private static int[] _serializedATN = {
-		4,1,66,155,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
+		4,1,50,155,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,
 		7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,14,
 		2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,
 		1,5,1,47,8,1,10,1,12,1,50,9,1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,
@@ -1396,9 +1386,9 @@ public partial class FQLParser : Parser {
 		0,120,126,3,26,13,0,121,122,5,18,0,0,122,123,3,22,11,0,123,124,5,19,0,
 		0,124,126,1,0,0,0,125,118,1,0,0,0,125,119,1,0,0,0,125,120,1,0,0,0,125,
 		121,1,0,0,0,126,25,1,0,0,0,127,129,5,25,0,0,128,127,1,0,0,0,128,129,1,
-		0,0,0,129,130,1,0,0,0,130,131,5,63,0,0,131,27,1,0,0,0,132,133,7,0,0,0,
-		133,29,1,0,0,0,134,135,5,62,0,0,135,31,1,0,0,0,136,139,3,34,17,0,137,139,
-		5,61,0,0,138,136,1,0,0,0,138,137,1,0,0,0,139,33,1,0,0,0,140,145,5,10,0,
+		0,0,0,129,130,1,0,0,0,130,131,5,47,0,0,131,27,1,0,0,0,132,133,7,0,0,0,
+		133,29,1,0,0,0,134,135,5,46,0,0,135,31,1,0,0,0,136,139,3,34,17,0,137,139,
+		5,45,0,0,138,136,1,0,0,0,138,137,1,0,0,0,139,33,1,0,0,0,140,145,5,10,0,
 		0,141,144,5,13,0,0,142,144,3,36,18,0,143,141,1,0,0,0,143,142,1,0,0,0,144,
 		147,1,0,0,0,145,143,1,0,0,0,145,146,1,0,0,0,146,148,1,0,0,0,147,145,1,
 		0,0,0,148,149,5,11,0,0,149,35,1,0,0,0,150,151,5,12,0,0,151,152,5,15,0,

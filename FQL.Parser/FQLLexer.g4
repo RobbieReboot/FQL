@@ -1,7 +1,6 @@
 lexer grammar FQLLexer;
 
-channels { COMMENTS_CHANNEL, DIRECTIVE }
-
+channels { COMMENTS_CHANNEL }
 
 //Commands
 
@@ -30,16 +29,13 @@ VAR
 	: 'var'
 	;
 
-//B.1.9 Operators And Punctuators
 OPEN_BRACE:               '{';
 CLOSE_BRACE:              '}';
-
-
 
 // Interpolation String
 INTERPOLATED_STRING_START   : '$"' -> pushMode(INTERPOLATED_STRING_MODE) ;
 
-mode INTERPOLATED_STRING_MODE;
+mode INTERPOLATED_STRING_MODE;		// REMEMBER : THIS IS A NEW LEXER CONTEXT - ALL LEXER RULES HAVE GONE!
 
 STRING_END                 : '"' -> popMode ;
 INTERPOLATION_START        : '{' -> pushMode(INTERPOLATION_MODE) ;
@@ -48,14 +44,10 @@ STRING_CONTENT             : ~["{}]+ ;  // Everything except " and { and }
 mode INTERPOLATION_MODE;
 
 INTERPOLATION_END          : '}' -> popMode ;
-INTERPOLATION_ID           : [a-zA-Z_][a-zA-Z0-9_]* ;  // ID recognition within interpolation
+INTERPOLATION_ID           : [a-zA-Z_][a-zA-Z0-9_]* ;  // For ID recognition within interpolation
 
 // ID token already captures the variable name pattern, so we don't need a separate VAR_NAME rule.
 mode DEFAULT_MODE;
-
-
-
-
 
 OPEN_BRACKET:             '[';
 CLOSE_BRACKET:            ']';
@@ -67,7 +59,7 @@ COLON:                    ':';
 SEMICOLON:                ';';
 PLUS:                     '+';
 MINUS:                    '-';
-STAR:                     '*';
+ASTERISK:                 '*';
 DIV:                      '/';
 PERCENT:                  '%';
 AMP:                      '&';
@@ -78,32 +70,14 @@ TILDE:                    '~';
 ASSIGNMENT:               '=';
 LT:                       '<';
 GT:                       '>';
-INTERR:                   '?';
-DOUBLE_COLON:             '::';
-OP_COALESCING:            '??';
 OP_INC:                   '++';
 OP_DEC:                   '--';
 OP_AND:                   '&&';
 OP_OR:                    '||';
-OP_PTR:                   '->';
 OP_EQ:                    '==';
 OP_NE:                    '!=';
 OP_LE:                    '<=';
 OP_GE:                    '>=';
-OP_ADD_ASSIGNMENT:        '+=';
-OP_SUB_ASSIGNMENT:        '-=';
-OP_MULT_ASSIGNMENT:       '*=';
-OP_DIV_ASSIGNMENT:        '/=';
-OP_MOD_ASSIGNMENT:        '%=';
-OP_AND_ASSIGNMENT:        '&=';
-OP_OR_ASSIGNMENT:         '|=';
-OP_XOR_ASSIGNMENT:        '^=';
-OP_LEFT_SHIFT:            '<<';
-OP_LEFT_SHIFT_ASSIGNMENT: '<<=';
-OP_COALESCING_ASSIGNMENT: '??=';
-OP_RANGE:                 '..';
-
-
 
 
 STRING
@@ -125,9 +99,6 @@ SINGLE_LINE_COMMENT
 MULTI_LINE_COMMENT
 	: '/*' .*? '*/' -> channel(COMMENTS_CHANNEL)
 	;
-
-
-
 WS                         
 	: [ \r\n\t] -> skip 
 	;
