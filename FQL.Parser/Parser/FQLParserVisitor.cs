@@ -95,6 +95,24 @@ public interface IFQLParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitConnectionStatement([NotNull] FQLParser.ConnectionStatementContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="FQLParser.if"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIf([NotNull] FQLParser.IfContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="FQLParser.return"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitReturn([NotNull] FQLParser.ReturnContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="FQLParser.returnParams"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitReturnParams([NotNull] FQLParser.ReturnParamsContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="FQLParser.identifierList"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -128,12 +146,12 @@ public interface IFQLParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitExponentationExpr([NotNull] FQLParser.ExponentationExprContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>IdentifierFactor</c>
+	/// Visit a parse tree produced by the <c>BoolFactor</c>
 	/// labeled alternative in <see cref="FQLParser.atom"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitIdentifierFactor([NotNull] FQLParser.IdentifierFactorContext context);
+	Result VisitBoolFactor([NotNull] FQLParser.BoolFactorContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>IntFactor</c>
 	/// labeled alternative in <see cref="FQLParser.atom"/>.
@@ -155,6 +173,19 @@ public interface IFQLParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitParenExpr([NotNull] FQLParser.ParenExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>IdentifierFactor</c>
+	/// labeled alternative in <see cref="FQLParser.atom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIdentifierFactor([NotNull] FQLParser.IdentifierFactorContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="FQLParser.boolean"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBoolean([NotNull] FQLParser.BooleanContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="FQLParser.integer"/>.
 	/// </summary>
@@ -181,8 +212,14 @@ public interface IFQLParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitInterpolationString([NotNull] FQLParser.InterpolationStringContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>StringLiteral</c>
+	/// Visit a parse tree produced by the <c>StrLiteral</c>
 	/// labeled alternative in <see cref="FQLParser.string"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitStrLiteral([NotNull] FQLParser.StrLiteralContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="FQLParser.stringLiteral"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>

@@ -2,6 +2,7 @@
 
 public partial class ProgramVisitor
 {
+
     public override object VisitAssignment(FQLParser.AssignmentContext context)
     {
         var name = context.identifier().GetText();
@@ -16,8 +17,8 @@ public partial class ProgramVisitor
         }
         _symbolTable.Add(name, val);
 
-        //Console.WriteLine($"new symbol : {name}, value : {val}");
+        Console.WriteLine($"new symbol : {name}, value : {val}");
 
-        return null;
+        return val;
     }
 }

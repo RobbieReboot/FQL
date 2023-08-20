@@ -3,12 +3,15 @@ using FQL.Parser;
 
 namespace AntlrCSharpTests;
 [TestClass]
-public class ParserTest
+public class AssignmentTests
 {
     private SymbolTable SymbolTable => ProgramVisitor._symbolTable;
 
     private FQLParser Arrange(string text)
     {
+        //Clean out old symbols
+        ProgramVisitor._symbolTable.Clear();
+        
         AntlrInputStream inputStream = new AntlrInputStream(text);
         FQLLexer fqlLexer = new FQLLexer(inputStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(fqlLexer);
@@ -16,7 +19,6 @@ public class ParserTest
 
         return fqlParser;
     }
-
     [TestMethod]
     public void VariableDeclarationShouldAddToSymbolTable()
     {
@@ -30,7 +32,7 @@ public class ParserTest
     }
 
     [TestMethod]
-    public void VariableDefinitionShouldCalculateExpression()
+    public void AssignmentShouldCalculateExpression()
     {
         FQLParser parser = Arrange("var result = 3+2");
 
@@ -40,47 +42,29 @@ public class ParserTest
 
         Assert.AreEqual(5.0, (double)SymbolTable["result"]);
     }
-
-
     [TestMethod]
-    public void ExpressionShouldCalculateAddition()
+    public void AssignmentShouldAssignStringLiteral()
     {
-        FQLParser parser = Arrange("3+2");
+        FQLParser parser = Arrange("var result = \"Hello World\";");
 
-        var context = parser.expression();
+        var context = parser.assignment();
         ProgramVisitor visitor = new ProgramVisitor();
         var result = visitor.Visit(context);
 
-        Assert.AreEqual(result, 5.0);
-    }
-
-
-    [TestMethod]
-    public void ExpressionShouldCalculateParenthesisedExpression()
-    {
-        FQLParser parser = Arrange("10*(5+5)");
-
-        var context = parser.expression();
-        ProgramVisitor visitor = new ProgramVisitor();
-        double result = (double)visitor.Visit(context);
-
-        Assert.AreEqual(result, 100.0);
+        Assert.AreEqual("Hello World", SymbolTable["result"]);
     }
 
     [TestMethod]
-    public void InterpolationStringShouldReturnInterpolatedString()
+    public void AssignmentShouldAssignInterpolatedString()
     {
+        FQLParser parser = Arrange("var result = $\"{Var1} {Var2}\";");
         SymbolTable.Add("Var1", "Hello");
         SymbolTable.Add("Var2", "World");
-        FQLParser parser = Arrange("$\"{Var1} {Var2}\"");
 
-        var context = parser.@string();
+        var context = parser.assignment();
         ProgramVisitor visitor = new ProgramVisitor();
         var result = visitor.Visit(context);
 
-        Assert.AreEqual(result, "Hello World");
+        Assert.AreEqual("Hello World", SymbolTable["result"]);
     }
-
-
-
 }

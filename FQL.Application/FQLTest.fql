@@ -1,3 +1,14 @@
+var myval = 1;
+
+if ( myval == 1 ) {
+	return true;
+	print "If is TRUE!";
+}
+else
+{
+	print "if is FALSE!";
+}
+
 var MyVar1 = (5+4)+10;
 var MyVar2 = "Hello";
 var MyVar3 = "World";
@@ -8,7 +19,7 @@ print MyVar4;
 
 var database = "sqldb-daprservice";
 
-// Single line comment for connection stirng.
+// Single line comment for connection string.
 connection $"Data Source=.\;Integrated Security=SSPI;Initial Catalog={database};MultipleActiveResultSets=True;Encrypt=false;TrustServerCertificate=true";
 
 // do some db commands

@@ -27,4 +27,24 @@ public partial class ProgramVisitor
         throw new Exception("Couldn't parse Int factor.");
     }
 
+    public override object VisitBoolFactor(FQLParser.BoolFactorContext context)
+    {
+        Console.WriteLine($"BoolFactor VISITOR ENTRY: children ( {context.children.Count} )");
+        var boolVal = Visit(context.boolean()).ToString();
+        if (bool.TryParse(boolVal, out var result))
+        {
+            Console.WriteLine($"BoolFactor VISITOR EXIT : returning ( {result} )");
+            return result;
+        }
+        throw new Exception("Couldn't parse Bool factor.");
+    }
+
+
+    public override object VisitBoolean(FQLParser.BooleanContext context)
+    {
+        if (context.FALSE() != null)
+            //return context.FALSE().ToString();
+            return false;
+        return true;            //context.TRUE().ToString();
+    }
 }

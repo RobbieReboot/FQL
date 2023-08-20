@@ -25,5 +25,7 @@ namespace FQL.Parser
         public void Add(string key, object? value) => _symbols.Add(key,value);
 
         public bool TryGetValue(string varName, out object? o) => _symbols.TryGetValue( varName, out o);
+
+        public void Clear() => _symbols.Clear();
     }
 }

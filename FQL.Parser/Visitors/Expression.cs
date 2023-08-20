@@ -13,7 +13,10 @@ public partial class ProgramVisitor
 {
     public override object VisitAdditiveExpr(FQLParser.AdditiveExprContext context)
     {
-        double result = Convert.ToDouble(Visit(context.mulDivExpr(0)));
+        var r = Visit(context.mulDivExpr(0));
+        if (r is bool)
+            return r;
+        double result = Convert.ToDouble(r);
 
         for (int i = 1; i < context.mulDivExpr().Length; i++)
         {
@@ -29,7 +32,11 @@ public partial class ProgramVisitor
 
     public override object VisitMultiplicativeExpr(FQLParser.MultiplicativeExprContext context)
     {
-        var result = Convert.ToDouble(Visit(context.powExpr(0)));
+        var r = Visit(context.powExpr(0));
+        if (r is bool)
+            return r;
+
+        var result = Convert.ToDouble(r);
         for (int i = 1; i < context.powExpr().Length; i++)
         {
             if (context.GetChild(i * 2 - 1).GetText() == "*")
@@ -42,7 +49,7 @@ public partial class ProgramVisitor
 
     public override object VisitExponentationExpr(FQLParser.ExponentationExprContext context)
     {
-        if (context.CARET() != null)            // only do the exponentation IF there is an exponent to raise the power to!
+        if (context.CARET() != null)            // only do the exponent IF there is an exponent to raise the power to!
             return Math.Pow(Convert.ToDouble(Visit(context.atom())), Convert.ToDouble(Visit(context.powExpr())));
         return Visit(context.atom());
     }

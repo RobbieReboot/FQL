@@ -2,9 +2,9 @@
 
 public partial class ProgramVisitor
 {
-    public override object VisitStringLiteral(FQLParser.StringLiteralContext context)
+    public override object VisitStrLiteral(FQLParser.StrLiteralContext context)
     {
-        var str = context.STRING().GetText().Trim('"');
+        var str = context.stringLiteral().GetText().Trim('"');
         return str;
     }
 }

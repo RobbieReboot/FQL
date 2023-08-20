@@ -1,5 +1,6 @@
 parser grammar FQLParser;
-options { tokenVocab=FQLLexer; }
+options { tokenVocab=FQLLexer; superClass = FQLParserBase;  }
+//options { tokenVocab=FQLLexer;  }
 
 // Parser rules
 program
@@ -21,6 +22,8 @@ statement
    | writeStatement SEMICOLON   
    | printStatement SEMICOLON
    | connectionStatement SEMICOLON
+   | if 
+   | return returnParams? SEMICOLON             
    ;
 
 printStatement
@@ -48,6 +51,18 @@ connectionStatement
     : CONNECTION string
     ;
 
+if
+    : IF OPEN_PARENS expression OP_EQ expression CLOSE_PARENS OPEN_BRACE statements CLOSE_BRACE (ELSE OPEN_BRACE statements CLOSE_BRACE)?
+    ;
+
+return
+    : RETURN returnParams?
+    ;
+returnParams
+    : expression
+    | stringLiteral
+    ;
+
 identifierList
    : identifierList COMMA identifier
    | identifier
@@ -72,13 +87,15 @@ powExpr
     ;
 
 atom
-   : id = identifier                            # IdentifierFactor
-   //| str = string                               # StringFactor
+   : b = boolean                                # BoolFactor
    | i = integer                                # IntFactor
    | f = FLOAT                                   # FloatFactor
    | OPEN_PARENS expression CLOSE_PARENS        # ParenExpr
+   | id = identifier                            # IdentifierFactor
    ;
-
+boolean
+    : ( TRUE | FALSE )
+    ;
 integer
    : MINUS? INTEGER
    ;
@@ -94,7 +111,11 @@ identifier
 
 string
     : interpolatedString                        # InterpolationString
-    | STRING                                    # StringLiteral
+    | stringLiteral                             # StrLiteral
+    ;
+
+stringLiteral
+    : STRING
     ;
 
 interpolatedString 
