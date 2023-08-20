@@ -27,5 +27,13 @@ namespace FQL.Parser
         public bool TryGetValue(string varName, out object? o) => _symbols.TryGetValue( varName, out o);
 
         public void Clear() => _symbols.Clear();
+
+        public void Dump()
+        {
+            foreach (var symbol in _symbols)
+            {
+                Console.WriteLine($"{symbol.Key} : {symbol.Value}");
+            }
+        }
     }
 }

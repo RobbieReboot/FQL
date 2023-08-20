@@ -2,7 +2,7 @@ var myval = 1;
 
 if ( myval == 1 ) {
 	return true;
-	print "If is TRUE!";
+	print "If is TRUE!"; //unreachable code should give warning...
 }
 else
 {

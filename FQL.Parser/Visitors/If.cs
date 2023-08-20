@@ -5,7 +5,6 @@ public partial class ProgramVisitor
     public override object VisitIf(FQLParser.IfContext context)
     {
         object result = null;  // Use object or a specific return type if required.
-        Console.WriteLine($"if VISITOR ENTRY : children ( {context.children.Count} )");
         var leftExpression = Visit(context.expression(0));
         var rightExpression = Visit(context.expression(1));
 
@@ -20,7 +19,6 @@ public partial class ProgramVisitor
             result = Visit(context.statements(1));
         }
         hasReturned = false;
-        Console.WriteLine($"if VISITOR exit : returning ( {result} )");
         return result;
     }
 

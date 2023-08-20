@@ -5,7 +5,6 @@ public partial class ProgramVisitor
 
     public override object VisitReturnParams(FQLParser.ReturnParamsContext context)
     {
-        Console.WriteLine($"return VISITOR ENTRY: children ( {context.children.Count} )");
         object? val = null;
         if (context.expression() != null)
         {
@@ -20,7 +19,6 @@ public partial class ProgramVisitor
         // this should be done as a STACK to preserve the values - we shouldn't really rely on the 
         // visitor returns to relay the return values of a return statement.
         hasReturned = true;
-
         //Should push this value on the stack!
         return val;
     }

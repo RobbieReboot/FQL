@@ -16,9 +16,6 @@ public partial class ProgramVisitor
             val = Visit(context.@string());
         }
         _symbolTable.Add(name, val);
-
-        Console.WriteLine($"new symbol : {name}, value : {val}");
-
         return val;
     }
 }

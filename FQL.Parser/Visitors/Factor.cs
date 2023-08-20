@@ -29,11 +29,9 @@ public partial class ProgramVisitor
 
     public override object VisitBoolFactor(FQLParser.BoolFactorContext context)
     {
-        Console.WriteLine($"BoolFactor VISITOR ENTRY: children ( {context.children.Count} )");
         var boolVal = Visit(context.boolean()).ToString();
         if (bool.TryParse(boolVal, out var result))
         {
-            Console.WriteLine($"BoolFactor VISITOR EXIT : returning ( {result} )");
             return result;
         }
         throw new Exception("Couldn't parse Bool factor.");

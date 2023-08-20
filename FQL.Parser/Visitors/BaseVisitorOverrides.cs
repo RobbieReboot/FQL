@@ -11,7 +11,9 @@ namespace FQL.Parser
         public static Stack<KeyValuePair<string,object>> _interpreterStack = new Stack<KeyValuePair<string,object>>();
 
         private bool hasReturned = false;
-
+        public string GrammarName { get; set; }
+        public ProgramVisitor(string fileName="NoFile") => GrammarName = fileName;
+ 
         protected override bool ShouldVisitNextChild(IRuleNode node, object currentResult)
         {
             // If we've hit a return statement, don't visit further children
@@ -20,6 +22,7 @@ namespace FQL.Parser
                 // Reset after executing a 'return' statement. This mechanism prevents parsing of future nodes
                 // until we've implemented a stack for return values.
                 //hasReturned = false;
+               
                 return false;
             }
             var result = base.ShouldVisitNextChild(node, currentResult);
