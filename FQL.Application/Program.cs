@@ -22,11 +22,11 @@ try
 
     FQLParser FQLParser = new FQLParser(tokens);
     var tree = FQLParser.program();
-    ProgramVisitor visitor = new ProgramVisitor(grammarName);
+    FQLVisitor visitor = new FQLVisitor(grammarName);
     visitor.Visit(tree);
     Console.WriteLine("Dumping Symbols");
     Console.WriteLine("---------------");
-    ProgramVisitor._symbolTable.Dump();
+    FQLVisitor.SymbolTable.Dump();
 
 }
 catch (Exception ex)

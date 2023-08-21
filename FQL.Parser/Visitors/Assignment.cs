@@ -1,6 +1,6 @@
 ﻿namespace FQL.Parser;
 
-public partial class ProgramVisitor
+public partial class FQLVisitor
 {
 
     public override object VisitAssignment(FQLParser.AssignmentContext context)
@@ -15,7 +15,7 @@ public partial class ProgramVisitor
         {
             val = Visit(context.@string());
         }
-        _symbolTable.Add(name, val);
+        SymbolTable.Add(name, val);
         return val;
     }
 }

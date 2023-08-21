@@ -5,12 +5,12 @@ namespace AntlrCSharpTests;
 [TestClass]
 public class AssignmentTests
 {
-    private SymbolTable SymbolTable => ProgramVisitor._symbolTable;
+    private SymbolTable SymbolTable => FQLVisitor.SymbolTable;
 
     private FQLParser Arrange(string text)
     {
         //Clean out old symbols
-        ProgramVisitor._symbolTable.Clear();
+        FQLVisitor.SymbolTable.Clear();
         
         AntlrInputStream inputStream = new AntlrInputStream(text);
         FQLLexer fqlLexer = new FQLLexer(inputStream);
@@ -25,7 +25,7 @@ public class AssignmentTests
         FQLParser parser = Arrange("var aSymbol = \"something\"");
 
         var context = parser.assignment();
-        ProgramVisitor visitor = new ProgramVisitor();
+        FQLVisitor visitor = new FQLVisitor();
         visitor.Visit(context);
 
         Assert.AreEqual("something", SymbolTable["aSymbol"]);
@@ -37,7 +37,7 @@ public class AssignmentTests
         FQLParser parser = Arrange("var result = 3+2");
 
         var context = parser.assignment();
-        ProgramVisitor visitor = new ProgramVisitor();
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(5.0, (double)SymbolTable["result"]);
@@ -48,7 +48,7 @@ public class AssignmentTests
         FQLParser parser = Arrange("var result = \"Hello World\";");
 
         var context = parser.assignment();
-        ProgramVisitor visitor = new ProgramVisitor();
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual("Hello World", SymbolTable["result"]);
@@ -62,7 +62,7 @@ public class AssignmentTests
         SymbolTable.Add("Var2", "World");
 
         var context = parser.assignment();
-        ProgramVisitor visitor = new ProgramVisitor();
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual("Hello World", SymbolTable["result"]);

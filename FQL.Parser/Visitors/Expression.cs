@@ -9,7 +9,7 @@ namespace FQL.Parser;
 /// <remarks>
 /// True recursive descent that honours the operator order of precedence.
 /// </remarks>
-public partial class ProgramVisitor
+public partial class FQLVisitor
 {
     public override object VisitAdditiveExpr(FQLParser.AdditiveExprContext context)
     {

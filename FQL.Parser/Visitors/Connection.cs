@@ -1,11 +1,11 @@
 ﻿namespace FQL.Parser;
 
-public partial class ProgramVisitor
+public partial class FQLVisitor
 {
     public override object VisitConnectionStatement(FQLParser.ConnectionStatementContext context)
     {
         var conStr = Visit(context.@string());
-        _symbolTable.Add("connection", conStr);
+        SymbolTable.Add("connection", conStr);
         return null;
     }
 }

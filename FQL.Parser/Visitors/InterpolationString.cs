@@ -2,7 +2,7 @@
 
 namespace FQL.Parser;
 
-public partial class ProgramVisitor
+public partial class FQLVisitor
 {
     public override object VisitInterpolationString(FQLParser.InterpolationStringContext context)
     {
@@ -16,7 +16,7 @@ public partial class ProgramVisitor
 
         foreach (var symbol in interpList)
         {
-            var result = _symbolTable.TryGetValue(symbol, out var value);
+            var result = SymbolTable.TryGetValue(symbol, out var value);
             if (result == true)
             {
                 interpolationString = interpolationString.Replace("{" + symbol + "}", value?.ToString());

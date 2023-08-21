@@ -1,6 +1,6 @@
 ﻿namespace FQL.Parser;
 
-public partial class ProgramVisitor
+public partial class FQLVisitor
 {
     public override object VisitStatements(FQLParser.StatementsContext context)
     {

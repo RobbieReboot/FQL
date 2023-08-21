@@ -3,12 +3,12 @@ using FQL.Parser.TypeSystem;
 
 namespace FQL.Parser;
 
-public partial class ProgramVisitor
+public partial class FQLVisitor
 {
     public override object VisitIdentifierFactor(FQLParser.IdentifierFactorContext context)
     {
         var identifier = context.id.GetText();
-        return _symbolTable[identifier];
+        return SymbolTable[identifier];
     }
 
     public override object VisitIntFactor(FQLParser.IntFactorContext context)

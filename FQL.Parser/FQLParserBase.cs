@@ -15,6 +15,4 @@ public abstract class FQLParserBase : Parser
         : base(input, output, errorOutput)
     {
     }
-
-
 }

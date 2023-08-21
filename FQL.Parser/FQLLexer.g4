@@ -43,6 +43,12 @@ TRUE
 FALSE
 	: 'false'
 	;
+FUNCTION
+	: 'function'
+	;
+CALL
+	: 'call'
+	;
 
 
 // Interpolation String

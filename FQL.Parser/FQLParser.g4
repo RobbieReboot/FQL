@@ -24,6 +24,8 @@ statement
    | connectionStatement SEMICOLON
    | if 
    | return 
+   | functionDefinition
+   | callStatement
    ;
 
 printStatement
@@ -61,6 +63,21 @@ return
 returnParams
     : expression
     | stringLiteral
+    ;
+
+functionDefinition
+    : FUNCTION identifier OPEN_PARENS paramList? CLOSE_PARENS OPEN_BRACE statements CLOSE_BRACE
+    ;
+paramList
+    : identifier (COMMA identifier)*
+    ;
+
+callStatement
+    : CALL identifier OPEN_PARENS callParamList? CLOSE_PARENS SEMICOLON
+    ;
+
+callParamList 
+    : identifier (COMMA identifier)*
     ;
 
 identifierList

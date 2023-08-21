@@ -5,19 +5,26 @@ using System.Text.RegularExpressions;
 
 namespace FQL.Parser
 {
-    public partial class ProgramVisitor : FQLParserBaseVisitor<object>
+    public partial class FQLVisitor : FQLParserBaseVisitor<object>
     {
-        public static SymbolTable _symbolTable = new SymbolTable();
-        public static Stack<KeyValuePair<string,object>> _interpreterStack = new Stack<KeyValuePair<string,object>>();
+        public static readonly SymbolTable SymbolTable = new SymbolTable();
+        public FQLVisitor() { }
 
-        private bool hasReturned = false;
+        public static Stack<KeyValuePair<string,object>> InterpreterStack = new Stack<KeyValuePair<string,object>>();
+
+        //for functions implementation
+        private Dictionary<string, List<string>> _functionParameters = new Dictionary<string, List<string>>();
+        private Dictionary<string, FQLParser.FunctionDefinitionContext> _functionDefinitions =
+            new Dictionary<string, FQLParser.FunctionDefinitionContext>(128);
+
+        private bool _hasReturned = false;
         public string GrammarName { get; set; }
-        public ProgramVisitor(string fileName="NoFile") => GrammarName = fileName;
+        public FQLVisitor(string fileName="NoFile") => GrammarName = fileName;
  
         protected override bool ShouldVisitNextChild(IRuleNode node, object currentResult)
         {
             // If we've hit a return statement, don't visit further children
-            if (hasReturned)
+            if (_hasReturned)
             {
                 // Reset after executing a 'return' statement. This mechanism prevents parsing of future nodes
                 // until we've implemented a stack for return values.

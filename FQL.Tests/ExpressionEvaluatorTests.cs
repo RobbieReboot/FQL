@@ -5,12 +5,12 @@ namespace AntlrCSharpTests;
 [TestClass]
 public class ExpressionEvaluatorTest
 {
-    private SymbolTable SymbolTable => ProgramVisitor._symbolTable;
+    private SymbolTable SymbolTable => FQLVisitor.SymbolTable;
 
     private FQLParser Arrange(string text)
     {
         //Clean out old symbols
-        ProgramVisitor._symbolTable.Clear();
+        FQLVisitor.SymbolTable.Clear();
         
         AntlrInputStream inputStream = new AntlrInputStream(text);
         FQLLexer fqlLexer = new FQLLexer(inputStream);
@@ -27,7 +27,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("3+2");
 
         var context = parser.expression();
-        ProgramVisitor visitor = new ProgramVisitor();
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, 5.0);
@@ -38,7 +38,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("5-2");
 
         var context = parser.expression();
-        ProgramVisitor visitor = new ProgramVisitor();
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, 3.0);
@@ -49,7 +49,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("5*2");
 
         var context = parser.expression();
-        ProgramVisitor visitor = new ProgramVisitor();
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, 10.0);
@@ -60,7 +60,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("(3+5)*2+4");
 
         var context = parser.expression();
-        ProgramVisitor visitor = new ProgramVisitor();
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, 20.0);
@@ -71,7 +71,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("3.5+2.5");
 
         var context = parser.expression();
-        ProgramVisitor visitor = new ProgramVisitor();
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, 6.0);
@@ -83,7 +83,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("10*(5+5)");
 
         var context = parser.expression();
-        ProgramVisitor visitor = new ProgramVisitor();
+        FQLVisitor visitor = new FQLVisitor();
         double result = (double)visitor.Visit(context);
 
         Assert.AreEqual(result, 100.0);

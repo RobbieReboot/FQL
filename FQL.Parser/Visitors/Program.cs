@@ -1,6 +1,6 @@
 ﻿namespace FQL.Parser;
 
-public partial class ProgramVisitor
+public partial class FQLVisitor
 {
     /// <summary>
     /// This is the entry point of the Grammar

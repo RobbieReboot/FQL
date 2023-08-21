@@ -5,12 +5,12 @@ namespace AntlrCSharpTests;
 [TestClass]
 public class StringTests
 {
-    private SymbolTable SymbolTable => ProgramVisitor._symbolTable;
+    private SymbolTable SymbolTable => FQLVisitor.SymbolTable;
 
     private FQLParser Arrange(string text)
     {
         //Clean out old symbols
-        ProgramVisitor._symbolTable.Clear();
+        FQLVisitor.SymbolTable.Clear();
         
         AntlrInputStream inputStream = new AntlrInputStream(text);
         FQLLexer fqlLexer = new FQLLexer(inputStream);
@@ -28,7 +28,7 @@ public class StringTests
         SymbolTable.Add("Var2", "World");
 
         var context = parser.@string();
-        ProgramVisitor visitor = new ProgramVisitor();
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, "Hello World");
@@ -38,7 +38,7 @@ public class StringTests
     {
         FQLParser parser = Arrange("\"Hello World\";");
 
-        ProgramVisitor visitor = new ProgramVisitor();
+        FQLVisitor visitor = new FQLVisitor();
         var context = parser.@string();
         var result = visitor.Visit(context);
 
