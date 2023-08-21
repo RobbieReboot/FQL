@@ -23,7 +23,7 @@ statement
    | printStatement SEMICOLON
    | connectionStatement SEMICOLON
    | if 
-   | return returnParams? SEMICOLON             
+   | return 
    ;
 
 printStatement
@@ -56,7 +56,7 @@ if
     ;
 
 return
-    : RETURN returnParams?
+    : RETURN returnParams? SEMICOLON
     ;
 returnParams
     : expression

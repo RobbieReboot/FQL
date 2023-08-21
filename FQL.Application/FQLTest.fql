@@ -1,8 +1,10 @@
 var myval = 1;
 
 if ( myval == 1 ) {
+	print "IN IF!"; 
+	print "If is TRUE!"; 
 	return true;
-	print "If is TRUE!"; //unreachable code should give warning...
+	print "UNREACHABLE - SHOULDN'T DISPLAY!";
 }
 else
 {

@@ -34,20 +34,41 @@ Mike Lischke
 
 ```
 // Example code so far
-VAR MyVar1 = "Hello";
-VAR MyVar2 = "World";
-VAR xxx = MyVar2;
-PRINT $"String interpolation says {MyVar1} {xxx}";
-PRINT "Hello World String!";
-PRINT MyVar1;
+var myval = 1;
 
-// Single line comment for connection stirng.
+if ( myval == 1 ) {
+	print "If is TRUE!"; 
+	return true;
+	print "UNREACHABLE - SHOULDN'T DISPLAY!";
+}
+else
+{
+	print "if is FALSE!";
+}
 
-CONNECTION "Data Source=.\;Integrated Security=SSPI;Initial Catalog=sqldb-daprservice;MultipleActiveResultSets=True;Encrypt=false;TrustServerCertificate=true";
+var MyVar1 = (5+4)+10;
+var MyVar2 = "Hello";
+var MyVar3 = "World";
+var MyVar4 = $"Interpolated : {MyVar2}, {MyVar3}";
 
-VAR receiptCount = COUNT()
+print $"String interpolation says {MyVar2} {MyVar3}";
+print MyVar4;
 
+var database = "sqldb-daprservice";
 
+// Single line comment for connection string.
+connection $"Data Source=.\;Integrated Security=SSPI;Initial Catalog={database};MultipleActiveResultSets=True;Encrypt=false;TrustServerCertificate=true";
+
+// do some db commands
+
+/* MULTI line comment for local Database connection details.
+Database                       : sqldb-receipt-service
+User                           : dapruser
+Password                              : ySwp0aGAmhI1jns0wgkb5zmH9iuW7AMQ
+*/
+
+print $"Connection String = {connection}";		// Auto creates internal symbol for connection string.
+print "Done.";
 /*
 
 MULTI line comment for local Database connection details.
