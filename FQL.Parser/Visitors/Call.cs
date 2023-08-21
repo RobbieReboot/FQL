@@ -35,15 +35,16 @@ public partial class FQLVisitor
 
         // Now, evaluate the function body
         var functionBody = _functionDefinitions[functionName].statements().children;
+        object? lastReturnValue = null;
         foreach (var stmt in functionBody)
         {
-            Visit(stmt);
+            lastReturnValue = Visit(stmt);
         }
 
         // Pop the function scope off the stack once done
         _hasReturned = false;
         SymbolTable.Pop();
 //        _scopeStack.Pop();
-        return null;
+        return lastReturnValue;
     }
 }

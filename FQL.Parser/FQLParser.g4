@@ -38,7 +38,7 @@ printParams
     ;
 
 assignment
-   : VAR identifier ASSIGNMENT ( expression | string )
+   : VAR identifier ASSIGNMENT ( expression | string | callStatement )
    ;
 
 readStatement

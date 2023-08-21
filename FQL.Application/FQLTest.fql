@@ -1,3 +1,4 @@
+// Test for nested calling
 function TestFunction1(incoming1) {
 	print "In TestFunction1";
 	print $"parameter : {incoming1}";
@@ -6,8 +7,9 @@ function TestFunction1(incoming1) {
 	//Call function from funciton to test scoped symbols.
 
 	call TestFunction2(newVar);
-	return 0;
+	return 45;
 }
+
 function TestFunction2(incoming2) {
 	print "In TestFunction2";
 	print $"parameter {incoming2}";
@@ -17,8 +19,8 @@ print "Calling TestFunction(MyVar0)!";
 
 var MyVar0 = "Var in GlobalScope ";
 
-call TestFunction1(MyVar0);
-
+var returnedVal = call TestFunction1(MyVar0);			//this then calls TestFunction2
+print $"TestFunction1 returned {returnedVal}";
 var myval = 1;
 if ( myval == 1 ) {
 	print "IN IF!"; 

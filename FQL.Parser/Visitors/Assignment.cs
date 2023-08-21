@@ -11,9 +11,15 @@ public partial class FQLVisitor
         {
             val = Visit(context.expression());
         }
-        else
+
+        if (context.@string()!=null)
         {
             val = Visit(context.@string());
+        }
+
+        if (context.callStatement() != null)
+        {
+            val = Visit(context.callStatement());
         }
         SymbolTable.Add(name, val);
         return val;
