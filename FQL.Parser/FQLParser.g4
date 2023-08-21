@@ -26,6 +26,7 @@ statement
    | return 
    | functionDefinition
    | callStatement
+   | dumpStatement
    ;
 
 printStatement
@@ -79,6 +80,11 @@ callStatement
 callParamList 
     : identifier (COMMA identifier)*
     ;
+
+dumpStatement
+    : DUMP ( CALLSTACK | SYMBOLS) SEMICOLON
+    ;
+
 
 identifierList
    : identifierList COMMA identifier

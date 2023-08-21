@@ -1,4 +1,5 @@
-﻿using Antlr4.Runtime.Misc;
+﻿using System.Runtime.ExceptionServices;
+using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,10 +11,14 @@ namespace FQL.Parser
         public static readonly SymbolTable SymbolTable = new SymbolTable();
         public FQLVisitor() { }
 
-        public static Stack<KeyValuePair<string,object>> InterpreterStack = new Stack<KeyValuePair<string,object>>();
-
+        //To keep track of call hierarchy.
+        private Stack<KeyValuePair<string, FQLParser.FunctionDefinitionContext>> _functionCallStack =
+            new Stack<KeyValuePair<string, FQLParser.FunctionDefinitionContext>>(128);
+        
         //for functions implementation
         private Dictionary<string, List<string>> _functionParameters = new Dictionary<string, List<string>>();
+        
+        // Function definitions as they're parsed.
         private Dictionary<string, FQLParser.FunctionDefinitionContext> _functionDefinitions =
             new Dictionary<string, FQLParser.FunctionDefinitionContext>(128);
 
@@ -21,15 +26,12 @@ namespace FQL.Parser
         public string GrammarName { get; set; }
         public FQLVisitor(string fileName="NoFile") => GrammarName = fileName;
  
+        // Overridden ShouldVisitNextChild that is Return statement aware.
         protected override bool ShouldVisitNextChild(IRuleNode node, object currentResult)
         {
-            // If we've hit a return statement, don't visit further children
+            // If we've hit a return statement, don't visit further children!
             if (_hasReturned)
             {
-                // Reset after executing a 'return' statement. This mechanism prevents parsing of future nodes
-                // until we've implemented a stack for return values.
-                //hasReturned = false;
-               
                 return false;
             }
             var result = base.ShouldVisitNextChild(node, currentResult);

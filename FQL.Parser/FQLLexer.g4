@@ -49,6 +49,15 @@ FUNCTION
 CALL
 	: 'call'
 	;
+DUMP
+	: 'dump'
+	;
+SYMBOLS
+	: 'symbols'
+	;
+CALLSTACK
+	: 'callstack'
+	;
 
 
 // Interpolation String

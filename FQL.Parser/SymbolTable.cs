@@ -41,14 +41,18 @@ namespace FQL.Parser
         public void Dump()
         {
             var scope = 0;
-            foreach (var table in _scopedSymbols)
+            var reversedStack = _scopedSymbols.ToArray().Reverse();
+            Console.WriteLine("| Scope  | Symbol                        | Value                            |");
+//            Console.WriteLine("|--------|-------------------------------|----------------------------------|");
+            foreach (var table in reversedStack)
             {
-                Console.WriteLine($"Symbol Scope {scope++}");
-
+                Console.WriteLine("|--------|-------------------------------|----------------------------------|");
                 foreach (var symbol in table)
                 {
-                    Console.WriteLine($"{symbol.Key} : {symbol.Value}");
+                    Console.WriteLine($"| {(scope==0 ? "GLOBAL" : scope),6} |{symbol.Key,30} | {symbol.Value,32} |");
                 }
+
+                scope++;
             }
         }
     }

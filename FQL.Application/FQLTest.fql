@@ -4,7 +4,7 @@ function TestFunction1(incoming1) {
 	print $"parameter : {incoming1}";
 	var newVar = "Var scoped to Function1";
 
-	//Call function from funciton to test scoped symbols.
+	//Call function from function to test scoped symbols.
 
 	call TestFunction2(newVar);
 	return 45;
@@ -13,6 +13,7 @@ function TestFunction1(incoming1) {
 function TestFunction2(incoming2) {
 	print "In TestFunction2";
 	print $"parameter {incoming2}";
+	dump callstack;
 }
 
 print "Calling TestFunction(MyVar0)!";
@@ -21,6 +22,7 @@ var MyVar0 = "Var in GlobalScope ";
 
 var returnedVal = call TestFunction1(MyVar0);			//this then calls TestFunction2
 print $"TestFunction1 returned {returnedVal}";
+
 var myval = 1;
 if ( myval == 1 ) {
 	print "IN IF!"; 

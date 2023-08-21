@@ -10,13 +10,15 @@ public partial class FQLVisitor
         {
             throw new Exception($"Undefined function: {functionName}");
         }
+        // Create call stack prologue
+
+        _functionCallStack.Push(new KeyValuePair<string,FQLParser.FunctionDefinitionContext>(functionName, _functionDefinitions[functionName]));
 
         // Create a new scope for the function
-        //var functionScope = new Dictionary<string, object>();
-        //_scopeStack.Push(functionScope);
         var callingScope = SymbolTable.CurrentScope;
         // open new scope for function scope.
         SymbolTable.Push();
+
         // Map passed arguments to function parameters
         var arguments = context.callParamList().identifier().Select(arg => arg.GetText()).ToList();
         var parameters = _functionParameters[functionName];
@@ -28,8 +30,7 @@ public partial class FQLVisitor
 
         for (int i = 0; i < arguments.Count; i++)
         {
-//            SymbolTable.CurrentScope[parameters[i]] = (string)callingScope[arguments[i].ToString()]!;
-            //Add to current scope
+            //Add to current scope - EMULATE PASS BY VALUE!
             SymbolTable.Add(parameters[i], (string)callingScope[arguments[i].ToString()]!);
         }
 
@@ -44,7 +45,7 @@ public partial class FQLVisitor
         // Pop the function scope off the stack once done
         _hasReturned = false;
         SymbolTable.Pop();
-//        _scopeStack.Pop();
+        _functionCallStack.Pop();
         return lastReturnValue;
     }
 }
