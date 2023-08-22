@@ -26,7 +26,7 @@ try
     visitor.Visit(tree);
     Console.WriteLine("Dumping Symbols");
     Console.WriteLine("---------------");
-    FQLVisitor.SymbolTable.Dump();
+    //FQLVisitor.SymbolTable.Dump();
 
 }
 catch (Exception ex)

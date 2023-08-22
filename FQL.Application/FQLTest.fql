@@ -1,8 +1,12 @@
 // Test for nested calling
+function TestHello(h,w) {
+	print $"{h} {w}";
+}
+
 function TestFunction1(incoming1) {
 	print "In TestFunction1";
 	print $"parameter : {incoming1}";
-	var newVar = "Var scoped to Function1";
+	var newVar = "This is a var defined in Function1, passed to Function2";
 
 	//Call function from function to test scoped symbols.
 
@@ -13,14 +17,39 @@ function TestFunction1(incoming1) {
 function TestFunction2(incoming2) {
 	print "In TestFunction2";
 	print $"parameter {incoming2}";
-	dump callstack;
+	call TestFunction3("Hello","World");
 }
 
+function TestFunction3(h,w) {
+	print "In TestFunction2";
+	print $"{h} {w} (Function3)";
+	dump callstack;
+	dump symbols;
+}
+
+var x = 5;
+
+print "Testing While Loop - 5 iterations";
+
+while (x>0) {
+	x = --x;
+	print $"X = {x}";
+}
+print "Testing Do While Loop - 5 iterations";
+x=5;
+do {
+	x = x-1;
+	print $"X = {x}";
+} 
+while(x!=0);
+
+print "Calling TestHello(\"Hello\",\"World\")";
+call TestHello("Hello","World");
+
 print "Calling TestFunction(MyVar0)!";
+var MyVar0 = "Var in GlobalScope";
 
-var MyVar0 = "Var in GlobalScope ";
-
-var returnedVal = call TestFunction1(MyVar0);			//this then calls TestFunction2
+var returnedVal = call TestFunction1(MyVar0);			
 print $"TestFunction1 returned {returnedVal}";
 
 var myval = 1;
@@ -28,7 +57,6 @@ if ( myval == 1 ) {
 	print "IN IF!"; 
 	print "If is TRUE!"; 
 	return true;
-	print "UNREACHABLE - SHOULDN'T DISPLAY!";
 }
 else
 {

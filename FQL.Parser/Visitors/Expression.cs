@@ -14,7 +14,7 @@ public partial class FQLVisitor
     public override object VisitAdditiveExpr(FQLParser.AdditiveExprContext context)
     {
         var r = Visit(context.mulDivExpr(0));
-        if (r is bool)
+        if (r is bool | r is string)
             return r;
         double result = Convert.ToDouble(r);
 
@@ -33,7 +33,7 @@ public partial class FQLVisitor
     public override object VisitMultiplicativeExpr(FQLParser.MultiplicativeExprContext context)
     {
         var r = Visit(context.powExpr(0));
-        if (r is bool)
+        if (r is bool || r is string)
             return r;
 
         var result = Convert.ToDouble(r);

@@ -3,6 +3,11 @@
 public partial class FQLVisitor
 {
 
+    /// <summary>
+    /// var MyVariable = expression
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     public override object VisitAssignment(FQLParser.AssignmentContext context)
     {
         var name = context.identifier().GetText();
@@ -12,7 +17,7 @@ public partial class FQLVisitor
             val = Visit(context.expression());
         }
 
-        if (context.@string()!=null)
+        if (context.@string() != null)
         {
             val = Visit(context.@string());
         }
@@ -21,7 +26,17 @@ public partial class FQLVisitor
         {
             val = Visit(context.callStatement());
         }
-        SymbolTable.Add(name, val);
+
+        //if the VAR keyword is tokenised, its a declaration
+        if (context.ass != null)
+        {
+            SymbolTable.Add(name, val);
+        }
+        else
+        {
+            //otherwise its an assignment
+            SymbolTable[name] = val;
+        }
         return val;
     }
 }

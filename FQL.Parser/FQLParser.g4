@@ -25,8 +25,10 @@ statement
    | if 
    | return 
    | functionDefinition
-   | callStatement
+   | callStatement SEMICOLON
    | dumpStatement
+   | whileLoop
+   | doWhileLoop SEMICOLON
    ;
 
 printStatement
@@ -39,7 +41,7 @@ printParams
     ;
 
 assignment
-   : VAR identifier ASSIGNMENT ( expression | string | callStatement )
+   : ass=VAR? identifier ASSIGNMENT ( expression | string | callStatement )
    ;
 
 readStatement
@@ -55,7 +57,7 @@ connectionStatement
     ;
 
 if
-    : IF OPEN_PARENS expression OP_EQ expression CLOSE_PARENS OPEN_BRACE statements CLOSE_BRACE (ELSE OPEN_BRACE statements CLOSE_BRACE)?
+    : IF OPEN_PARENS boolExpression CLOSE_PARENS OPEN_BRACE statements CLOSE_BRACE (ELSE OPEN_BRACE statements CLOSE_BRACE)?
     ;
 
 return
@@ -74,16 +76,50 @@ paramList
     ;
 
 callStatement
-    : CALL identifier OPEN_PARENS callParamList? CLOSE_PARENS SEMICOLON
+    : CALL identifier OPEN_PARENS callParamList? CLOSE_PARENS 
     ;
 
 callParamList 
-    : identifier (COMMA identifier)*
+    : expression (COMMA expression)*
     ;
 
 dumpStatement
     : DUMP ( CALLSTACK | SYMBOLS) SEMICOLON
     ;
+
+whileLoop 
+    : WHILE OPEN_PARENS boolExpression CLOSE_PARENS OPEN_BRACE statements CLOSE_BRACE
+    ;
+doWhileLoop 
+    : DO OPEN_BRACE statements CLOSE_BRACE WHILE OPEN_PARENS boolExpression CLOSE_PARENS
+    ;
+
+
+// Boolean expression logic rules for if and looping constructs.
+boolExpression 
+    : boolTerm (OP_OR boolTerm)*
+    ;
+
+boolTerm
+    : boolFactor (OP_AND boolFactor)*
+    ;
+
+boolFactor
+    : BANG boolFactor
+    | relationalExpr
+    | boolLiteral
+    | OPEN_PARENS boolExpression CLOSE_PARENS
+    ;
+
+boolLiteral 
+    : TRUE | FALSE 
+    ;
+
+relationalExpr 
+    : expression REL_OP expression 
+    ;
+
+
 
 
 identifierList
@@ -110,11 +146,12 @@ powExpr
     ;
 
 atom
-   : b = boolean                                # BoolFactor
-   | i = integer                                # IntFactor
-   | f = FLOAT                                   # FloatFactor
+   : b = boolean                                # BoolAtom
+   | i = integer                                # IntAtom
+   | f = FLOAT                                   # FloatAtom
    | OPEN_PARENS expression CLOSE_PARENS        # ParenExpr
-   | id = identifier                            # IdentifierFactor
+   | string                                     # stringAtom
+   | id = identifier                            # IdentifierAtom
    ;
 boolean
     : ( TRUE | FALSE )
@@ -129,7 +166,8 @@ operator
    ;
 
 identifier
-   : ID
+   : ID                                         # ident
+   | pre=(OP_INC | OP_DEC)? ID post=(OP_INC | OP_DEC)?                    # postIncDecIdent
    ;
 
 string
