@@ -8,11 +8,13 @@ public partial class FQLVisitor
     /// <param name="context"></param>
     public override object VisitProgram(FQLParser.ProgramContext context)
     {
+
+        object lastResult = null;
         foreach (var statement in context.statements().children)
         {
-            Visit(statement);
+            lastResult = Visit(statement);
         }
 
-        return null;
+        return lastResult;
     }
 }

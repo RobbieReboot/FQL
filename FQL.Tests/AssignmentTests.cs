@@ -5,12 +5,12 @@ namespace AntlrCSharpTests;
 [TestClass]
 public class AssignmentTests
 {
-    private SymbolTable SymbolTable => FQLVisitor.SymbolTable;
+    private SymbolTable SymbolTable => StateManager.SymbolTable;
 
     private FQLParser Arrange(string text)
     {
         //Clean out old symbols
-        FQLVisitor.SymbolTable.Clear();
+        StateManager.SymbolTable.Clear();
         
         AntlrInputStream inputStream = new AntlrInputStream(text);
         FQLLexer fqlLexer = new FQLLexer(inputStream);

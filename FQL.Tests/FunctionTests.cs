@@ -5,7 +5,7 @@ namespace AntlrCSharpTests;
 [TestClass]
 public class FunctionCallTests
 {
-    private SymbolTable SymbolTable => FQLVisitor.SymbolTable;
+    private SymbolTable SymbolTable => StateManager.SymbolTable;
 
     private FQLParser Arrange(string text)
     {
@@ -24,16 +24,13 @@ public class FunctionCallTests
     public void FunctionCallShouldEvaluateParameters()
     {
         FQLParser parser = Arrange(
-            "function TestFunc(h,w) { return \"HELLO\"; }\n\r" +
-            "call TestFunc(\"Hello\",\"World\"); ");
-        //FQLParser parser = Arrange(
-        //    "function TestFunc(h,w){ return $\"{h} {w}\"; }\n\r" +
-        //    "call TestFunc(\"Hello\",\"World\"); ");
+            "function TestFunc(h,w) { return $\"{h} {w}\"; }" +
+            "return call TestFunc(\"Hello\",\"World\"); ");
 
-        var context = parser.callStatement();
+        var context = parser.program();
         FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
-        Assert.AreEqual(result, true);
+        Assert.AreEqual(result, "Hello World");
     }
 }

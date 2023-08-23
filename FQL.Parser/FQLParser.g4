@@ -65,6 +65,7 @@ return
     ;
 returnParams
     : expression
+    | callStatement
     | stringLiteral
     ;
 
@@ -152,7 +153,9 @@ atom
    | OPEN_PARENS expression CLOSE_PARENS        # ParenExpr
    | string                                     # stringAtom
    | id = identifier                            # IdentifierAtom
+   | OPEN_PARENS cr = callStatement CLOSE_PARENS # FunctionCallAtom
    ;
+
 boolean
     : ( TRUE | FALSE )
     ;

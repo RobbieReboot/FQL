@@ -5,7 +5,7 @@ public partial class FQLVisitor
     public object VisitPostIncDecStatement(FQLParser.PostIncDecIdentContext context)
     {
         var name = context.ID().GetText();
-        var obj = SymbolTable[name];
+        var obj = StateManager.SymbolTable[name];
         var retVal = obj;           //save value BEFORE we inc/dec
 
         if (context.pre is { Text: "++" })
@@ -33,7 +33,7 @@ public partial class FQLVisitor
             if (obj is decimal)
                 obj = (decimal)obj + 1;
 
-            SymbolTable[name] = obj;
+            StateManager.SymbolTable[name] = obj;
             return obj;
         }
         if (context.pre is { Text: "--" })
@@ -60,7 +60,7 @@ public partial class FQLVisitor
                 obj = (double)obj - 1;
             if (obj is decimal)
                 obj = (decimal)obj - 1;
-            SymbolTable[name] = obj;
+            StateManager.SymbolTable[name] = obj;
             return obj;             // YES I KNOW THIS ISN'T TRUE POST INC/DECREMENT.
         }
 
@@ -89,7 +89,7 @@ public partial class FQLVisitor
             if (obj is decimal)
                 obj = (decimal)obj + 1;
 
-            SymbolTable[name] = obj;
+            StateManager.SymbolTable[name] = obj;
             return retVal;
         }
         if (context.post is { Text: "--" })
@@ -116,7 +116,7 @@ public partial class FQLVisitor
                 obj = (double)obj - 1;
             if (obj is decimal)
                 obj = (decimal)obj - 1;
-            SymbolTable[name] = obj;
+            StateManager.SymbolTable[name] = obj;
             return retVal;
         }
         throw new ArgumentException("Unsupported numeric type", nameof(obj));

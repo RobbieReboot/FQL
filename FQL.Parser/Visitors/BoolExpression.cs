@@ -54,15 +54,43 @@ public partial class FQLVisitor
         var right = Visit(context.expression(1));
         var op = context.REL_OP().GetText();
 
-        switch (op)
+
+        if (left is string leftStr && right is string rightStr)
         {
-            case "==": return left.Equals(right);
-            case "!=": return !left.Equals(right);
-            case "<": return Convert.ToInt32(left) < Convert.ToInt32(right);
-            case "<=": return Convert.ToInt32(left) <= Convert.ToInt32(right);
-            case ">": return Convert.ToInt32(left) > Convert.ToInt32(right);
-            case ">=": return Convert.ToInt32(left) >= Convert.ToInt32(right);
-            default: throw new InvalidOperationException("Unexpected relational operator");
+            int result = String.CompareOrdinal(leftStr, rightStr);
+
+            switch (op)
+            {
+                case "==": return result == 0;
+                case "!=": return result != 0;
+                case "<":  return result < 0;
+                case "<=": return result <= 0;
+                case ">": return result > 0;
+                case ">=": return result >= 0;
+                default:
+                    throw new InvalidOperationException(
+                        $"{StateManager.GrammarName}({context.Start.Line}) : Unsupported string comparison operation {op}");
+            }
+
+        }
+        else if (left is IComparable leftComp && right is IComparable rightComp)
+        {
+            int result = leftComp.CompareTo(rightComp);
+            switch (op)
+            {
+                case "==": return result == 0;
+                case "!=": return result != 0;
+                case "<": return result < 0;
+                case "<=": return result <= 0;
+                case ">": return result > 0;
+                case ">=": return result >= 0;
+                default: throw new InvalidOperationException($"Unsupported operation: {op}");
+            }
+        }
+        else
+        {
+            
+            throw new InvalidOperationException($"{StateManager.GrammarName}({context.Start.Line}) : type mismatch in relational expression '{op}' (or no IComparable implementations).");
         }
     }
 }

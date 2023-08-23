@@ -7,7 +7,7 @@ public partial class FQLVisitor
 {
     public override object VisitIdent(FQLParser.IdentContext context)
     {
-        return SymbolTable[context.ID().GetText()];
+        return StateManager.SymbolTable[context.ID().GetText()];
     }
 
     public override object VisitPostIncDecIdent(FQLParser.PostIncDecIdentContext context)
@@ -62,4 +62,13 @@ public partial class FQLVisitor
         var result = Visit(context.@string());
         return result;
     }
+
+    public override object VisitFunctionCallAtom(FQLParser.FunctionCallAtomContext context)
+    {
+        var result = Visit(context.callStatement());
+        return result;
+    }
+
+
+
 }

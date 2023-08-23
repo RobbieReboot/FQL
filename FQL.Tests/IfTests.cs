@@ -5,7 +5,7 @@ namespace AntlrCSharpTests;
 [TestClass]
 public class IfTests
 {
-    private SymbolTable SymbolTable => FQLVisitor.SymbolTable;
+    private SymbolTable SymbolTable => StateManager.SymbolTable;
 
     private FQLParser Arrange(string text)
     {

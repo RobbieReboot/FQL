@@ -26,13 +26,16 @@ function TestFunction3(h,w) {
 	dump callstack;
 	dump symbols;
 }
+function GetHello() {
+	return "Hello";
+}
 
 var x = 5;
 
 print "Testing While Loop - 5 iterations";
 
-while (x>0) {
-	x = --x;
+while (x-- > 0) {
+	//x = --x;
 	print $"X = {x}";
 }
 print "Testing Do While Loop - 5 iterations";
@@ -44,7 +47,7 @@ do {
 while(x!=0);
 
 print "Calling TestHello(\"Hello\",\"World\")";
-call TestHello("Hello","World");
+call TestHello((call GetHello()),"World");
 
 print "Calling TestFunction(MyVar0)!";
 var MyVar0 = "Var in GlobalScope";

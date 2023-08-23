@@ -10,7 +10,13 @@ public partial class FQLVisitor
         {
             val = Visit(context.expression());
         }
-        else
+
+        if (context.callStatement() != null)
+        {
+            val = Visit(context.callStatement());
+        }
+
+        if (context.stringLiteral() != null)
         {
             val = Visit(context.stringLiteral());
         }
