@@ -1,17 +1,24 @@
 using System.Reflection;
 using Antlr4.Runtime;
 using FQL.Parser;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FQL.Tests;
 [TestClass]
 public class BooleanLogicTests
 {
-    private SymbolTable SymbolTable => StateManager.SymbolTable;
+    private IStateManager _stateManager;
+    [TestInitialize]
+    public void Init(TestContext context)
+    {
+        using var serviceProvider = ServiceManager.BuildServiceProvider();
+        _stateManager = serviceProvider.GetRequiredService<IStateManager>();
+    }
 
     private FQLParser Arrange(string text)
     {
         //Clean out old symbols
-        SymbolTable.Clear();
+        _stateManager.SymbolTable.Clear();
         
         AntlrInputStream inputStream = new AntlrInputStream(text);
         FQLLexer fqlLexer = new FQLLexer(inputStream);
@@ -81,7 +88,7 @@ public class BooleanLogicTests
         FQLParser parser = Arrange(input);
 
         var context = parser.boolExpression();
-        FQLVisitor visitor = new FQLVisitor();
+        FQLVisitor visitor = new FQLVisitor(_stateManager);
         var actual= visitor.Visit(context);
 
         Assert.AreEqual(actual, expectedResult);

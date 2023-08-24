@@ -6,25 +6,30 @@ using System.Threading.Tasks;
 
 namespace FQL.Parser
 {
-    public class StateManager
+    public class StateManager : IStateManager
     {
-        public static readonly SymbolTable SymbolTable = new SymbolTable();
+        public SymbolTable _symbolTable = new SymbolTable();
+        public SymbolTable SymbolTable => _symbolTable;
 
         //To keep track of call hierarchy.
-        public static  Stack<KeyValuePair<string, FQLParser.FunctionDefinitionContext>> FunctionCallStack =
+        public Stack<KeyValuePair<string, FQLParser.FunctionDefinitionContext>> _functionCallStack =
             new Stack<KeyValuePair<string, FQLParser.FunctionDefinitionContext>>(128);
+        public Stack<KeyValuePair<string, FQLParser.FunctionDefinitionContext>> FunctionCallStack => _functionCallStack;
 
         //for functions implementation
-        public static Dictionary<string, List<string>> FunctionParameters = new Dictionary<string, List<string>>();
+        public Dictionary<string, List<string>> _functionParameters = new Dictionary<string, List<string>>();
+        public Dictionary<string, List<string>> FunctionParameters => _functionParameters;
 
         // Function definitions as they're parsed.
-        public static Dictionary<string, FQLParser.FunctionDefinitionContext> FunctionDefinitions =
+        public Dictionary<string, FQLParser.FunctionDefinitionContext> _functionDefinitions =
             new Dictionary<string, FQLParser.FunctionDefinitionContext>(128);
+        public Dictionary<string, FQLParser.FunctionDefinitionContext> FunctionDefinitions => _functionDefinitions;
 
         //TO allow nested loops to break out of the innermost loop only.
-        public static Stack<bool> loopBreakStack = new Stack<bool>();
+        public Stack<bool> _loopBreakStack = new Stack<bool>();
+        public Stack<bool> LoopBreakStack => _loopBreakStack;
 
-        public static string GrammarName { get; set; }
+        public string GrammarName { get; set; }
 
     }
 }

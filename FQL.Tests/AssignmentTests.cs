@@ -1,16 +1,24 @@
 using Antlr4.Runtime;
 using FQL.Parser;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FQL.Tests;
 [TestClass]
 public class AssignmentTests
 {
-    private SymbolTable SymbolTable => StateManager.SymbolTable;
+    private IStateManager _stateManager;
+    [TestInitialize]
+    public void Init(TestContext context)
+    {
+        using var serviceProvider = ServiceManager.BuildServiceProvider();
+        _stateManager = serviceProvider.GetRequiredService<IStateManager>();
+    }
 
+    
     private FQLParser Arrange(string text)
     {
         //Clean out old symbols
-        StateManager.SymbolTable.Clear();
+        _stateManager.SymbolTable.Clear();
         
         AntlrInputStream inputStream = new AntlrInputStream(text);
         FQLLexer fqlLexer = new FQLLexer(inputStream);
@@ -25,10 +33,10 @@ public class AssignmentTests
         FQLParser parser = Arrange("var aSymbol = \"something\"");
 
         var context = parser.assignment();
-        FQLVisitor visitor = new FQLVisitor();
+        FQLVisitor visitor = new FQLVisitor(_stateManager);
         visitor.Visit(context);
 
-        Assert.AreEqual("something", SymbolTable["aSymbol"]);
+        Assert.AreEqual("something", _stateManager.SymbolTable["aSymbol"]);
     }
 
     [TestMethod]
@@ -37,10 +45,10 @@ public class AssignmentTests
         FQLParser parser = Arrange("var result = 3+2");
 
         var context = parser.assignment();
-        FQLVisitor visitor = new FQLVisitor();
+        FQLVisitor visitor = new FQLVisitor(_stateManager);
         var result = visitor.Visit(context);
 
-        Assert.AreEqual(5.0, SymbolTable["result"]);
+        Assert.AreEqual(5.0, _stateManager.SymbolTable["result"]);
     }
     [TestMethod]
     public void AssignmentShouldAssignStringLiteral()
@@ -48,23 +56,23 @@ public class AssignmentTests
         FQLParser parser = Arrange("var result = \"Hello World\";");
 
         var context = parser.assignment();
-        FQLVisitor visitor = new FQLVisitor();
+        FQLVisitor visitor = new FQLVisitor(_stateManager);
         var result = visitor.Visit(context);
 
-        Assert.AreEqual("Hello World", SymbolTable["result"]);
+        Assert.AreEqual("Hello World", _stateManager.SymbolTable["result"]);
     }
 
     [TestMethod]
     public void AssignmentShouldAssignInterpolatedString()
     {
         FQLParser parser = Arrange("var result = $\"{Var1} {Var2}\";");
-        SymbolTable.Add("Var1", "Hello");
-        SymbolTable.Add("Var2", "World");
+        _stateManager.SymbolTable.Add("Var1", "Hello");
+        _stateManager.SymbolTable.Add("Var2", "World");
 
         var context = parser.assignment();
-        FQLVisitor visitor = new FQLVisitor();
+        FQLVisitor visitor = new FQLVisitor(_stateManager);
         var result = visitor.Visit(context);
 
-        Assert.AreEqual("Hello World", SymbolTable["result"]);
+        Assert.AreEqual("Hello World", _stateManager.SymbolTable["result"]);
     }
 }

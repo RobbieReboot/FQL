@@ -30,12 +30,12 @@ public partial class FQLVisitor
         //if the VAR keyword is tokenised, its a declaration
         if (context.ass != null)
         {
-            StateManager.SymbolTable.Add(name, val);
+            _stateManager.SymbolTable.Add(name, val);
         }
         else
         {
             //otherwise its an assignment
-            StateManager.SymbolTable[name] = val;
+            _stateManager.SymbolTable[name] = val;
         }
         return val;
     }

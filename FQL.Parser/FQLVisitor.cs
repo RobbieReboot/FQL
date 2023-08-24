@@ -8,12 +8,15 @@ namespace FQL.Parser
 {
     public partial class FQLVisitor : FQLParserBaseVisitor<object>
     {
-   
-        public FQLVisitor() { }
+        private readonly IStateManager _stateManager;
 
+        public FQLVisitor(IStateManager stateManager)
+        {
+            _stateManager = stateManager;
+        }
 
         private bool _hasReturned = false;
-        public FQLVisitor(string fileName="NoFile") => StateManager.GrammarName = fileName;
+        //public FQLVisitor(string fileName="NoFile") => _stateManager.GrammarName = fileName;
  
         // Overridden ShouldVisitNextChild that is Return statement aware.
         protected override bool ShouldVisitNextChild(IRuleNode node, object currentResult)

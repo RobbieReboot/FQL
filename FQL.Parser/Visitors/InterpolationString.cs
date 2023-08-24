@@ -16,7 +16,7 @@ public partial class FQLVisitor
 
         foreach (var symbol in interpList)
         {
-            var result = StateManager.SymbolTable.TryGetValue(symbol, out var value);
+            var result = _stateManager.SymbolTable.TryGetValue(symbol, out var value);
             if (result == true)
             {
                 interpolationString = interpolationString.Replace("{" + symbol + "}", value?.ToString());

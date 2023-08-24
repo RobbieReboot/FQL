@@ -6,7 +6,7 @@ public partial class FQLVisitor
     {
         if (context.SYMBOLS() != null)
         {
-            StateManager.SymbolTable.Dump();
+            _stateManager.SymbolTable.Dump();
         }
 
         if (context.CALLSTACK() != null)
@@ -19,7 +19,7 @@ public partial class FQLVisitor
 
     public void DumpCallStack()
     {
-        var reversedStack = StateManager.FunctionCallStack.ToArray().Reverse();
+        var reversedStack = new Stack<KeyValuePair<string, FQLParser.FunctionDefinitionContext>>(128).ToArray().Reverse();
         Console.WriteLine("| Line   | Function                               |");
 //        Console.WriteLine("|--------|---------------------------------------|");
         Console.WriteLine("|--------|----------------------------------------|");

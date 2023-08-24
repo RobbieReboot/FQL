@@ -69,7 +69,7 @@ public partial class FQLVisitor
                 case ">=": return result >= 0;
                 default:
                     throw new InvalidOperationException(
-                        $"{StateManager.GrammarName}({context.Start.Line}) : Unsupported string comparison operation {op}");
+                        $"{_stateManager.GrammarName}({context.Start.Line}) : Unsupported string comparison operation {op}");
             }
 
         }
@@ -90,7 +90,7 @@ public partial class FQLVisitor
         else
         {
             
-            throw new InvalidOperationException($"{StateManager.GrammarName}({context.Start.Line}) : type mismatch in relational expression '{op}' (or no IComparable implementations).");
+            throw new InvalidOperationException($"{_stateManager.GrammarName}({context.Start.Line}) : type mismatch in relational expression '{op}' (or no IComparable implementations).");
         }
     }
 }

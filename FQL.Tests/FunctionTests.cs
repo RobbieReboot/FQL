@@ -1,16 +1,23 @@
 using Antlr4.Runtime;
 using FQL.Parser;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FQL.Tests;
 [TestClass]
 public class FunctionCallTests
 {
-    private SymbolTable SymbolTable => StateManager.SymbolTable;
+    private IStateManager _stateManager;
+    [TestInitialize]
+    public void Init(TestContext context)
+    {
+        using var serviceProvider = ServiceManager.BuildServiceProvider();
+        _stateManager = serviceProvider.GetRequiredService<IStateManager>();
+    }
 
     private FQLParser Arrange(string text)
     {
         //Clean out old symbols
-        SymbolTable.Clear();
+        _stateManager.SymbolTable.Clear();
         
         AntlrInputStream inputStream = new AntlrInputStream(text);
         FQLLexer fqlLexer = new FQLLexer(inputStream);
@@ -28,7 +35,7 @@ public class FunctionCallTests
             "return call TestFunc(\"Hello\",\"World\"); ");
 
         var context = parser.program();
-        FQLVisitor visitor = new FQLVisitor();
+        FQLVisitor visitor = new FQLVisitor(_stateManager);
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, "Hello World");

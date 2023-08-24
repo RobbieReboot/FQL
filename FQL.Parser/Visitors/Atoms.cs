@@ -7,7 +7,7 @@ public partial class FQLVisitor
 {
     public override object VisitIdent(FQLParser.IdentContext context)
     {
-        return StateManager.SymbolTable[context.ID().GetText()];
+        return _stateManager.SymbolTable[context.ID().GetText()];
     }
 
     public override object VisitPostIncDecIdent(FQLParser.PostIncDecIdentContext context)

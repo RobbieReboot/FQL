@@ -6,16 +6,17 @@ public partial class FQLVisitor
     {
         string functionName = context.identifier().GetText();
 
-        if (!StateManager.FunctionDefinitions.ContainsKey(functionName))
+        if (!_stateManager.FunctionDefinitions.ContainsKey(functionName))
         {
             throw new Exception($"Undefined function: {functionName}");
         }
         // Create call stack prologue
 
-        StateManager.FunctionCallStack.Push(new KeyValuePair<string,FQLParser.FunctionDefinitionContext>(functionName, StateManager.FunctionDefinitions[functionName]));
+        var functionCallStack = new Stack<KeyValuePair<string, FQLParser.FunctionDefinitionContext>>(128);
+        functionCallStack.Push(new KeyValuePair<string,FQLParser.FunctionDefinitionContext>(functionName, _stateManager.FunctionDefinitions[functionName]));
 
         // Create a new scope for the function
-        var callingScope = StateManager.SymbolTable.CurrentScope;
+        var callingScope = _stateManager.SymbolTable.CurrentScope;
         // open new scope for function scope.
 
         // Accumulate variables that will be visible inside the function scope
@@ -27,7 +28,7 @@ public partial class FQLVisitor
         {
             // Map passed arguments contexts to function parameters after visiting the context nodes
             var arguments = context.callParamList().expression().Select(arg => arg).ToList();
-            var parameters = StateManager.FunctionParameters[functionName];
+            var parameters = _stateManager.FunctionParameters[functionName];
 
             if (arguments.Count != parameters.Count)
             {
@@ -44,10 +45,10 @@ public partial class FQLVisitor
 
         }
 
-        StateManager.SymbolTable.Push(functionScope);
+        _stateManager.SymbolTable.Push(functionScope);
 
         // Now, evaluate the function body
-        var functionBody = StateManager.FunctionDefinitions[functionName].statements().children;
+        var functionBody = _stateManager.FunctionDefinitions[functionName].statements().children;
         object? lastReturnValue = null;
         foreach (var stmt in functionBody)
         {
@@ -56,8 +57,8 @@ public partial class FQLVisitor
 
         // Pop the function scope & call stack entry off the stack once done
         _hasReturned = false;
-        StateManager.SymbolTable.Pop();
-        StateManager.FunctionCallStack.Pop();
+        _stateManager.SymbolTable.Pop();
+        functionCallStack.Pop();
         return lastReturnValue;
     }
 }
