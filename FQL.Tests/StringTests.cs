@@ -2,16 +2,23 @@ using Antlr4.Runtime;
 using FQL.Parser;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AntlrCSharpTests;
+namespace FQL.Tests;
 [TestClass]
 public class StringTests
 {
-    private IStateManager _stateManager;
+    private IStateManager _stateManager = null!;
     [TestInitialize]
-    public void Init(TestContext context)
+    public void Init()
     {
-        using var serviceProvider = ServiceManager.BuildServiceProvider();
-        _stateManager = serviceProvider.GetRequiredService<IStateManager>();
+        try
+        {
+            var serviceProvider = ServiceManager.BuildServiceProvider();
+            _stateManager = serviceProvider.GetRequiredService<IStateManager>();
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 
     private FQLParser Arrange(string text)

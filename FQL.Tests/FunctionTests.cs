@@ -8,7 +8,7 @@ public class FunctionCallTests
 {
     private IStateManager _stateManager;
     [TestInitialize]
-    public void Init(TestContext context)
+    public void Init()
     {
         using var serviceProvider = ServiceManager.BuildServiceProvider();
         _stateManager = serviceProvider.GetRequiredService<IStateManager>();
