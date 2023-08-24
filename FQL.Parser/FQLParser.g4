@@ -29,8 +29,12 @@ statement
    | dumpStatement
    | whileLoop
    | doWhileLoop SEMICOLON
+   | breakStatement SEMICOLON
    ;
 
+breakStatement
+    : BREAK 
+    ;
 printStatement
     : PRINT printParams
     ;

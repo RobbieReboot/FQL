@@ -64,6 +64,9 @@ WHILE
 DO	
 	: 'do'
 	;
+BREAK
+	: 'break'
+	;
 
 
 // Interpolation String

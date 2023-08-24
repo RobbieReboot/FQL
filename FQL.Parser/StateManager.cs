@@ -20,6 +20,10 @@ namespace FQL.Parser
         // Function definitions as they're parsed.
         public static Dictionary<string, FQLParser.FunctionDefinitionContext> FunctionDefinitions =
             new Dictionary<string, FQLParser.FunctionDefinitionContext>(128);
+
+        //TO allow nested loops to break out of the innermost loop only.
+        public static Stack<bool> loopBreakStack = new Stack<bool>();
+
         public static string GrammarName { get; set; }
 
     }

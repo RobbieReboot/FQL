@@ -1,7 +1,7 @@
 using Antlr4.Runtime;
 using FQL.Parser;
 
-namespace AntlrCSharpTests;
+namespace FQL.Tests;
 [TestClass]
 public class FunctionCallTests
 {

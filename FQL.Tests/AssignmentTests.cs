@@ -1,7 +1,7 @@
 using Antlr4.Runtime;
 using FQL.Parser;
 
-namespace AntlrCSharpTests;
+namespace FQL.Tests;
 [TestClass]
 public class AssignmentTests
 {
@@ -40,7 +40,7 @@ public class AssignmentTests
         FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
-        Assert.AreEqual(5.0, (double)SymbolTable["result"]);
+        Assert.AreEqual(5.0, SymbolTable["result"]);
     }
     [TestMethod]
     public void AssignmentShouldAssignStringLiteral()

@@ -1,8 +1,8 @@
+using System.Reflection;
 using Antlr4.Runtime;
 using FQL.Parser;
-using System.Reflection;
 
-namespace AntlrCSharpTests;
+namespace FQL.Tests;
 [TestClass]
 public class BooleanLogicTests
 {

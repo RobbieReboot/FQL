@@ -30,13 +30,16 @@ function GetHello() {
 	return "Hello";
 }
 
-var x = 5;
+var x = 10;
 
-print "Testing While Loop - 5 iterations";
+print "Testing While Loop - 10 iterations";
 
 while (x-- > 0) {
 	//x = --x;
 	print $"X = {x}";
+	if (x == 5) {
+		break;
+	}
 }
 print "Testing Do While Loop - 5 iterations";
 x=5;
