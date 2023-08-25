@@ -10,15 +10,8 @@ public class StringTests
     [TestInitialize]
     public void Init()
     {
-        try
-        {
-            var serviceProvider = ServiceManager.BuildServiceProvider();
-            _stateManager = serviceProvider.GetRequiredService<IStateManager>();
-        }
-        catch (Exception ex)
-        {
-
-        }
+        var serviceProvider = ServiceManager.BuildServiceProvider();
+        _stateManager = serviceProvider.GetRequiredService<IStateManager>();
     }
 
     private FQLParser Arrange(string text)
@@ -42,7 +35,7 @@ public class StringTests
         _stateManager.SymbolTable.Add("Var2", "World");
 
         var context = parser.@string();
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, "Hello World");
@@ -52,7 +45,7 @@ public class StringTests
     {
         FQLParser parser = Arrange("\"Hello World\";");
 
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         var context = parser.@string();
         var result = visitor.Visit(context);
 

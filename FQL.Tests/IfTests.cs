@@ -6,7 +6,7 @@ namespace FQL.Tests;
 [TestClass]
 public class IfTests
 {
-    private IStateManager _stateManager;
+    private IStateManager _stateManager = null!;
     [TestInitialize]
     public void Init()
     {
@@ -33,7 +33,7 @@ public class IfTests
         FQLParser parser = Arrange("if ( 1==1 ) { return true; }");
 
         var context = parser.@if();
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, true);

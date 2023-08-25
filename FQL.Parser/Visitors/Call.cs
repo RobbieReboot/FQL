@@ -12,8 +12,8 @@ public partial class FQLVisitor
         }
         // Create call stack prologue
 
-        var functionCallStack = new Stack<KeyValuePair<string, FQLParser.FunctionDefinitionContext>>(128);
-        functionCallStack.Push(new KeyValuePair<string,FQLParser.FunctionDefinitionContext>(functionName, _stateManager.FunctionDefinitions[functionName]));
+//        var functionCallStack = new Stack<KeyValuePair<string, FQLParser.FunctionDefinitionContext>>(128);
+        _stateManager.FunctionCallStack.Push(new KeyValuePair<string,FQLParser.FunctionDefinitionContext>(functionName, _stateManager.FunctionDefinitions[functionName]));
 
         // Create a new scope for the function
         var callingScope = _stateManager.SymbolTable.CurrentScope;
@@ -58,7 +58,7 @@ public partial class FQLVisitor
         // Pop the function scope & call stack entry off the stack once done
         _hasReturned = false;
         _stateManager.SymbolTable.Pop();
-        functionCallStack.Pop();
+        _stateManager.FunctionCallStack.Pop();
         return lastReturnValue;
     }
 }

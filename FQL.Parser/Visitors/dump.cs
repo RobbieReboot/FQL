@@ -19,14 +19,16 @@ public partial class FQLVisitor
 
     public void DumpCallStack()
     {
-        var reversedStack = new Stack<KeyValuePair<string, FQLParser.FunctionDefinitionContext>>(128).ToArray().Reverse();
-        Console.WriteLine("| Line   | Function                               |");
-//        Console.WriteLine("|--------|---------------------------------------|");
-        Console.WriteLine("|--------|----------------------------------------|");
+        var reversedStack = _stateManager.FunctionCallStack.ToArray().Reverse();
+
+        Console.WriteLine("| File                                   | Line   | Function                               |");
+        Console.WriteLine("|----------------------------------------|--------|----------------------------------------|");
         foreach (var fn in reversedStack)
         {
             FQLParser.FunctionDefinitionContext context = fn.Value;
-            Console.WriteLine($"| {context.Start.Line,6} | {fn.Key,38} |");
+            string currentFn = _stateManager.FunctionCallStack.Peek().Key == fn.Key ? "<--" : "   ";
+
+            Console.WriteLine($"| {_stateManager.GrammarName,-38} | {context.Start.Line,6} | {fn.Key,-35}{currentFn} |");
         }
     }
 }

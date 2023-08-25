@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FQL.Parser
 {
+    /// <summary>
+    /// Handles all the IoC  for the FQL parser.
+    /// </summary>
     public class ServiceManager
     {
         public static ServiceProvider BuildServiceProvider()

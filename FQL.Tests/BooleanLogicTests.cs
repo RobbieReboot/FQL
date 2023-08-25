@@ -7,7 +7,7 @@ namespace FQL.Tests;
 [TestClass]
 public class BooleanLogicTests
 {
-    private IStateManager _stateManager;
+    private IStateManager _stateManager = null!;
     [TestInitialize]
     public void Init()
     {
@@ -88,7 +88,7 @@ public class BooleanLogicTests
         FQLParser parser = Arrange(input);
 
         var context = parser.boolExpression();
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         var actual= visitor.Visit(context);
 
         Assert.AreEqual(actual, expectedResult);

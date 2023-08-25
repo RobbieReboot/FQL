@@ -6,7 +6,7 @@ namespace FQL.Tests;
 [TestClass]
 public class ExpressionEvaluatorTest
 {
-    private IStateManager _stateManager;
+    private IStateManager _stateManager = null!;
     [TestInitialize]
     public void Init()
     {
@@ -34,7 +34,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("3+2");
 
         var context = parser.expression();
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, 5.0);
@@ -45,7 +45,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("5-2");
 
         var context = parser.expression();
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, 3.0);
@@ -56,7 +56,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("5*2");
 
         var context = parser.expression();
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, 10.0);
@@ -67,7 +67,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("(3+5)*2+4");
 
         var context = parser.expression();
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, 20.0);
@@ -78,7 +78,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("3.5+2.5");
 
         var context = parser.expression();
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, 6.0);
@@ -90,7 +90,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("10*(5+5)");
 
         var context = parser.expression();
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         double result = (double)visitor.Visit(context);
 
         Assert.AreEqual(result, 100.0);

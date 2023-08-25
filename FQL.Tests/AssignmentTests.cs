@@ -6,7 +6,7 @@ namespace FQL.Tests;
 [TestClass]
 public class AssignmentTests
 {
-    private IStateManager _stateManager;
+    private IStateManager _stateManager = null!;
     [TestInitialize]
     public void Init()
     {
@@ -33,7 +33,7 @@ public class AssignmentTests
         FQLParser parser = Arrange("var aSymbol = \"something\"");
 
         var context = parser.assignment();
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         visitor.Visit(context);
 
         Assert.AreEqual("something", _stateManager.SymbolTable["aSymbol"]);
@@ -45,7 +45,7 @@ public class AssignmentTests
         FQLParser parser = Arrange("var result = 3+2");
 
         var context = parser.assignment();
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(5.0, _stateManager.SymbolTable["result"]);
@@ -56,7 +56,7 @@ public class AssignmentTests
         FQLParser parser = Arrange("var result = \"Hello World\";");
 
         var context = parser.assignment();
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual("Hello World", _stateManager.SymbolTable["result"]);
@@ -70,7 +70,7 @@ public class AssignmentTests
         _stateManager.SymbolTable.Add("Var2", "World");
 
         var context = parser.assignment();
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual("Hello World", _stateManager.SymbolTable["result"]);

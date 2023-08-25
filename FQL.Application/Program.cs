@@ -7,8 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 //"Data Source=.\;Integrated Security=SSPI;Initial Catalog=FormsMiddlewareDevUAT;MultipleActiveResultSets=True;app=LINQPad;Encrypt=true;TrustServerCertificate=true"
 try
 {
-    using var serviceProvider = ServiceManager.BuildServiceProvider();
-    
     var grammarName = "FQLTest.fql";
     var fqlProgram= File.ReadAllText(grammarName);
 
@@ -26,10 +24,10 @@ try
     FQLParser FQLParser = new FQLParser(tokens);
     var tree = FQLParser.program();
 //    FQLVisitor visitor = new FQLVisitor(grammarName);
-    FQLVisitor visitor = new FQLVisitor(serviceProvider.GetRequiredService<IStateManager>());
+    FQLVisitor visitor = new FQLVisitor(grammarName);
     visitor.Visit(tree);
-    Console.WriteLine("Dumping Symbols");
-    Console.WriteLine("---------------");
+    //Console.WriteLine("Dumping Symbols");
+    //Console.WriteLine("---------------");
     //FQLVisitor.SymbolTable.Dump();
 
 }

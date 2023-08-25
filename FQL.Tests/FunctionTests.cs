@@ -6,7 +6,7 @@ namespace FQL.Tests;
 [TestClass]
 public class FunctionCallTests
 {
-    private IStateManager _stateManager;
+    private IStateManager _stateManager = null!;
     [TestInitialize]
     public void Init()
     {
@@ -35,7 +35,7 @@ public class FunctionCallTests
             "return call TestFunc(\"Hello\",\"World\"); ");
 
         var context = parser.program();
-        FQLVisitor visitor = new FQLVisitor(_stateManager);
+        FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
 
         Assert.AreEqual(result, "Hello World");

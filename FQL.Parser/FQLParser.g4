@@ -30,7 +30,13 @@ statement
    | whileLoop
    | doWhileLoop SEMICOLON
    | breakStatement SEMICOLON
+   | callapiStatement SEMICOLON
    ;
+
+callapiStatement
+    : OPEN_PARENS  identifierOrString CLOSE_PARENS
+    ;
+
 
 breakStatement
     : BREAK 
@@ -38,7 +44,10 @@ breakStatement
 printStatement
     : PRINT printParams
     ;
-
+identifierOrString
+    : string
+    | identifier
+    ;
 printParams
     : string                                    # printString
     | identifier                                # printIdentifier
