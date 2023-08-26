@@ -51,8 +51,8 @@ identifierOrString
     | identifier
     ;
 printParams
-    : string                                    # printString
-    | identifier                                # printIdentifier
+    : string                                                # printString
+    | identifier                                            # printIdentifier
     ;
 
 assignment
@@ -147,27 +147,31 @@ expressionList
 
 
 expression
-    : mulDivExpr (( PLUS | MINUS ) mulDivExpr)*  # AdditiveExpr
+    : mulDivExpr (( PLUS | MINUS ) mulDivExpr)*             # AdditiveExpr
     ;
 
 mulDivExpr
-    : powExpr ((ASTERISK | DIVIDE) powExpr)*   # MultiplicativeExpr
+    : powExpr ((ASTERISK | DIVIDE) powExpr)*                # MultiplicativeExpr
     ;
     
 powExpr
-    : atom (CARET powExpr)?                    # ExponentationExpr
+    : atom (CARET powExpr)?                                 # ExponentationExpr
     ;
 
 atom
-   : b = boolean                                # BoolAtom
-   | i = integer                                # IntAtom
-   | f = FLOAT                                   # FloatAtom
-   | OPEN_PARENS? cr = callStatement CLOSE_PARENS? # FunctionCallAtom               //Match this first over identifier/expression
-   | OPEN_PARENS expression CLOSE_PARENS        # ParenExpr
-   | string                                     # stringAtom
-   | id = identifier                            # IdentifierAtom
-   | g = getStatement                           # GetAtom
+   : b = boolean                                            # BoolAtom
+   | i = integer                                            # IntAtom
+   | f = FLOAT                                              # FloatAtom
+   | OPEN_PARENS? complexAtomPart CLOSE_PARENS?             # complexAtom
+   | OPEN_PARENS expression CLOSE_PARENS                    # ParenExpr
+   | string                                                 # stringAtom
+   | id = identifier                                        # IdentifierAtom
    ;
+
+complexAtomPart
+    : callStatement                                         # FunctionCallAtom 
+    | getStatement                                          # GetAtom
+    ;
 
 boolean
     : ( TRUE | FALSE )
@@ -182,13 +186,13 @@ operator
    ;
 
 identifier
-   : ID                                         # ident
-   | pre=(OP_INC | OP_DEC)? ID post=(OP_INC | OP_DEC)?                    # postIncDecIdent
+   : ID                                                     # ident
+   | pre=(OP_INC | OP_DEC)? ID post=(OP_INC | OP_DEC)?      # postIncDecIdent
    ;
 
 string
-    : interpolatedString                        # InterpolationString
-    | stringLiteral                             # StrLiteral
+    : interpolatedString                                    # InterpolationString
+    | stringLiteral                                         # StrLiteral
     ;
 
 stringLiteral

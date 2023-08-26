@@ -18,7 +18,6 @@ public partial class FQLVisitor
 
             var response = httpClient.GetAsync(url);
             var content = response.Result.Content.ReadAsStringAsync().Result;
-            Console.WriteLine(content);
             return content;
         }
         catch (HttpRequestException e)

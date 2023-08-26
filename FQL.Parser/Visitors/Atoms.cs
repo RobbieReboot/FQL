@@ -63,6 +63,8 @@ public partial class FQLVisitor
         return result;
     }
 
+    
+    // Complex atoms as opposed to primitives
     public override object VisitFunctionCallAtom(FQLParser.FunctionCallAtomContext context)
     {
         var result = Visit(context.callStatement());
