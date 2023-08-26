@@ -1,3 +1,6 @@
+var forecast = get("https://wa-fqlservice-dev-uksouth-001.azurewebsites.net/weatherforecast");
+
+
 // Test for nested calling
 function TestHello(h,w) {
 	print $"{h} {w}";
@@ -10,14 +13,14 @@ function TestFunction1(incoming1) {
 
 	//Call function from function to test scoped symbols.
 
-	call TestFunction2(newVar);
+	TestFunction2(newVar);
 	return 45;
 }
 
 function TestFunction2(incoming2) {
 	print "In TestFunction2";
 	print $"parameter {incoming2}";
-	call TestFunction3("Hello","World");
+	TestFunction3("Hello","World");
 }
 
 function TestFunction3(h,w) {
@@ -51,20 +54,34 @@ do {
 } 
 while(x!=0);
 
-print "Calling TestHello(\"Hello\",\"World\")";
-call TestHello((call GetHello()),"World");
+//Test multi line string literals (with interpolation)
+var h = "Hello";
+var w = "World";
+
+var multi = $"a 
+Multi 
+Line
+{h} {w}
+string";
+
+print "---------- Multiline START --------------";
+print multi;
+print "---------- Multiline END   --------------";
+
+print "Calling TestHello(GetHello(),\"World\") - nested function calls";
+TestHello((GetHello()),"World");
 
 print "Calling TestFunction(MyVar0)!";
-var MyVar0 = "Var in GlobalScope";
+var MyVar0 = "a var in GlobalScope";
 
-var returnedVal = call TestFunction1(MyVar0);			
+var returnedVal = TestFunction1(MyVar0);			
 print $"TestFunction1 returned {returnedVal}";
 
 var myval = 1;
 if ( myval == 1 ) {
 	print "IN IF!"; 
 	print "If is TRUE!"; 
-	return true;
+//	return true;
 }
 else
 {

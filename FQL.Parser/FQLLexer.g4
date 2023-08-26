@@ -67,11 +67,9 @@ DO
 BREAK
 	: 'break'
 	;
-CALLAPI
-	: 'callapi'
+GET
+	: 'get'
 	;
-
-
 
 // Interpolation String
 INTERPOLATED_STRING_START   : '$"' -> pushMode(INTERPOLATED_STRING_MODE) ;
@@ -81,11 +79,11 @@ mode INTERPOLATED_STRING_MODE;		// REMEMBER : THIS IS A NEW LEXER CONTEXT - ALL 
 STRING_END                 : '"' -> popMode ;
 INTERPOLATION_START        : '{' -> pushMode(INTERPOLATION_MODE) ;
 STRING_CONTENT             : ~["{}]+ ;  // Everything except " and { and }
+NEWLINE					   : '\r'? '\n';
 
 mode INTERPOLATION_MODE;
 
 INTERPOLATION_END          : '}' -> popMode ;
-
 INTERPOLATION_ID           : [a-zA-Z_][a-zA-Z0-9_]* ;  // For ID recognition within interpolation
 
 // ID token already captures the variable name pattern, so we don't need a separate VAR_NAME rule.
@@ -130,11 +128,6 @@ REL_OP
 
 LT:							'<';
 GT:							'>';
-
-
-//STRING
-//	: '"' (~["\\\r\n])* '"'
-//	;
 
 STRING : '"' ( ESCAPE_SEQUENCE | ~('\\' | '"') )* '"' ;
 

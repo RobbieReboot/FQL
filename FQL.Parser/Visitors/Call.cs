@@ -12,14 +12,13 @@ public partial class FQLVisitor
         }
         // Create call stack prologue
 
-//        var functionCallStack = new Stack<KeyValuePair<string, FQLParser.FunctionDefinitionContext>>(128);
         _stateManager.FunctionCallStack.Push(new KeyValuePair<string,FQLParser.FunctionDefinitionContext>(functionName, _stateManager.FunctionDefinitions[functionName]));
 
         // Create a new scope for the function
         var callingScope = _stateManager.SymbolTable.CurrentScope;
         // open new scope for function scope.
 
-        // Accumulate variables that will be visible inside the function scope
+        // Accumulate variables that will be visible inside the function scope (kind of pretend stack frame)
         Dictionary<string, object?> functionScope = new Dictionary<string, object?>();
         
         // Only fill the function scope "stack" if there are actual parameters.

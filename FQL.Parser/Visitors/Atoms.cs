@@ -69,6 +69,9 @@ public partial class FQLVisitor
         return result;
     }
 
-
-
+    public override object VisitGetAtom(FQLParser.GetAtomContext context)
+    {
+        var result = Visit(context.getStatement());
+        return result;
+    }
 }

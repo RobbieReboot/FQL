@@ -25,18 +25,20 @@ statement
    | if 
    | return 
    | functionDefinition
-   | callStatement SEMICOLON
+   | callStatement SEMICOLON                    //NO keyword, just func();
    | dumpStatement
    | whileLoop
    | doWhileLoop SEMICOLON
    | breakStatement SEMICOLON
-   | callapiStatement SEMICOLON
+   | getStatement SEMICOLON
    ;
 
-callapiStatement
-    : OPEN_PARENS  identifierOrString CLOSE_PARENS
+getStatement
+    : GET OPEN_PARENS getParams CLOSE_PARENS
     ;
-
+getParams
+    : expression
+    ;
 
 breakStatement
     : BREAK 
@@ -90,7 +92,7 @@ paramList
     ;
 
 callStatement
-    : CALL identifier OPEN_PARENS callParamList? CLOSE_PARENS 
+    : identifier OPEN_PARENS callParamList? CLOSE_PARENS 
     ;
 
 callParamList 
@@ -133,9 +135,6 @@ relationalExpr
     : expression REL_OP expression 
     ;
 
-
-
-
 identifierList
    : identifierList COMMA identifier
    | identifier
@@ -163,10 +162,11 @@ atom
    : b = boolean                                # BoolAtom
    | i = integer                                # IntAtom
    | f = FLOAT                                   # FloatAtom
+   | OPEN_PARENS? cr = callStatement CLOSE_PARENS? # FunctionCallAtom               //Match this first over identifier/expression
    | OPEN_PARENS expression CLOSE_PARENS        # ParenExpr
    | string                                     # stringAtom
    | id = identifier                            # IdentifierAtom
-   | OPEN_PARENS cr = callStatement CLOSE_PARENS # FunctionCallAtom
+   | g = getStatement                           # GetAtom
    ;
 
 boolean

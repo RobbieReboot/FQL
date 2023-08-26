@@ -14,8 +14,11 @@ public partial class FQLVisitor
     public override object VisitAdditiveExpr(FQLParser.AdditiveExprContext context)
     {
         var r = Visit(context.mulDivExpr(0));
-        if (r is bool | r is string)
+        if (!Utils.IsNumericTypeBasedOnRefValueType(r))
             return r;
+
+        //if (r is bool | r is string)
+        //    return r;
         double result = Convert.ToDouble(r);
 
         for (int i = 1; i < context.mulDivExpr().Length; i++)
@@ -33,8 +36,11 @@ public partial class FQLVisitor
     public override object VisitMultiplicativeExpr(FQLParser.MultiplicativeExprContext context)
     {
         var r = Visit(context.powExpr(0));
-        if (r is bool || r is string)
+        //if its NOT numeric, return it up the chain.
+        if (!Utils.IsNumericTypeBasedOnRefValueType(r))
             return r;
+        //if (r is bool || r is string)
+        //    return r;
 
         var result = Convert.ToDouble(r);
         for (int i = 1; i < context.powExpr().Length; i++)
