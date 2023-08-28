@@ -7,8 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 //"Data Source=.\;Integrated Security=SSPI;Initial Catalog=FormsMiddlewareDevUAT;MultipleActiveResultSets=True;app=LINQPad;Encrypt=true;TrustServerCertificate=true"
 try
 {
-    var grammarName = "FQLTest.fql";
-    var fqlProgram= File.ReadAllText(grammarName);
+//    var grammarName = "FQLTest.fql";
+    var grammarName = "FQLJsonTests.fql";
+    var fqlProgram = File.ReadAllText(grammarName);
 
     var lexer = new FQLLexer(new AntlrInputStream(fqlProgram));
     var tokens = new CommonTokenStream(lexer);

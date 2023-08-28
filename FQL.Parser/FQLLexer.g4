@@ -129,11 +129,21 @@ REL_OP
 LT:							'<';
 GT:							'>';
 
-STRING : '"' ( ESCAPE_SEQUENCE | ~('\\' | '"') )* '"' ;
+/*
+STRING 
+	: ( '"' ( ESCAPE_SEQUENCE | ~('\\' | '"' | '\r' | '\n' ) | '""' )* '"' )
+    | ( '\'' ( ESCAPE_SEQUENCE | ~('\\' | '\'' | '\r' | '\n' ) | '\'\'' )* '\'' );
+*/
+
+STRING 
+    : ( '"'  (~["\r\n] | '""' | ESCAPE_SEQUENCE | '\r'? '\n')+ '"'
+      | '\'' (~['\r\n] | '\'\'' | ESCAPE_SEQUENCE | '\r'? '\n')+ '\'' )
+    ;
 
 ESCAPE_SEQUENCE
-  : '\\' ('b' | 't' | 'n' | 'f' | 'r' | '"' | '\'' | '\\')
-  ;
+	: '\\' ('b' | 't' | 'n' | 'f' | 'r' | '"' | '\'' | '\\')
+	;
+ 
 ID
 	: [a-zA-Z_][a-zA-Z0-9_]*
 	;

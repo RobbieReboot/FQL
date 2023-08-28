@@ -1,0 +1,106 @@
+var forecast = get("https://wa-fqlservice-dev-uksouth-001.azurewebsites.net/weatherforecast");
+print forecast;
+
+/*
+Sample from the Weather forecast endpoint.
+[
+  {
+    "date": "2023-08-27T16:32:31.1886994+00:00",
+    "temperatureC": 38,
+    "temperatureF": 100,
+    "summary": "Freezing"
+  },
+  {
+    "date": "2023-08-28T16:32:31.1887438+00:00",
+    "temperatureC": 49,
+    "temperatureF": 120,
+    "summary": "Scorching"
+  },
+  {
+    "date": "2023-08-29T16:32:31.1887445+00:00",
+    "temperatureC": 41,
+    "temperatureF": 105,
+    "summary": "Balmy"
+  },
+  {
+    "date": "2023-08-30T16:32:31.1887447+00:00",
+    "temperatureC": 28,
+    "temperatureF": 82,
+    "summary": "Mild"
+  },
+  {
+    "date": "2023-08-31T16:32:31.1887449+00:00",
+    "temperatureC": 35,
+    "temperatureF": 94,
+    "summary": "Sweltering"
+  }
+]
+
+*/
+
+var temp1 = forecast[0].temperatureC;
+print $"Temperature forecast[0].temperatureC = {temp1}";
+
+
+/*
+{
+    "status": "Healthy",
+    "totalDuration": "00:00:00.0322611",
+    "entries": {
+        "FQLService liveness": {
+            "data": {},
+            "description": "Service execution is healthy.",
+            "duration": "00:00:00.0306582",
+            "status": "Healthy",
+            "tags": [
+                "web-service-check"
+            ]
+        },
+        "sql-server-connection-check": {
+            "data": {},
+            "description": "The SQL server Connection is healthy.",
+            "duration": "00:00:00.0000584",
+            "status": "Healthy",
+            "tags": [
+                "sql-connection-check"
+            ]
+        },
+        "sql-server-operation-check": {
+            "data": {},
+            "description": "SQL Server operations are healthy.",
+            "duration": "00:00:00.0024768",
+            "status": "Healthy",
+            "tags": [
+                "sql-operation-check"
+            ]
+        },
+        "FQLServiceContext check": {
+            "data": {},
+            "duration": "00:00:00.0036429",
+            "status": "Healthy",
+            "tags": [
+                "efcontext-check"
+            ]
+        },
+        "FQLServiceContext Custom Check": {
+            "data": {},
+            "description": "The database context's connection is healthy.",
+            "duration": "00:00:00.0001761",
+            "status": "Healthy",
+            "tags": [
+                "efcontext-db-check"
+            ]
+        }
+    }
+}
+*/
+
+var healthCheck = get("https://wa-fqlservice-dev-uksouth-001.azurewebsites.net/health-check");
+
+//var h1 = healthCheck.entries["FQLService liveness"].description;
+//print $"Health FQLService liveness description :  {h1}";
+var h1 = healthCheck.entries["FQLService liveness"].tags[0];
+print $"{h1}";
+var h2 = healthCheck.entries["FQLServiceContext Custom Check"].tags[0];
+print $"{h2}";
+//print $"healthCheck.entries['FQLService liveness'].tags[0] = {h1}";

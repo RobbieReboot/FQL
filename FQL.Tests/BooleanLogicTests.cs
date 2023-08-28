@@ -11,8 +11,9 @@ public class BooleanLogicTests
     [TestInitialize]
     public void Init()
     {
-        using var serviceProvider = ServiceManager.BuildServiceProvider();
-        _stateManager = serviceProvider.GetRequiredService<IStateManager>();
+
+        ServiceManager.BuildServiceProvider();
+        _stateManager = ServiceManager.ServiceProvider.GetRequiredService<IStateManager>();
     }
 
     private FQLParser Arrange(string text)

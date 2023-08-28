@@ -10,18 +10,19 @@ namespace FQL.Parser
     public partial class FQLVisitor : FQLParserBaseVisitor<object>
     {
         private readonly IStateManager _stateManager;
-        private IServiceProvider _serviceProvider;
+
         public FQLVisitor(string grammarName = "")
         {
-            _serviceProvider = ServiceManager.BuildServiceProvider();
-            _stateManager = _serviceProvider.GetRequiredService<IStateManager>();
+            _stateManager = ServiceManager.ServiceProvider.GetRequiredService<IStateManager>();
 
-            _stateManager.GrammarName = grammarName;
+            StateManager.GrammarName = grammarName;
         }
+
+        public IStateManager StateManager => _stateManager;
 
         public void SetGrammarName(string grammarName)
         {
-            _stateManager.GrammarName = grammarName;
+            StateManager.GrammarName = grammarName;
         }
 
         private bool _hasReturned = false;

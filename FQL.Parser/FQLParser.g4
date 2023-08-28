@@ -159,18 +159,31 @@ powExpr
     ;
 
 atom
-   : b = boolean                                            # BoolAtom
+   : id = identifier                                        # IdentifierAtom
+   | b = boolean                                            # BoolAtom
    | i = integer                                            # IntAtom
    | f = FLOAT                                              # FloatAtom
-   | OPEN_PARENS? complexAtomPart CLOSE_PARENS?             # complexAtom
    | OPEN_PARENS expression CLOSE_PARENS                    # ParenExpr
    | string                                                 # stringAtom
-   | id = identifier                                        # IdentifierAtom
+   | OPEN_PARENS? complexAtomPart CLOSE_PARENS?             # complexAtom
    ;
 
 complexAtomPart
     : callStatement                                         # FunctionCallAtom 
     | getStatement                                          # GetAtom
+    | objectAccess                                          # ObjectAccessAtom
+    ;
+
+objectAccess
+    : jsonPath
+    ;
+
+jsonPath 
+    :   segment (DOT segment)*
+    ;
+
+segment
+    : ID (OPEN_BRACKET (INTEGER | STRING) CLOSE_BRACKET)?
     ;
 
 boolean

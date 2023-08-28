@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using FQL.Parser;
 
 public abstract class FQLParserBase : Parser
 {

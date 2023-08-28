@@ -22,6 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="FQLJsonTests.fql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="FQLTest.fql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

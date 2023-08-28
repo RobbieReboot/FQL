@@ -4,7 +4,7 @@ public partial class FQLVisitor
 {
     public override object VisitWhileLoop(FQLParser.WhileLoopContext context)
     {
-        _stateManager.LoopBreakStack.Push(false);
+        StateManager.LoopBreakStack.Push(false);
 
         // to handle breaks in the middle of a loop, we need to manually iterate across the while loops children
 
@@ -15,14 +15,14 @@ public partial class FQLVisitor
             {
                 Visit(stmt);
 
-                if (_stateManager.LoopBreakStack.Peek()) // Check for break after every statement
+                if (StateManager.LoopBreakStack.Peek()) // Check for break after every statement
                     break;
             }
 
-            if (_stateManager.LoopBreakStack.Peek()) // Check for break after loop's statement block
+            if (StateManager.LoopBreakStack.Peek()) // Check for break after loop's statement block
                 break;
         }
-        _stateManager.LoopBreakStack.Pop();
+        StateManager.LoopBreakStack.Pop();
         return null;
     }
 }

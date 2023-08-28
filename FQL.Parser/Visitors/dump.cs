@@ -6,7 +6,7 @@ public partial class FQLVisitor
     {
         if (context.SYMBOLS() != null)
         {
-            _stateManager.SymbolTable.Dump();
+            StateManager.SymbolTable.Dump();
         }
 
         if (context.CALLSTACK() != null)
@@ -19,16 +19,16 @@ public partial class FQLVisitor
 
     public void DumpCallStack()
     {
-        var reversedStack = _stateManager.FunctionCallStack.ToArray().Reverse();
+        var reversedStack = StateManager.FunctionCallStack.ToArray().Reverse();
 
         Console.WriteLine("| File                                   | Line   | Function                               |");
         Console.WriteLine("|----------------------------------------|--------|----------------------------------------|");
         foreach (var fn in reversedStack)
         {
             FQLParser.FunctionDefinitionContext context = fn.Value;
-            string currentFn = _stateManager.FunctionCallStack.Peek().Key == fn.Key ? "<--" : "   ";
+            string currentFn = StateManager.FunctionCallStack.Peek().Key == fn.Key ? "<--" : "   ";
 
-            Console.WriteLine($"| {_stateManager.GrammarName,-38} | {context.Start.Line,6} | {fn.Key,-35}{currentFn} |");
+            Console.WriteLine($"| {StateManager.GrammarName,-38} | {context.Start.Line,6} | {fn.Key,-35}{currentFn} |");
         }
     }
 }

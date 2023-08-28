@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Text.Json;
 
 namespace FQL.Parser;
 
@@ -18,7 +19,10 @@ public partial class FQLVisitor
 
             var response = httpClient.GetAsync(url);
             var content = response.Result.Content.ReadAsStringAsync().Result;
-            return content;
+
+            JsonDocument jsonDoc = JsonDocument.Parse(content);
+
+            return jsonDoc;
         }
         catch (HttpRequestException e)
         {

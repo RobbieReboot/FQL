@@ -15,7 +15,7 @@ public partial class FQLVisitor
         if (context.expression() != null)
         {
             val = Visit(context.expression());
-        }
+         }
 
         if (context.@string() != null)
         {
@@ -30,12 +30,12 @@ public partial class FQLVisitor
         //if the VAR keyword is tokenised, its a declaration
         if (context.ass != null)
         {
-            _stateManager.SymbolTable.Add(name, val);
+            StateManager.SymbolTable.Add(name, val);
         }
         else
         {
             //otherwise its an assignment
-            _stateManager.SymbolTable[name] = val;
+            StateManager.SymbolTable[name] = val;
         }
         return val;
     }
