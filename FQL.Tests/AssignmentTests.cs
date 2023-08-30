@@ -73,7 +73,18 @@ public class AssignmentTests
         var context = parser.assignment();
         FQLVisitor visitor = new FQLVisitor();
         var result = visitor.Visit(context);
-
         Assert.AreEqual("Hello World", _stateManager.SymbolTable["result"]);
     }
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentException))]
+    public void UnknownInterpolationSymbolShouldThrowException()
+    {
+        FQLParser parser = Arrange("var result = $\"{Var1x} {Var2}\";");
+
+        var context = parser.assignment();
+        FQLVisitor visitor = new FQLVisitor();
+        var result = visitor.Visit(context);            //Exception
+    }
+
 }

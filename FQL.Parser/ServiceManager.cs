@@ -15,7 +15,13 @@ namespace FQL.Parser
         private static ServiceProvider _serviceProvider;
 
         public static ServiceProvider ServiceProvider=> _serviceProvider;
-    
+
+
+        static ServiceManager()
+        {
+            BuildServiceProvider();
+        }
+
         public static ServiceProvider BuildServiceProvider()
         {
             var _serviceCollection = new ServiceCollection();

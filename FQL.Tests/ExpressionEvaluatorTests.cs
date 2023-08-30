@@ -97,7 +97,17 @@ public class ExpressionEvaluatorTest
         Assert.AreEqual(result, 100.0);
     }
 
-    
+    [TestMethod]
+    public void ExpressionShouldUseVariablesExpression()
+    {
+        FQLParser parser = Arrange("10*(5+var1)");
+        _stateManager.SymbolTable.Add("var1",5);
+        var context = parser.expression();
+        FQLVisitor visitor = new FQLVisitor();
+        double result = (double)visitor.Visit(context);
+
+        Assert.AreEqual(result, 100.0);
+    }
 
 
 

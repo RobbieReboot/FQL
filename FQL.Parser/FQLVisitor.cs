@@ -11,10 +11,9 @@ namespace FQL.Parser
     {
         private readonly IStateManager _stateManager;
 
-        public FQLVisitor(string grammarName = "")
+        public FQLVisitor(string grammarName = "Unknown")
         {
             _stateManager = ServiceManager.ServiceProvider.GetRequiredService<IStateManager>();
-
             StateManager.GrammarName = grammarName;
         }
 

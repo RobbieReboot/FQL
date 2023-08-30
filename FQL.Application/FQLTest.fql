@@ -1,5 +1,14 @@
-var forecast = get("https://wa-fqlservice-dev-uksouth-001.azurewebsites.net/weatherforecast");
+//var forecast = get("https://wa-fqlservice-dev-uksouth-001.azurewebsites.net/weatherforecast");
 
+var healthCheck = get("https://wa-fqlservice-dev-uksouth-001.azurewebsites.net/health-check");
+
+var h1 = healthCheck.entries["FQLService liveness"].description;
+print $"Health FQLService liveness description :  {h1}";
+var h2 = healthCheck.entries["FQLService liveness"].tags[0];
+print $"{h2}";
+var h3 = healthCheck.entries["FQLServiceContext Custom Check"].tags[0];
+print $"{h3}";
+//print $"healthCheck.entries['FQLService liveness'].tags[0] = {h1}";
 
 // Test for nested calling
 function TestHello(h,w) {

@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace FQL.Parser;
 
@@ -17,14 +18,25 @@ public partial class FQLVisitor
         foreach (var symbol in interpList)
         {
             var result = StateManager.SymbolTable.TryGetValue(symbol, out var value);
+            if (value is JsonDocument document)
+            {
+                //pretty printed Json string.
+                value = (Utils.PrettyPrintJson(document));
+            }
+
             if (result == true)
             {
                 interpolationString = interpolationString.Replace("{" + symbol + "}", value?.ToString());
             }
+
             else
             {
-                interpolationString =
-                    interpolationString.Replace("{" + symbol + "}", "{" + $"{symbol} UNDEFINED" + "}");
+                throw new ArgumentException(Utils.CreateError(context, _stateManager.GrammarName,
+                    $"Unknown variable \"{symbol}\""));
+//                throw new ArgumentException($"{_stateManager.GrammarName} ({context.Start.Line},{context.Start.Column}) : Unknown variable \"{symbol}\"");
+                // or fail & just show undefined in place of symbol?
+                //interpolationString =
+                //    interpolationString.Replace("{" + symbol + "}", "{" + $"{symbol} UNDEFINED" + "}");
             }
         }
 

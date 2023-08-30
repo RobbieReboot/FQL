@@ -216,6 +216,7 @@ interpolatedString
     : INTERPOLATED_STRING_START ( STRING_CONTENT | interpolation )* STRING_END 
     ;
 
+// Remember the INTERPOLATION_ID is in a different lexer mode, so it doesn't compete
 interpolation     
     : INTERPOLATION_START INTERPOLATION_ID INTERPOLATION_END 
     ;

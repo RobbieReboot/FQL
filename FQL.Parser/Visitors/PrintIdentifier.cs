@@ -1,4 +1,6 @@
-﻿namespace FQL.Parser;
+﻿using System.Text.Json;
+
+namespace FQL.Parser;
 
 public partial class FQLVisitor
 {
@@ -6,7 +8,11 @@ public partial class FQLVisitor
     {
         var symbol = context.identifier().GetText();
         var result = StateManager.SymbolTable.TryGetValue(symbol, out object? value);
-        Console.WriteLine(value);
+        if (value is JsonDocument document)
+        {
+            //pretty print Json.
+            Console.WriteLine(Utils.PrettyPrintJson(document));
+        }
         return null;
     }
 }

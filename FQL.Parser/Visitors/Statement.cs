@@ -6,7 +6,7 @@ public partial class FQLVisitor
     {
         if (_hasReturned)
         {
-            Console.WriteLine($"{StateManager.GrammarName}({context.Start.Line},{context.Start.StartIndex}) : Error FQ0009 : Unreachable code {context.Start.Text}");
+            Console.WriteLine($"{_stateManager.GrammarName}({context.Start.Line},{context.Start.StartIndex}) : Error FQ0009 : Unreachable code {context.Start.Text}");
         }
         return base.VisitStatement(context);
     }

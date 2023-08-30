@@ -1,5 +1,5 @@
 var forecast = get("https://wa-fqlservice-dev-uksouth-001.azurewebsites.net/weatherforecast");
-print forecast;
+print $"forecast = \n {forecast}";
 
 /*
 Sample from the Weather forecast endpoint.
@@ -43,6 +43,7 @@ print $"Temperature forecast[0].temperatureC = {temp1}";
 
 
 /*
+Sample from Health endpoint.
 {
     "status": "Healthy",
     "totalDuration": "00:00:00.0322611",
@@ -97,10 +98,10 @@ print $"Temperature forecast[0].temperatureC = {temp1}";
 
 var healthCheck = get("https://wa-fqlservice-dev-uksouth-001.azurewebsites.net/health-check");
 
-//var h1 = healthCheck.entries["FQLService liveness"].description;
-//print $"Health FQLService liveness description :  {h1}";
-var h1 = healthCheck.entries["FQLService liveness"].tags[0];
+var h1 = healthCheck.entries["FQLService liveness"].description;
+print $"Health FQLService liveness description :  {h1}";
+
+h1 = healthCheck.entries["FQLService liveness"].tags[0];
 print $"{h1}";
 var h2 = healthCheck.entries["FQLServiceContext Custom Check"].tags[0];
 print $"{h2}";
-//print $"healthCheck.entries['FQLService liveness'].tags[0] = {h1}";

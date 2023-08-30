@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Antlr4.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace FQL.Parser
@@ -45,5 +47,57 @@ namespace FQL.Parser
             return false;
         }
 
+        // converts the Json element into its underlying type held in a dynamic.
+        public static dynamic ConvertToDynamic(JsonElement element)
+        {
+            switch (element.ValueKind)
+            {
+                case JsonValueKind.Number:
+                    return element.GetDecimal();
+                case JsonValueKind.String:
+                    return element.GetString();
+                case JsonValueKind.True:
+                    return true;
+                case JsonValueKind.False:
+                    return false;
+                case JsonValueKind.Object:
+                    var jsonObject = new Dictionary<string, dynamic>();
+                    foreach (var property in element.EnumerateObject())
+                    {
+                        jsonObject.Add(property.Name, ConvertToDynamic(property.Value));
+                    }
+                    return jsonObject;
+                case JsonValueKind.Array:
+                    var jsonArray = new List<dynamic>();
+                    foreach (var item in element.EnumerateArray())
+                    {
+                        jsonArray.Add(ConvertToDynamic(item));
+                    }
+                    return jsonArray;
+                default:
+                    return null;
+            }
+        }
+
+        public static string CreateError(ParserRuleContext context, string grammarName, string message)
+        {
+            return $"{grammarName} ({context.Start.Line},{context.Start.Column}) : {message}";
+        }
+
+        public static string PrettyPrintJson(JsonDocument document)
+        {
+            var options = new JsonWriterOptions
+            {
+                Indented = true, MaxDepth = 8, SkipValidation = true
+            };
+
+            var buffer = new System.Buffers.ArrayBufferWriter<byte>();
+            using (var writer = new Utf8JsonWriter(buffer, options))
+            {
+                document.WriteTo(writer);
+            }
+
+            return System.Text.Encoding.UTF8.GetString(buffer.WrittenSpan);
+        }
     }
 }

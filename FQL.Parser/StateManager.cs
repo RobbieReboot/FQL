@@ -31,5 +31,10 @@ namespace FQL.Parser
 
         public string GrammarName { get; set; }
 
+        public StateManager()
+        {
+            GrammarName = "Unknown";
+        }
+
     }
 }

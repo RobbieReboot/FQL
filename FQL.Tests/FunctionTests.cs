@@ -33,7 +33,7 @@ public class FunctionCallTests
     {
         FQLParser parser = Arrange(
             "function TestFunc(h,w) { return $\"{h} {w}\"; }" +
-            "return call TestFunc(\"Hello\",\"World\"); ");
+            "return TestFunc(\"Hello\",\"World\"); ");
 
         var context = parser.program();
         FQLVisitor visitor = new FQLVisitor();

@@ -1,7 +1,10 @@
-﻿using Antlr4.Runtime.Tree;
+﻿using System.CodeDom;
+using Antlr4.Runtime.Tree;
 using InvalidOperationException = System.InvalidOperationException;
 
 using System.Net.Http;
+using System.Runtime.InteropServices.JavaScript;
+using System.Security.Policy;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -17,15 +20,30 @@ public partial class FQLVisitor
         var sym = StateManager.SymbolTable[propertyName];
         if (sym == null)
         {
-            throw new ArgumentNullException($"{propertyName} does not exist.");
+            throw new ArgumentNullException(Utils.CreateError(context, _stateManager.GrammarName,$"{propertyName} does not exist."));
         }
 
-        JsonDocument jsonDoc = null;
+        JsonDocument? jsonDoc = null;
 
         if (sym is string)
-            jsonDoc = JsonDocument.Parse(sym as string);   
+        {
+            try
+            {
+                jsonDoc = JsonDocument.Parse((string)sym);
+            }
+            catch ( Exception ex)
+            {
+                throw new ArgumentException(Utils.CreateError(context, _stateManager.GrammarName,
+                    $"{propertyName} is not a valid Json fragment. {ex.Message}"));
+            }
+        }
+
         if (sym is JsonDocument)                                //probaby came from a get statement
             jsonDoc = sym as JsonDocument;
+
+        if (jsonDoc == null)
+            throw new ArgumentException(Utils.CreateError(context, _stateManager.GrammarName,
+                $"{propertyName} is not a valid Json fragment."));
 
         JsonElement current = jsonDoc.RootElement;
 
@@ -48,13 +66,13 @@ public partial class FQLVisitor
             case JsonValueKind.Object:
                 throw new NotImplementedException("Object Arrays in JSON aren't implemented.");
             case JsonValueKind.Array:
-                object[] numbers = JsonSerializer.Deserialize<object[]>(current.GetRawText());
-                return numbers;
+                var result = current.EnumerateArray().Select(o => Utils.ConvertToDynamic(o));
+                return result.ToArray();
             case JsonValueKind.String:
                 string jsonString = current.GetString();
                 return jsonString;
             case JsonValueKind.Number:
-                double jsonNumber = current.GetDouble();
+                dynamic jsonNumber = Utils.ConvertToDynamic(current);
                 return jsonNumber;
             case JsonValueKind.True:
             case JsonValueKind.False:

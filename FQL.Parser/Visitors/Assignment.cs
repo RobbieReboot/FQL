@@ -1,4 +1,6 @@
-﻿namespace FQL.Parser;
+﻿using System.Text.RegularExpressions;
+
+namespace FQL.Parser;
 
 public partial class FQLVisitor
 {
@@ -20,6 +22,7 @@ public partial class FQLVisitor
         if (context.@string() != null)
         {
             val = Visit(context.@string());
+            val = Regex.Unescape((string)val);
         }
 
         if (context.callStatement() != null)
