@@ -10,14 +10,18 @@ namespace FQL.Parser
     public partial class FQLVisitor : FQLParserBaseVisitor<object>
     {
         private readonly IStateManager _stateManager;
+        private readonly IErrorManager _errorManager;
 
         public FQLVisitor(string grammarName = "Unknown")
         {
             _stateManager = ServiceManager.ServiceProvider.GetRequiredService<IStateManager>();
+            _errorManager = ServiceManager.ServiceProvider.GetRequiredService<IErrorManager>();
+
             StateManager.GrammarName = grammarName;
         }
 
         public IStateManager StateManager => _stateManager;
+        public IErrorManager ErrorManager => _errorManager;
 
         public void SetGrammarName(string grammarName)
         {

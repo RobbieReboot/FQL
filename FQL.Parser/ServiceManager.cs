@@ -16,7 +16,6 @@ namespace FQL.Parser
 
         public static ServiceProvider ServiceProvider=> _serviceProvider;
 
-
         static ServiceManager()
         {
             BuildServiceProvider();
@@ -26,6 +25,7 @@ namespace FQL.Parser
         {
             var _serviceCollection = new ServiceCollection();
             _serviceCollection.AddSingleton<IStateManager, StateManager>();
+            _serviceCollection.AddSingleton<IErrorManager, ErrorManager>();
 
             _serviceProvider =_serviceCollection.BuildServiceProvider();
             return _serviceProvider;

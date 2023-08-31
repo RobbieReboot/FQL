@@ -61,7 +61,7 @@ namespace FQL.Parser
             Console.WriteLine($"Symbols ({_scopedSymbols.Count,2} scopes)");
             Console.WriteLine( "-------------------");
             Console.WriteLine("| Scope  | Symbol                        | Value                                                      |");
-//            Console.WriteLine("|--------|-------------------------------|-----------------------------------------------------------|");
+//          Console.WriteLine("|--------|-------------------------------|-----------------------------------------------------------|");
             foreach (var table in reversedStack)
             {
                 Console.WriteLine("|--------|-------------------------------|------------------------------------------------------------|");

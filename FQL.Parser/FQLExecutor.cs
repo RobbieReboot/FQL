@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
 using Antlr4.Runtime;
+using Antlr4.Runtime.Tree.Pattern;
 
 namespace FQL.Parser
 {
@@ -32,7 +33,8 @@ namespace FQL.Parser
             FQLParser FQLParser = new FQLParser(tokens);
             var tree = FQLParser.program();
             FQLVisitor visitor = new FQLVisitor(GrammarName);
-
+            visitor.ErrorManager.Add(new FQLError(new ParserRuleContext(){Start = new TokenTagToken("program",0){Line = 0,Column = 0}}, GrammarName,
+                $"Starting Execution on {DateTime.Now}", FQLErrorSeverity.Info));
             try
             {
                 visitor.Visit(tree);
@@ -41,6 +43,9 @@ namespace FQL.Parser
             {
                 return false;
             }
+
+            if (visitor.ErrorManager.HasErrors(FQLErrorSeverity.Info))
+                visitor.ErrorManager.Show();
 
             return true;
         }
