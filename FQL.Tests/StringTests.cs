@@ -7,11 +7,12 @@ namespace FQL.Tests;
 public class StringTests
 {
     private IStateManager _stateManager = null!;
+    private IFQLVisitor _visitor = null!;
+
     [TestInitialize]
     public void Init()
     {
-        var serviceProvider = ServiceManager.BuildServiceProvider();
-        _stateManager = serviceProvider.GetRequiredService<IStateManager>();
+        _stateManager = TestAssemblyInit._serviceProvider.GetService<IStateManager>()!;
     }
 
     private FQLParser Arrange(string text)
@@ -23,6 +24,7 @@ public class StringTests
         FQLLexer fqlLexer = new FQLLexer(inputStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(fqlLexer);
         FQLParser fqlParser= new FQLParser(commonTokenStream);
+        _visitor = TestAssemblyInit._serviceProvider.GetService<IFQLVisitor>()!;
 
         return fqlParser;
     }
@@ -35,8 +37,7 @@ public class StringTests
         _stateManager.SymbolTable.Add("Var2", "World");
 
         var context = parser.@string();
-        FQLVisitor visitor = new FQLVisitor();
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         Assert.AreEqual(result, "Hello World");
     }
@@ -45,9 +46,8 @@ public class StringTests
     {
         FQLParser parser = Arrange("\"Hello World\";");
 
-        FQLVisitor visitor = new FQLVisitor();
         var context = parser.@string();
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         Assert.AreEqual("Hello World", result);
     }

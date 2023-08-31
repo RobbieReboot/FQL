@@ -12,8 +12,12 @@ namespace FQL.Parser
     public class FQLScript
     {
         private string GrammarName { get; set; }
-        public FQLScript() { }
-        public FQLScript(string name) => GrammarName = name;
+        private ServiceManager serviceManager { get; set; }
+        public FQLScript()
+        {
+            serviceManager = new ServiceManager();
+        }
+        public FQLScript(string name) : this() => GrammarName = name;
 
         public bool Execute()
         {
@@ -32,20 +36,22 @@ namespace FQL.Parser
 
             FQLParser FQLParser = new FQLParser(tokens);
             var tree = FQLParser.program();
-            FQLVisitor visitor = new FQLVisitor(GrammarName);
-            visitor.ErrorManager.Add(new FQLError(new ParserRuleContext(){Start = new TokenTagToken("program",0){Line = 0,Column = 0}}, GrammarName,
+            var _visitor = serviceManager.GetService<IFQLVisitor>();
+
+            //FQLVisitor visitor = new FQLVisitor(GrammarName);
+            _visitor.ErrorManager.Add(new FQLError(new ParserRuleContext(){Start = new TokenTagToken("program",0){Line = 0,Column = 0}}, GrammarName,
                 $"Starting Execution on {DateTime.Now}", FQLErrorSeverity.Info));
             try
             {
-                visitor.Visit(tree);
+                _visitor.Visit(tree);
             }
             catch (Exception ex)
             {
                 return false;
             }
 
-            if (visitor.ErrorManager.HasErrors(FQLErrorSeverity.Info))
-                visitor.ErrorManager.Show();
+            if (_visitor.ErrorManager.HasErrors(FQLErrorSeverity.Info))
+                _visitor.ErrorManager.Show();
 
             return true;
         }

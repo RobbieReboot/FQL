@@ -7,12 +7,12 @@ namespace FQL.Tests;
 public class AssignmentTests
 {
     private IStateManager _stateManager = null!;
+    private IFQLVisitor _visitor = null!;
+
     [TestInitialize]
     public void Init()
     {
-
-        ServiceManager.BuildServiceProvider();
-        _stateManager = ServiceManager.ServiceProvider.GetRequiredService<IStateManager>();
+        _stateManager = TestAssemblyInit._serviceProvider.GetService<IStateManager>()!;
     }
 
     
@@ -25,6 +25,7 @@ public class AssignmentTests
         FQLLexer fqlLexer = new FQLLexer(inputStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(fqlLexer);
         FQLParser fqlParser= new FQLParser(commonTokenStream);
+        _visitor = TestAssemblyInit._serviceProvider.GetService<IFQLVisitor>()!;
 
         return fqlParser;
     }
@@ -34,8 +35,7 @@ public class AssignmentTests
         FQLParser parser = Arrange("var aSymbol = \"something\"");
 
         var context = parser.assignment();
-        FQLVisitor visitor = new FQLVisitor();
-        visitor.Visit(context);
+        _visitor.Visit(context);
 
         Assert.AreEqual("something", _stateManager.SymbolTable["aSymbol"]);
     }
@@ -46,8 +46,7 @@ public class AssignmentTests
         FQLParser parser = Arrange("var result = 3+2");
 
         var context = parser.assignment();
-        FQLVisitor visitor = new FQLVisitor();
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         Assert.AreEqual(5.0, _stateManager.SymbolTable["result"]);
     }
@@ -57,8 +56,7 @@ public class AssignmentTests
         FQLParser parser = Arrange("var result = \"Hello World\";");
 
         var context = parser.assignment();
-        FQLVisitor visitor = new FQLVisitor();
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         Assert.AreEqual("Hello World", _stateManager.SymbolTable["result"]);
     }
@@ -71,8 +69,7 @@ public class AssignmentTests
         _stateManager.SymbolTable.Add("Var2", "World");
 
         var context = parser.assignment();
-        FQLVisitor visitor = new FQLVisitor();
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
         Assert.AreEqual("Hello World", _stateManager.SymbolTable["result"]);
     }
 
@@ -83,8 +80,7 @@ public class AssignmentTests
         FQLParser parser = Arrange("var result = $\"{Var1x} {Var2}\";");
 
         var context = parser.assignment();
-        FQLVisitor visitor = new FQLVisitor();
-        var result = visitor.Visit(context);            //Exception
+        var result = _visitor.Visit(context);            //Exception
     }
 
 }

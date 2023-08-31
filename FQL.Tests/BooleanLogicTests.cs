@@ -8,12 +8,13 @@ namespace FQL.Tests;
 public class BooleanLogicTests
 {
     private IStateManager _stateManager = null!;
+    private IFQLVisitor _visitor = null!;
+
     [TestInitialize]
     public void Init()
     {
 
-        ServiceManager.BuildServiceProvider();
-        _stateManager = ServiceManager.ServiceProvider.GetRequiredService<IStateManager>();
+        _stateManager = TestAssemblyInit._serviceProvider.GetService<IStateManager>()!;
     }
 
     private FQLParser Arrange(string text)
@@ -25,6 +26,7 @@ public class BooleanLogicTests
         FQLLexer fqlLexer = new FQLLexer(inputStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(fqlLexer);
         FQLParser fqlParser= new FQLParser(commonTokenStream);
+        _visitor = TestAssemblyInit._serviceProvider.GetService<IFQLVisitor>()!;
 
         return fqlParser;
     }
@@ -89,8 +91,7 @@ public class BooleanLogicTests
         FQLParser parser = Arrange(input);
 
         var context = parser.boolExpression();
-        FQLVisitor visitor = new FQLVisitor();
-        var actual= visitor.Visit(context);
+        var actual= _visitor.Visit(context);
 
         Assert.AreEqual(actual, expectedResult);
     }

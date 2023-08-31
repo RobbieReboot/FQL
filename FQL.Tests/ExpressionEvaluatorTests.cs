@@ -7,12 +7,12 @@ namespace FQL.Tests;
 public class ExpressionEvaluatorTest
 {
     private IStateManager _stateManager = null!;
+    private IFQLVisitor _visitor= null!;
+
     [TestInitialize]
     public void Init()
     {
-
-        ServiceManager.BuildServiceProvider();
-        _stateManager = ServiceManager.ServiceProvider.GetRequiredService<IStateManager>();
+        _stateManager = TestAssemblyInit._serviceProvider.GetService<IStateManager>()!;
     }
 
     private FQLParser Arrange(string text)
@@ -24,6 +24,7 @@ public class ExpressionEvaluatorTest
         FQLLexer fqlLexer = new FQLLexer(inputStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(fqlLexer);
         FQLParser fqlParser= new FQLParser(commonTokenStream);
+        _visitor = TestAssemblyInit._serviceProvider.GetService<IFQLVisitor>()!;
 
         return fqlParser;
     }
@@ -35,8 +36,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("3+2");
 
         var context = parser.expression();
-        FQLVisitor visitor = new FQLVisitor();
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         Assert.AreEqual(result, 5.0);
     }
@@ -46,8 +46,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("5-2");
 
         var context = parser.expression();
-        FQLVisitor visitor = new FQLVisitor();
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         Assert.AreEqual(result, 3.0);
     }
@@ -57,8 +56,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("5*2");
 
         var context = parser.expression();
-        FQLVisitor visitor = new FQLVisitor();
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         Assert.AreEqual(result, 10.0);
     }
@@ -68,8 +66,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("(3+5)*2+4");
 
         var context = parser.expression();
-        FQLVisitor visitor = new FQLVisitor();
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         Assert.AreEqual(result, 20.0);
     }
@@ -79,8 +76,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("3.5+2.5");
 
         var context = parser.expression();
-        FQLVisitor visitor = new FQLVisitor();
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         Assert.AreEqual(result, 6.0);
     }
@@ -91,8 +87,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("10*(5+5)");
 
         var context = parser.expression();
-        FQLVisitor visitor = new FQLVisitor();
-        double result = (double)visitor.Visit(context);
+        double result = (double)_visitor.Visit(context);
 
         Assert.AreEqual(result, 100.0);
     }
@@ -103,8 +98,7 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("10*(5+var1)");
         _stateManager.SymbolTable.Add("var1",5);
         var context = parser.expression();
-        FQLVisitor visitor = new FQLVisitor();
-        double result = (double)visitor.Visit(context);
+        double result = (double)_visitor.Visit(context);
 
         Assert.AreEqual(result, 100.0);
     }

@@ -10,25 +10,28 @@ namespace FQL.Parser
     /// <summary>
     /// Handles all the IoC  for the FQL parser.
     /// </summary>
-    public static class ServiceManager
+    public class ServiceManager
     {
-        private static ServiceProvider _serviceProvider;
+        private ServiceProvider _serviceProvider;
 
-        public static ServiceProvider ServiceProvider=> _serviceProvider;
+        public ServiceProvider ServiceProvider=> _serviceProvider;
 
-        static ServiceManager()
+        public ServiceManager()
         {
             BuildServiceProvider();
         }
 
-        public static ServiceProvider BuildServiceProvider()
+        public ServiceProvider BuildServiceProvider()
         {
             var _serviceCollection = new ServiceCollection();
             _serviceCollection.AddSingleton<IStateManager, StateManager>();
             _serviceCollection.AddSingleton<IErrorManager, ErrorManager>();
+            _serviceCollection.AddTransient<IFQLVisitor, FQLVisitor>();
 
             _serviceProvider =_serviceCollection.BuildServiceProvider();
             return _serviceProvider;
         }
+
+        public T GetService<T>() => ServiceProvider.GetRequiredService<T>();
     }
 }

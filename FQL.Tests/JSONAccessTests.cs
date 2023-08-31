@@ -7,11 +7,12 @@ namespace FQL.Tests;
 public class JSONAccessTests
 {
     private IStateManager _stateManager = null!;
+    private IFQLVisitor? _visitor =null!;
+
     [TestInitialize]
     public void Init()
     {
-        ServiceManager.BuildServiceProvider();
-        _stateManager = ServiceManager.ServiceProvider.GetRequiredService<IStateManager>();
+        _stateManager = TestAssemblyInit._serviceProvider.GetService<IStateManager>()!;
     }
 
     private FQLParser Arrange(string text)
@@ -23,6 +24,7 @@ public class JSONAccessTests
         FQLLexer fqlLexer = new FQLLexer(inputStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(fqlLexer);
         FQLParser fqlParser= new FQLParser(commonTokenStream);
+        _visitor = TestAssemblyInit._serviceProvider.GetService<IFQLVisitor>()!;
 
         return fqlParser;
     }
@@ -41,9 +43,8 @@ public class JSONAccessTests
         FQLParser parser = Arrange("jsonDoc.temperatureC");
 
         var context = parser.objectAccess();
-        FQLVisitor visitor = new FQLVisitor();
         _stateManager.SymbolTable.Add("jsonDoc", jsonFQL);
-        var result = visitor.Visit(context);
+        var result = _visitor!.Visit(context);
 
         //Note All returns are typed as double by default.
         Assert.AreEqual(result, 38m);
@@ -63,9 +64,8 @@ public class JSONAccessTests
         FQLParser parser = Arrange("jsonDoc.summary");
 
         var context = parser.objectAccess();
-        FQLVisitor visitor = new FQLVisitor();
         _stateManager.SymbolTable.Add("jsonDoc", jsonFQL);
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         //Note All returns are typed as double by default.
         Assert.AreEqual(result, "Freezing");
@@ -88,8 +88,7 @@ public class JSONAccessTests
         
         FQLParser parser = Arrange(jsonFQL);
         var context = parser.program();
-        FQLVisitor visitor = new FQLVisitor();
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         Assert.AreEqual(result,38.0);
     }
@@ -115,9 +114,8 @@ public class JSONAccessTests
         FQLParser parser = Arrange("jsonDoc[1].summary");
 
         var context = parser.objectAccess();
-        FQLVisitor visitor = new FQLVisitor();
         _stateManager.SymbolTable.Add("jsonDoc", jsonFQL);
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         //Note All returns are typed as double by default.
         Assert.AreEqual(result, "Scorching");
@@ -148,9 +146,8 @@ public class JSONAccessTests
         FQLParser parser = Arrange("jsonDoc[1].tags[1]");
 
         var context = parser.objectAccess();
-        FQLVisitor visitor = new FQLVisitor();
         _stateManager.SymbolTable.Add("jsonDoc", jsonFQL);
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         //Note All returns are typed as double by default.
         Assert.AreEqual(result, "tag v2");
@@ -181,9 +178,8 @@ public class JSONAccessTests
         FQLParser parser = Arrange("jsonDoc[1].tags");
 
         var context = parser.objectAccess();
-        FQLVisitor visitor = new FQLVisitor();
         _stateManager.SymbolTable.Add("jsonDoc", jsonFQL);
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         //Note All returns are typed as double by default.
         Assert.AreEqual(2,((object[])result).Length);
@@ -205,9 +201,8 @@ public class JSONAccessTests
         FQLParser parser = Arrange("jsonDoc[1].tags");
 
         var context = parser.objectAccess();
-        FQLVisitor visitor = new FQLVisitor();
         _stateManager.SymbolTable.Add("jsonDoc", jsonFQL);
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
     }
 
 

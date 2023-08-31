@@ -7,12 +7,12 @@ namespace FQL.Tests;
 public class FunctionCallTests
 {
     private IStateManager _stateManager = null!;
+    private IFQLVisitor _visitor = null!;
+
     [TestInitialize]
     public void Init()
     {
-
-        ServiceManager.BuildServiceProvider();
-        _stateManager = ServiceManager.ServiceProvider.GetRequiredService<IStateManager>();
+        _stateManager = TestAssemblyInit._serviceProvider.GetService<IStateManager>()!;
     }
 
     private FQLParser Arrange(string text)
@@ -24,6 +24,7 @@ public class FunctionCallTests
         FQLLexer fqlLexer = new FQLLexer(inputStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(fqlLexer);
         FQLParser fqlParser= new FQLParser(commonTokenStream);
+        _visitor = TestAssemblyInit._serviceProvider.GetService<IFQLVisitor>()!;
 
         return fqlParser;
     }
@@ -36,9 +37,25 @@ public class FunctionCallTests
             "return TestFunc(\"Hello\",\"World\"); ");
 
         var context = parser.program();
-        FQLVisitor visitor = new FQLVisitor();
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
         Assert.AreEqual(result, "Hello World");
+    }
+    [TestMethod]
+    public void ComplexParametersShouldBeEvaluated()
+    {
+        FQLParser parser = Arrange(
+            """
+               function GetHello() { return "Hello"; }
+               function TestFunc(h,w) { return $"{h} {w}"; }
+                           
+               return TestFunc(GetHello(),"World"); 
+            """
+            );
+
+        var context = parser.program();
+        var result = _visitor.Visit(context);
+
+        Assert.AreEqual("Hello World", result); 
     }
 }

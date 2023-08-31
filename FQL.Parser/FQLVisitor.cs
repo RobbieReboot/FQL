@@ -7,15 +7,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FQL.Parser
 {
-    public partial class FQLVisitor : FQLParserBaseVisitor<object>
-    {
+  public partial class FQLVisitor : FQLParserBaseVisitor<object>, IFQLVisitor
+  {
         private readonly IStateManager _stateManager;
         private readonly IErrorManager _errorManager;
 
-        public FQLVisitor(string grammarName = "Unknown")
+        public FQLVisitor(IStateManager stateManager,IErrorManager errManager, string grammarName = "Unknown")
         {
-            _stateManager = ServiceManager.ServiceProvider.GetRequiredService<IStateManager>();
-            _errorManager = ServiceManager.ServiceProvider.GetRequiredService<IErrorManager>();
+
+            _stateManager = stateManager;
+            _errorManager = errManager;
 
             StateManager.GrammarName = grammarName;
         }

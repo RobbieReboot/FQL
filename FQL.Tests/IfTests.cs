@@ -7,12 +7,12 @@ namespace FQL.Tests;
 public class IfTests
 {
     private IStateManager _stateManager = null!;
+    private IFQLVisitor? _visitor = null!;
+
     [TestInitialize]
     public void Init()
     {
-
-        ServiceManager.BuildServiceProvider();
-        _stateManager = ServiceManager.ServiceProvider.GetRequiredService<IStateManager>();
+        _stateManager = TestAssemblyInit._serviceProvider.GetService<IStateManager>()!;
     }
 
     private FQLParser Arrange(string text)
@@ -24,6 +24,7 @@ public class IfTests
         FQLLexer fqlLexer = new FQLLexer(inputStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(fqlLexer);
         FQLParser fqlParser= new FQLParser(commonTokenStream);
+        _visitor = TestAssemblyInit._serviceProvider.GetService<IFQLVisitor>()!;
 
         return fqlParser;
     }
@@ -34,9 +35,8 @@ public class IfTests
         FQLParser parser = Arrange("if ( 1==1 ) { return true; }");
 
         var context = parser.@if();
-        FQLVisitor visitor = new FQLVisitor();
-        var result = visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
-        Assert.AreEqual(result, true);
+        Assert.AreEqual(true, result);
     }
 }
