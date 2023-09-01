@@ -7,7 +7,7 @@ namespace FQL.Tests;
 public class IfTests
 {
     private IStateManager _stateManager = null!;
-    private IFQLVisitor? _visitor = null!;
+    private IFQLVisitor _visitor = null!;
 
     [TestInitialize]
     public void Init()
@@ -24,7 +24,7 @@ public class IfTests
         FQLLexer fqlLexer = new FQLLexer(inputStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(fqlLexer);
         FQLParser fqlParser= new FQLParser(commonTokenStream);
-        _visitor = TestAssemblyInit._serviceProvider.GetService<IFQLVisitor>()!;
+        _visitor = TestAssemblyInit._serviceProvider.GetService<IFQLVisitor>() ?? throw new InvalidOperationException();
 
         return fqlParser;
     }

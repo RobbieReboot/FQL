@@ -36,5 +36,22 @@ namespace FQL.Parser
             GrammarName = "Unknown";
         }
 
+        public void DumpCallStack()
+        {
+            Console.WriteLine($"Call Stack ({FunctionCallStack.Count} deep) ");
+            var reversedStack = FunctionCallStack.ToArray().Reverse();
+
+            Console.WriteLine("| Depth | File                                   | Line   | Function                               |");
+            Console.WriteLine("|-------|----------------------------------------|--------|----------------------------------------|");
+            int depth = 1;
+            foreach (var fn in reversedStack)
+            {
+                FQLParser.FunctionDefinitionContext context = fn.Value;
+                string currentFn = FunctionCallStack.Peek().Key == fn.Key ? "<--" : "   ";
+
+                Console.WriteLine($"| {depth,-5} | {GrammarName,-38} | {context.Start.Line,6} | {fn.Key,-35}{currentFn} |");
+                depth++;
+            }
+        }
     }
 }

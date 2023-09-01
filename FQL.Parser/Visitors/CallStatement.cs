@@ -8,7 +8,9 @@ public partial class FQLVisitor
 
         if (!StateManager.FunctionDefinitions.ContainsKey(functionName))
         {
-            throw new Exception($"Undefined function: {functionName}");
+            _errorManager.Error(context, _stateManager.GrammarName, $"Undefined function: {functionName}.");
+            //throw new Exception($"Undefined function: {functionName}");
+            return null;
         }
         // Create call stack prologue
 
@@ -31,8 +33,10 @@ public partial class FQLVisitor
 
             if (arguments.Count != parameters.Count)
             {
-                throw new Exception(
-                    $"Function {functionName} expects {parameters.Count} parameters but got {arguments.Count}.");
+                _errorManager.Error(context, _stateManager.GrammarName, $"Function {functionName} expects {parameters.Count} parameters but got {arguments.Count}.");
+                return null;
+                //throw new Exception(
+                //    $"Function {functionName} expects {parameters.Count} parameters but got {arguments.Count}.");
             }
             for (int i = 0; i < arguments.Count; i++)
             {
@@ -49,8 +53,22 @@ public partial class FQLVisitor
         // Now, evaluate the function body
         var functionBody = StateManager.FunctionDefinitions[functionName].statements().children;
         object? lastReturnValue = null;
+        var statementsProcessed = 0;
         foreach (var stmt in functionBody)
         {
+            if (_hasReturned)
+            {
+                if (statementsProcessed < functionBody.Count)
+                {
+                    // possibly unreachable code, cant figure that out unless we do a trace of all the statements to figure
+                    // out the branching structure, hence the wording "possible" just to bring attention to the code.
+                    _errorManager.Warning(context, _stateManager.GrammarName, $"possibly unreachable code in function '{context.Start.Text}'");
+
+                }
+                break;
+            }
+
+            statementsProcessed++;
             lastReturnValue = Visit(stmt);
         }
 

@@ -41,6 +41,7 @@ public class StringTests
 
         Assert.AreEqual(result, "Hello World");
     }
+
     [TestMethod]
     public void StringLiteralShouldReturnKnownString()
     {
@@ -50,5 +51,16 @@ public class StringTests
         var result = _visitor.Visit(context);
 
         Assert.AreEqual("Hello World", result);
+    }
+
+    [TestMethod]
+    public void UnknownInterpolationSymbolShouldGiveEmptyStrings()
+    {
+        FQLParser parser = Arrange("var result = $\"XX{Var1x} YY{Var2}\";");
+
+        var context = parser.assignment();
+        var result = _visitor.Visit(context);
+
+        Assert.AreEqual("XX YY", _stateManager.SymbolTable["result"]);
     }
 }

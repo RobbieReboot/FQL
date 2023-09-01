@@ -45,7 +45,9 @@ public partial class FQLVisitor
             return true;
         if (context.FALSE() != null)
             return false;
-        throw new InvalidOperationException("Unexpected boolLiteral value");
+        _errorManager.Error(context, _stateManager.GrammarName, "Unexpected bool literal.");
+        return null;
+        //throw new InvalidOperationException("Unexpected boolLiteral value");
     }
 
     public override object VisitRelationalExpr(FQLParser.RelationalExprContext context)
@@ -68,8 +70,10 @@ public partial class FQLVisitor
                 case ">": return result > 0;
                 case ">=": return result >= 0;
                 default:
-                    throw new InvalidOperationException(
-                        $"{StateManager.GrammarName}({context.Start.Line}) : Unsupported string comparison operation {op}");
+                    _errorManager.Error(context, _stateManager.GrammarName, $"Unsupported string comparison operation {op}.");
+                    return null;
+                    //throw new InvalidOperationException(
+                        //$"{StateManager.GrammarName}({context.Start.Line}) : Unsupported string comparison operation {op}");
             }
 
         }
@@ -84,13 +88,18 @@ public partial class FQLVisitor
                 case "<=": return result <= 0;
                 case ">": return result > 0;
                 case ">=": return result >= 0;
-                default: throw new InvalidOperationException($"Unsupported operation: {op}");
+                default:
+                    _errorManager.Error(context, _stateManager.GrammarName, $"Unsupported string comparison operation {op}.");
+                    return null;
+                    //throw new InvalidOperationException($"Unsupported operation: {op}");
             }
         }
         else
         {
-            
-            throw new InvalidOperationException($"{StateManager.GrammarName}({context.Start.Line}) : type mismatch in relational expression '{op}' (or no IComparable implementations).");
+            _errorManager.Error(context, _stateManager.GrammarName, $"type mismatch in relational expression '{op}' (or no IComparable implementations).");
+            //throw new InvalidOperationException($"{StateManager.GrammarName}({context.Start.Line}) : type mismatch in relational expression '{op}' (or no IComparable implementations).");
         }
+
+        return null;
     }
 }

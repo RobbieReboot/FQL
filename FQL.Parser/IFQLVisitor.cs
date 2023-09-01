@@ -10,7 +10,6 @@ public interface IFQLVisitor
     void SetGrammarName(string grammarName);
     object VisitIf(FQLParser.IfContext context);
     object VisitDumpStatement(FQLParser.DumpStatementContext context);
-    void DumpCallStack();
     object VisitGetStatement(FQLParser.GetStatementContext context);
     object VisitStatements(FQLParser.StatementsContext context);
     object VisitConnectionStatement(FQLParser.ConnectionStatementContext context);

@@ -6,29 +6,15 @@ public partial class FQLVisitor
     {
         if (context.SYMBOLS() != null)
         {
-            StateManager.SymbolTable.Dump();
+            _stateManager.SymbolTable.Dump();
         }
 
         if (context.CALLSTACK() != null)
         {
-            DumpCallStack();
+           _stateManager.DumpCallStack();
         }
 
         return null;
     }
 
-    public void DumpCallStack()
-    {
-        var reversedStack = StateManager.FunctionCallStack.ToArray().Reverse();
-
-        Console.WriteLine("| File                                   | Line   | Function                               |");
-        Console.WriteLine("|----------------------------------------|--------|----------------------------------------|");
-        foreach (var fn in reversedStack)
-        {
-            FQLParser.FunctionDefinitionContext context = fn.Value;
-            string currentFn = StateManager.FunctionCallStack.Peek().Key == fn.Key ? "<--" : "   ";
-
-            Console.WriteLine($"| {StateManager.GrammarName,-38} | {context.Start.Line,6} | {fn.Key,-35}{currentFn} |");
-        }
-    }
 }

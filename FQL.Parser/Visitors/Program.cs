@@ -9,10 +9,12 @@ public partial class FQLVisitor
     public override object VisitProgram(FQLParser.ProgramContext context)
     {
 
-        object lastResult = null;
+        object? lastResult = null;
         foreach (var statement in context.statements().children)
         {
             lastResult = Visit(statement);
+            if (_hasReturned)
+                break;                  //Return from global scope!
         }
 
         return lastResult;

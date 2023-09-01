@@ -5,12 +5,13 @@ using FQL.Parser;
 using Microsoft.Extensions.DependencyInjection;
 
 //"Data Source=.\;Integrated Security=SSPI;Initial Catalog=FormsMiddlewareDevUAT;MultipleActiveResultSets=True;app=LINQPad;Encrypt=true;TrustServerCertificate=true"
-var grammarName = "FQLJsonTests.fql";
+//var grammarName = "FQLJsonTest.fql";
+var grammarName = "FQLTest.fql";
 
 var scriptExec = new FQLScript(grammarName);
 var result = scriptExec.Execute();
 
 
-Console.WriteLine($"Execution returned : {result}");
+Console.WriteLine($"Execution {(result==true ? "Succeeded" : "Failed") }");
 
 

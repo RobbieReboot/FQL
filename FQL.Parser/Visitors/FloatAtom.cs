@@ -6,7 +6,8 @@ public partial class FQLVisitor
     {
         if (double.TryParse(context.f.Text, out var result))
             return result; //new DoubleResult(result);
-
-        throw new Exception("Couldn't parse Int Atom.");
+        _errorManager.Error(context, _stateManager.GrammarName, "Couldn't parse Float Atom.");
+        return null;
+        //throw new Exception("Couldn't parse Int Atom.");
     }
 }

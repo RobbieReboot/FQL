@@ -62,7 +62,11 @@ public partial class FQLVisitor
 
     public override object  VisitParenExpr(FQLParser.ParenExprContext context)
     {
-        return Convert.ToDouble(Visit(context.expression()));
+        var r = Visit(context.expression());
+        //if its NOT numeric, return it up the chain.
+        if (!Utils.IsNumericTypeBasedOnRefValueType(r))
+            return r;
+        return Convert.ToDouble(r);
     }
 
 

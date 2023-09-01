@@ -13,6 +13,10 @@ public partial class FQLVisitor
             //pretty print Json.
             Console.WriteLine(Utils.PrettyPrintJson(document));
         }
+        else
+        {
+            Console.WriteLine(value);
+        }
         return null;
     }
 }

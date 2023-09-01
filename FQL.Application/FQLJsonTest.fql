@@ -1,4 +1,4 @@
-var forecast = get("https://wa-fqlservice-dev-uksouth-001.azurewebsites.net/weatherforecast");
+var forecast = get("https://wa-fqlservice-dev-uksouth-001.azurewebsites.net/weatherforecastX");
 print $"forecast = \n {forecast}";
 
 /*
@@ -105,3 +105,4 @@ h1 = healthCheck.entries["FQLService liveness"].tags[0];
 print $"{h1}";
 var h2 = healthCheck.entries["FQLServiceContext Custom Check"].tags[0];
 print $"{h2}";
+return true;

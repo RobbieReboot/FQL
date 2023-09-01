@@ -7,8 +7,11 @@ public partial class FQLVisitor
         var id = context.ID().GetText();
         StateManager.SymbolTable.TryGetValue(id, out object? o);
         if (o == null)
-            throw new ArgumentException(
-                $"{_stateManager.GrammarName} ({context.Start.Line},{context.Start.Column}) : Unknown variable \"{id}\"");
+        {
+            _errorManager.Error(context, _stateManager.GrammarName, $"{id} is undefined.");
+            return null;
+        }
+
         return o;
     }
 }

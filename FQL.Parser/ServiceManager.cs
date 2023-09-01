@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Antlr4.Runtime;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FQL.Parser
@@ -27,11 +28,16 @@ namespace FQL.Parser
             _serviceCollection.AddSingleton<IStateManager, StateManager>();
             _serviceCollection.AddSingleton<IErrorManager, ErrorManager>();
             _serviceCollection.AddTransient<IFQLVisitor, FQLVisitor>();
+            _serviceCollection.AddTransient<IAntlrErrorListener<int>, CustomLexerErrorListener>();
+            _serviceCollection.AddTransient<CustomParserErrorListener>();
 
             _serviceProvider =_serviceCollection.BuildServiceProvider();
             return _serviceProvider;
         }
 
-        public T GetService<T>() => ServiceProvider.GetRequiredService<T>();
+        public T GetService<T>() where T : notnull
+        {
+            return ServiceProvider.GetRequiredService<T>();
+        }
     }
 }

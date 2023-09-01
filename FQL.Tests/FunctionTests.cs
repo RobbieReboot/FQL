@@ -33,16 +33,19 @@ public class FunctionCallTests
     public void FunctionCallShouldEvaluateParameters()
     {
         FQLParser parser = Arrange(
-            "function TestFunc(h,w) { return $\"{h} {w}\"; }" +
-            "return TestFunc(\"Hello\",\"World\"); ");
+            """
+                function TestFunc(h,w) { return $"{h} {w}"; }
+                    return TestFunc("Hello","World");
+            """);
 
         var context = parser.program();
         var result = _visitor.Visit(context);
 
-        Assert.AreEqual(result, "Hello World");
+        Assert.AreEqual( "Hello World", result);
     }
+
     [TestMethod]
-    public void ComplexParametersShouldBeEvaluated()
+    public void ComplexAtomParametersShouldBeEvaluated()
     {
         FQLParser parser = Arrange(
             """

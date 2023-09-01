@@ -12,36 +12,25 @@ public partial class FQLVisitor
         
         var httpClient = new HttpClient();
 
-        try
-        {
-            //var response = await httpClient.GetAsync(url);
-            //response.EnsureSuccessStatusCode(); // Throws an exception if the response was not successful
-            //var content = await response.Content.ReadAsStringAsync();
+        //var response = await httpClient.GetAsync(url);
+        //response.EnsureSuccessStatusCode(); // Throws an exception if the response was not successful
+        //var content = await response.Content.ReadAsStringAsync();
 
-            var response = httpClient.GetAsync(url);
-            var content = response.Result.Content.ReadAsStringAsync().Result;
-            if (response.Result.IsSuccessStatusCode)
-            {
-                JsonDocument jsonDoc = JsonDocument.Parse(content);
-                return jsonDoc;
-            }
-            else
-            {
-                throw new HttpRequestException(Utils.CreateError(context, _stateManager.GrammarName,
-                    $"Error fetching data from {url}: {response.Result.ReasonPhrase}"));
-            }
-        }
-        //catch (HttpRequestException e)
-        //{
-        //    throw new HttpRequestException(Utils.CreateError(context, _stateManager.GrammarName,
-        //        $"Error fetching data from {url}: {e.Message}"));
-        //    return null;
-        //}
-        catch (Exception e2)
+        var response = httpClient.GetAsync(url);
+        var content = response.Result.Content.ReadAsStringAsync().Result;
+        if (response.Result.IsSuccessStatusCode)
         {
-            throw new HttpRequestException(Utils.CreateError(context, _stateManager.GrammarName,
-                $"Error fetching data from {url}: {e2.Message}"));
-            return null;
+            //Pre-convert to json document?
+            //JsonDocument jsonDoc = JsonDocument.Parse(content);
+            //return jsonDoc;
+
+            return content;
         }
+        else
+        {
+            _errorManager.Error(context, _stateManager.GrammarName,$"Unable to fetch data from '{url}' : {response.Result.ReasonPhrase}");
+        }
+
+        return null;        //string.Empty;            //no results from the request.
     }
 }

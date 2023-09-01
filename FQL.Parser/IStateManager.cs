@@ -8,4 +8,5 @@ public interface IStateManager
     Dictionary<string, FQLParser.FunctionDefinitionContext> FunctionDefinitions { get; }
     Stack<bool> LoopBreakStack { get; }
     string GrammarName { get; set; }
+    void DumpCallStack();
 }

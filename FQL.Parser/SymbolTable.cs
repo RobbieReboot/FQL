@@ -12,7 +12,7 @@ namespace FQL.Parser
     /// </summary>
     public class SymbolTable
     {
-        private Stack<Dictionary<string, object?>> _scopedSymbols = new Stack<Dictionary<string, object?>>();
+        private readonly Stack<Dictionary<string, object?>> _scopedSymbols = new();
         private Dictionary<string, object?> _currentScope => _scopedSymbols.Peek();
         public Dictionary<string, object?> CurrentScope => _currentScope;
         public Dictionary<string, object?> GlobalScope => _scopedSymbols.First();
@@ -45,6 +45,7 @@ namespace FQL.Parser
         }
 
         public bool TryGetValue(string varName, out object? o) => _currentScope.TryGetValue( varName, out o);
+        public bool ExistsInCurrentScope(string symbol) => _currentScope.ContainsKey( symbol);
 
         public void Clear() => _currentScope.Clear();
 
@@ -67,7 +68,9 @@ namespace FQL.Parser
                 Console.WriteLine("|--------|-------------------------------|------------------------------------------------------------|");
                 foreach (var symbol in table)
                 {
-                    Console.WriteLine($"| {(scope==0 ? "GLOBAL" : scope),6} |{symbol.Key,30} | {symbol.Value,58} |");
+                    //remove control codes in multi line strings. Don't mess up the table!
+                    var s = new string(symbol.Value?.ToString()?.Where(c => !char.IsControl(c)).ToArray());
+                    Console.WriteLine($"| {(scope==0 ? "GLOBAL" : scope),6} |{symbol.Key.Elipsize(30),30} | {s?.Elipsize(58),58} |");
                 }
 
                 scope++;

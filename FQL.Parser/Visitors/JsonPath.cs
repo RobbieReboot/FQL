@@ -12,7 +12,6 @@ namespace FQL.Parser;
 
 public partial class FQLVisitor
 {
-    private readonly JsonElement root;
     public override object VisitJsonPath(FQLParser.JsonPathContext context)
     {
         var firstSegment = context.segment(0);
@@ -20,12 +19,15 @@ public partial class FQLVisitor
         var sym = StateManager.SymbolTable[propertyName];
         if (sym == null)
         {
-            throw new ArgumentNullException(Utils.CreateError(context, _stateManager.GrammarName,$"{propertyName} does not exist."));
+            _errorManager.Error(context, _stateManager.GrammarName, $"'{propertyName}' in Json path is NULL.");
+            return null;
+            //throw new ArgumentNullException(Utils.CreateError(context, _stateManager.GrammarName,$"{propertyName} does not exist."));
         }
 
         JsonDocument? jsonDoc = null;
 
-        if (sym is string)
+        //if its a string & not empty, try to parse it!
+        if (sym is string  && !String.IsNullOrEmpty((string)sym))
         {
             try
             {
@@ -33,17 +35,28 @@ public partial class FQLVisitor
             }
             catch ( Exception ex)
             {
-                throw new ArgumentException(Utils.CreateError(context, _stateManager.GrammarName,
-                    $"{propertyName} is not a valid Json fragment. {ex.Message}"));
+                _errorManager.Error(context, _stateManager.GrammarName, $"'{propertyName}' is not a valid Json fragment. {ex.Message}");
+                return null;
+                //throw new ArgumentException(Utils.CreateError(context, _stateManager.GrammarName,
+                //    $"{propertyName} is not a valid Json fragment. {ex.Message}"));
             }
+        }
+        else
+        {
+            _errorManager.Error(context, _stateManager.GrammarName, $"'{propertyName}' in '{context.GetText()}' evaluates to empty.");
+            return null;
         }
 
         if (sym is JsonDocument)                                //probaby came from a get statement
             jsonDoc = sym as JsonDocument;
 
         if (jsonDoc == null)
-            throw new ArgumentException(Utils.CreateError(context, _stateManager.GrammarName,
-                $"{propertyName} is not a valid Json fragment."));
+        {
+            _errorManager.Error(context, _stateManager.GrammarName, $"'{propertyName}' is not a valid Json fragment.");
+            return null;
+            //throw new ArgumentException(Utils.CreateError(context, _stateManager.GrammarName,
+            //    $"{propertyName} is not a valid Json fragment."));
+        }
 
         JsonElement current = jsonDoc.RootElement;
 
@@ -64,12 +77,14 @@ public partial class FQLVisitor
         {
             //Not supported yet
             case JsonValueKind.Object:
-                throw new NotImplementedException("Object Arrays in JSON aren't implemented.");
+                _errorManager.Error(context, _stateManager.GrammarName, $"Object Arrays in JSON aren't implemented.");
+                return null;
+                //throw new NotImplementedException("Object Arrays in JSON aren't implemented.");
             case JsonValueKind.Array:
-                var result = current.EnumerateArray().Select(o => Utils.ConvertToDynamic(o));
+                var result = current.EnumerateArray().Select(o => Utils.ConvertToDynamic(o))!;
                 return result.ToArray();
             case JsonValueKind.String:
-                string jsonString = current.GetString();
+                string jsonString = current.GetString()!;
                 return jsonString;
             case JsonValueKind.Number:
                 dynamic jsonNumber = Utils.ConvertToDynamic(current);
@@ -81,7 +96,9 @@ public partial class FQLVisitor
             case JsonValueKind.Null:
                 return null;
             default:
-                throw new InvalidOperationException("Unexpected JsonValueKind.");
+                _errorManager.Error(context, _stateManager.GrammarName, $"Unexpected JsonValueKind.");
+                return null;
+                //throw new InvalidOperationException("Unexpected JsonValueKind.");
         }
     }
 

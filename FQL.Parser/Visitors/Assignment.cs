@@ -33,12 +33,20 @@ public partial class FQLVisitor
         //if the VAR keyword is tokenised, its a declaration
         if (context.ass != null)
         {
-            StateManager.SymbolTable.Add(name, val);
+            if (_stateManager.SymbolTable.ExistsInCurrentScope(name))
+            {
+                _errorManager.Fatal(context, _stateManager.GrammarName, $"Symbol '{name}' already defined.");
+            }
+            else
+            {
+                _stateManager.SymbolTable.Add(name, val);
+            }
+
         }
         else
         {
             //otherwise its an assignment
-            StateManager.SymbolTable[name] = val;
+            _stateManager.SymbolTable[name] = val;
         }
         return val;
     }

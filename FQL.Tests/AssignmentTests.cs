@@ -74,13 +74,26 @@ public class AssignmentTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentException))]
-    public void UnknownInterpolationSymbolShouldThrowException()
+    public void UnknownInterpolationSymbolShouldGiveEmptyStrings()
     {
-        FQLParser parser = Arrange("var result = $\"{Var1x} {Var2}\";");
+        FQLParser parser = Arrange("var result = $\"XX{Var1x} YY{Var2}\";");
 
         var context = parser.assignment();
-        var result = _visitor.Visit(context);            //Exception
+        var result = _visitor.Visit(context);
+
+        Assert.AreEqual("XX YY", _stateManager.SymbolTable["result"]);
     }
 
+
+    [TestMethod]
+    public void AssignmentShouldAssignInt()
+    {
+        FQLParser parser = Arrange("var result = 45;");
+
+        var context = parser.assignment();
+        var result = _visitor.Visit(context);
+
+        Assert.AreEqual(45.0, _stateManager.SymbolTable["result"]);
+
+    }
 }

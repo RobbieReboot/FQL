@@ -7,7 +7,7 @@ namespace FQL.Tests;
 public class JSONAccessTests
 {
     private IStateManager _stateManager = null!;
-    private IFQLVisitor? _visitor =null!;
+    private IFQLVisitor _visitor =null!;
 
     [TestInitialize]
     public void Init()
@@ -24,7 +24,7 @@ public class JSONAccessTests
         FQLLexer fqlLexer = new FQLLexer(inputStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(fqlLexer);
         FQLParser fqlParser= new FQLParser(commonTokenStream);
-        _visitor = TestAssemblyInit._serviceProvider.GetService<IFQLVisitor>()!;
+        _visitor = TestAssemblyInit._serviceProvider.GetService<IFQLVisitor>() ?? throw new InvalidOperationException();
 
         return fqlParser;
     }
@@ -189,7 +189,6 @@ public class JSONAccessTests
 
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentException))]
     public void BadlyFormattedJsonShouldThrowException()
     {
         //Badly formatted Json
@@ -203,6 +202,7 @@ public class JSONAccessTests
         var context = parser.objectAccess();
         _stateManager.SymbolTable.Add("jsonDoc", jsonFQL);
         var result = _visitor.Visit(context);
+        Assert.AreEqual(null, result);
     }
 
 

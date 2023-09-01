@@ -12,6 +12,7 @@ namespace FQL.Parser
     {
         public static bool IsNumericTypeBasedOnRefValueType(object t)
         {
+            if (t == null) return false;
             Type type = t.GetType();
             // Check if it's a value type, but not an enum.
             if (!type.IsValueType || type.IsEnum)

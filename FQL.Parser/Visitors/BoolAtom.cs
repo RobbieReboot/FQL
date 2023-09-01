@@ -9,7 +9,8 @@ public partial class FQLVisitor
         {
             return result;
         }
-
-        throw new Exception("Couldn't parse Bool Atom.");
+        _errorManager.Error(context,_stateManager.GrammarName,"Unable to parse bool.");
+        return null;
+//        throw new Exception("Couldn't parse Bool Atom.");
     }
 }

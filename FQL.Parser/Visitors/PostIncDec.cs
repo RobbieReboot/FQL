@@ -119,6 +119,8 @@ public partial class FQLVisitor
             StateManager.SymbolTable[name] = obj;
             return retVal;
         }
-        throw new ArgumentException("Unsupported numeric type", nameof(obj));
+        _errorManager.Error(context, _stateManager.GrammarName, $"Unsupported numeric type {nameof(obj)}.");
+        return null;
+        //throw new ArgumentException("Unsupported numeric type", nameof(obj));
     }
 }

@@ -18,25 +18,31 @@ public partial class FQLVisitor
         foreach (var symbol in interpList)
         {
             var result = StateManager.SymbolTable.TryGetValue(symbol, out var value);
+            if (result == false)
+            {
+                //Symbol doesn't exist.
+                _errorManager.Error(context, _stateManager.GrammarName, $"Unknown variable '{symbol}'");
+                return interpolationString.Replace("{" + symbol + "}", String.Empty);
+            }
+
+            //Symbol does exist.
             if (value is JsonDocument document)
             {
                 //pretty printed Json string.
                 value = (Utils.PrettyPrintJson(document));
             }
 
-            if (result == true)
+            if (value!=null)
             {
+                //Got the symbol 
                 interpolationString = interpolationString.Replace("{" + symbol + "}", value?.ToString());
             }
 
             else
             {
-                throw new ArgumentException(Utils.CreateError(context, _stateManager.GrammarName,
-                    $"Unknown variable \"{symbol}\""));
-//                throw new ArgumentException($"{_stateManager.GrammarName} ({context.Start.Line},{context.Start.Column}) : Unknown variable \"{symbol}\"");
-                // or fail & just show undefined in place of symbol?
-                //interpolationString =
-                //    interpolationString.Replace("{" + symbol + "}", "{" + $"{symbol} UNDEFINED" + "}");
+                //Replace the missing variable with an empty string.
+                interpolationString = interpolationString.Replace("{" + symbol + "}", String.Empty);
+                _errorManager.Warning(context, _stateManager.GrammarName, $"'{symbol}' in interpolation string is NULL");
             }
         }
 

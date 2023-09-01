@@ -26,6 +26,7 @@ namespace FQL.Parser
             var lexer = new FQLLexer(new AntlrInputStream(fqlScript));
             var tokens = new CommonTokenStream(lexer);
 
+
             //tokens.Fill();
             //Console.WriteLine("Dumping Tokens");
             //Console.WriteLine("--------------");
@@ -35,25 +36,38 @@ namespace FQL.Parser
             //}
 
             FQLParser FQLParser = new FQLParser(tokens);
-            var tree = FQLParser.program();
-            var _visitor = serviceManager.GetService<IFQLVisitor>();
 
-            //FQLVisitor visitor = new FQLVisitor(GrammarName);
-            _visitor.ErrorManager.Add(new FQLError(new ParserRuleContext(){Start = new TokenTagToken("program",0){Line = 0,Column = 0}}, GrammarName,
-                $"Starting Execution on {DateTime.Now}", FQLErrorSeverity.Info));
+            
+            lexer.RemoveErrorListeners(); // Remove default listeners
+            FQLParser.RemoveErrorListeners();
+
+            lexer.AddErrorListener(serviceManager.GetService<IAntlrErrorListener<int>>());
+            FQLParser.AddErrorListener(serviceManager.GetService<CustomParserErrorListener>());
+
+            var _visitor = serviceManager.GetService<IFQLVisitor>();
+            _visitor.SetGrammarName(GrammarName);
+            _visitor.ErrorManager.Info(0,0, GrammarName,$"Starting Execution on {DateTime.Now}");
+
+            dynamic result;
             try
             {
-                _visitor.Visit(tree);
+                var tree = FQLParser.program();         // does initial token Scan/
+
+                result = _visitor.Visit(tree);                       // Starts interpreter.
             }
-            catch (Exception ex)
+            catch (Exception)                                        // For the HALT thrown from any Fatal severity error.
             {
-                return false;
+                result = false;
             }
 
             if (_visitor.ErrorManager.HasErrors(FQLErrorSeverity.Info))
+            {
+                Console.WriteLine("\nError Log"); 
+                Console.WriteLine(new string('-',80));
                 _visitor.ErrorManager.Show();
+            }
 
-            return true;
+            return result ?? true;
         }
     }
 }

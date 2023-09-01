@@ -1,4 +1,6 @@
-﻿namespace FQL.Parser;
+﻿using System.Security.Policy;
+
+namespace FQL.Parser;
 
 public partial class FQLVisitor
 {
@@ -6,7 +8,7 @@ public partial class FQLVisitor
     {
         if (_hasReturned)
         {
-            Console.WriteLine($"{_stateManager.GrammarName}({context.Start.Line},{context.Start.StartIndex}) : Error FQ0009 : Unreachable code {context.Start.Text}");
+            _errorManager.Warning(context, _stateManager.GrammarName, $"possibly unreachable code {context.Start.Text}");
         }
         return base.VisitStatement(context);
     }
