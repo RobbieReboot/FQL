@@ -12,7 +12,7 @@ namespace FQL.Parser
     {
         public ErrorManager() { }
 
-        public List<FQLError> Errors = new List<FQLError>(32);
+        public List<FQLError> Errors { get; } = new(32);
 
         public void Debug(ParserRuleContext context, string grammarName, string message) =>
             Add(new FQLError(context, grammarName, message, FQLErrorSeverity.Debug));

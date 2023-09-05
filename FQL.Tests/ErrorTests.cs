@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FQL.Tests;
 [TestClass]
-public class StringTests
+public class ErrorTests
 {
     private IStateManager _stateManager = null!;
     private IFQLVisitor _visitor = null!;
@@ -30,39 +30,26 @@ public class StringTests
 
         return fqlParser;
     }
-
     [TestMethod]
-    public void InterpolationStringShouldReturnInterpolatedString()
-    {
-        FQLParser parser = Arrange("$\"{Var1} {Var2}\"");
-        _stateManager.SymbolTable.Add("Var1", "Hello");
-        _stateManager.SymbolTable.Add("Var2", "World");
-
-        var context = parser.@string();
-        var result = _visitor.Visit(context);
-
-        Assert.AreEqual(result, "Hello World");
-    }
-
-    [TestMethod]
-    public void StringLiteralShouldReturnKnownString()
-    {
-        FQLParser parser = Arrange("\"Hello World\";");
-
-        var context = parser.@string();
-        var result = _visitor.Visit(context);
-
-        Assert.AreEqual("Hello World", result);
-    }
-
-    [TestMethod]
-    public void UnknownInterpolationSymbolShouldGiveEmptyStrings()
+    public void UnknownInterpolationSymbolShouldAddUnknownVariableError()
     {
         FQLParser parser = Arrange("var result = $\"XX{Var1x} YY{Var2}\";");
 
         var context = parser.assignment();
         var result = _visitor.Visit(context);
 
-        Assert.AreEqual("XX YY", _stateManager.SymbolTable["result"]);
+        Assert.AreEqual(true, _errorManager.HasErrors(FQLErrorSeverity.Error));
+        Assert.AreEqual(true, _errorManager.Errors.Any(e => e.ToString().Contains("Unknown variable 'Var1x'")));
+    }
+    [TestMethod]
+    public void UnknownInterpolationSymbolShouldAddWarningVarIsNull()
+    {
+        FQLParser parser = Arrange("var result = $\"XX{Var1x} YY{Var2}\";");
+
+        var context = parser.assignment();
+        var result = _visitor.Visit(context);
+
+        Assert.AreEqual(true, _errorManager.HasErrors(FQLErrorSeverity.Error));
+        Assert.AreEqual(true, _errorManager.Errors.Any(e => e.ToString().Contains("'Var1x' in interpolation string is NULL")));
     }
 }

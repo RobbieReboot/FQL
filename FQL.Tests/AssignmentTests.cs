@@ -50,6 +50,23 @@ public class AssignmentTests
 
         Assert.AreEqual(5.0, _stateManager.SymbolTable["result"]);
     }
+
+    [TestMethod]
+    public void ComplexAssignmentShouldAssignValue()
+    {
+        FQLParser parser = Arrange(
+            """
+            var x = 5;
+            var y = x;
+            return y;
+            """);
+
+        var context = parser.assignment();
+        var result = _visitor.Visit(context);
+
+        Assert.AreEqual(5.0, result);
+    }
+
     [TestMethod]
     public void AssignmentShouldAssignStringLiteral()
     {
@@ -74,7 +91,7 @@ public class AssignmentTests
     }
 
     [TestMethod]
-    public void UnknownInterpolationSymbolShouldGiveEmptyStrings()
+    public void UnknownInterpolationSymbolShouldReturnEmptyStrings()
     {
         FQLParser parser = Arrange("var result = $\"XX{Var1x} YY{Var2}\";");
 

@@ -19,4 +19,5 @@ public interface IErrorManager
     void Clear();
     void Show();
     bool HasErrors(FQLErrorSeverity showLevel);
+    List<FQLError> Errors { get; }
 }

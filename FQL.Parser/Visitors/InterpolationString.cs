@@ -22,7 +22,7 @@ public partial class FQLVisitor
             {
                 //Symbol doesn't exist.
                 _errorManager.Error(context, _stateManager.GrammarName, $"Unknown variable '{symbol}'");
-                return interpolationString.Replace("{" + symbol + "}", String.Empty);
+                interpolationString.Replace("{" + symbol + "}", String.Empty);
             }
 
             //Symbol does exist.
@@ -32,7 +32,8 @@ public partial class FQLVisitor
                 value = (Utils.PrettyPrintJson(document));
             }
 
-            if (value!=null)
+            //Variable does exist but contents are null
+            if (value!=null && result)
             {
                 //Got the symbol 
                 interpolationString = interpolationString.Replace("{" + symbol + "}", value?.ToString());
