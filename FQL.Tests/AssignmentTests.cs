@@ -48,7 +48,7 @@ public class AssignmentTests
         var context = parser.assignment();
         var result = _visitor.Visit(context);
 
-        Assert.AreEqual(5.0, _stateManager.SymbolTable["result"]);
+        Assert.AreEqual(5, _stateManager.SymbolTable["result"]);
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public class AssignmentTests
         var context = parser.assignment();
         var result = _visitor.Visit(context);
 
-        Assert.AreEqual(5.0, result);
+        Assert.AreEqual(5, result);
     }
 
     [TestMethod]
@@ -137,20 +137,20 @@ public class AssignmentTests
         var context = parser.assignment();
         var result = _visitor.Visit(context);
 
-        Assert.AreEqual(typeof(double), _stateManager.SymbolTable["result"].GetType());
-        Assert.AreEqual(45.0, _stateManager.SymbolTable["result"]);
+        Assert.AreEqual(typeof(float), _stateManager.SymbolTable["result"].GetType());
+        Assert.AreEqual(45.0f, _stateManager.SymbolTable["result"]);
 
     }
     [TestMethod]
     public void AssignmentShouldAssignByDoubleWithNoSuffix()
     {
-        FQLParser parser = Arrange("var result = 45.0;");
+        FQLParser parser = Arrange("var result = 45.0d;");
 
         var context = parser.assignment();
         var result = _visitor.Visit(context);
 
-        Assert.AreEqual(typeof(double), _stateManager.SymbolTable["result"].GetType());
-        Assert.AreEqual(45.0, _stateManager.SymbolTable["result"]);
+        Assert.AreEqual(typeof(float), _stateManager.SymbolTable["result"].GetType());
+        Assert.AreEqual(45.0f, _stateManager.SymbolTable["result"]);
 
     }
 

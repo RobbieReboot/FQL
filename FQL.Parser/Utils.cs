@@ -54,27 +54,6 @@ namespace FQL.Parser
             switch (element.ValueKind)
             {
                 case JsonValueKind.Number:
-                    var deserialized = element.GetDecimal();
-
-                    if (deserialized <= int.MaxValue && deserialized >= int.MinValue)
-                    {
-                        return (int)deserialized;
-                    }
-                    else if (deserialized <= float.MaxValue && deserialized >= float.MinValue)
-                    {
-                        return (float)deserialized;
-                    }
-                    else if (deserialized <= double.MaxValue && deserialized >= double.MinValue)
-                    {
-                        return (double)deserialized;
-                    }
-                    else
-                    {
-                        return deserialized;
-                    }
-
-
-
                     return element.GetDecimal();
                 case JsonValueKind.String:
                     return element.GetString();
