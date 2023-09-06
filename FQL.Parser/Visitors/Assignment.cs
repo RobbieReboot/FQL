@@ -17,12 +17,12 @@ public partial class FQLVisitor
         if (context.expression() != null)
         {
             val = Visit(context.expression());
-         }
+        }
 
         if (context.@string() != null)
         {
             val = Visit(context.@string());
-            val = Regex.Unescape((string)val);
+            val = Regex.Unescape((string)val);          //change the control codes in text into their actual control code.
         }
 
         if (context.callStatement() != null)

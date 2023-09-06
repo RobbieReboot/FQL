@@ -38,7 +38,7 @@ public class ExpressionEvaluatorTest
         var context = parser.expression();
         var result = _visitor.Visit(context);
 
-        Assert.AreEqual(result, 5.0);
+        Assert.AreEqual(result, 5);
     }
     [TestMethod]
     public void ExpressionShouldCalculateSubtraction()
@@ -48,7 +48,7 @@ public class ExpressionEvaluatorTest
         var context = parser.expression();
         var result = _visitor.Visit(context);
 
-        Assert.AreEqual(result, 3.0);
+        Assert.AreEqual(result, 3);
     }
     [TestMethod]
     public void ExpressionShouldCalculateMultiplication()
@@ -58,7 +58,7 @@ public class ExpressionEvaluatorTest
         var context = parser.expression();
         var result = _visitor.Visit(context);
 
-        Assert.AreEqual(result, 10.0);
+        Assert.AreEqual(result, 10);
     }
     [TestMethod]
     public void ExpressionShouldRespectBODMAS()
@@ -68,7 +68,7 @@ public class ExpressionEvaluatorTest
         var context = parser.expression();
         var result = _visitor.Visit(context);
 
-        Assert.AreEqual(result, 20.0);
+        Assert.AreEqual(result, 20);
     }
     [TestMethod]
     public void ExpressionShouldCalculateFloatAddition()
@@ -78,7 +78,7 @@ public class ExpressionEvaluatorTest
         var context = parser.expression();
         var result = _visitor.Visit(context);
 
-        Assert.AreEqual(result, 6.0);
+        Assert.AreEqual(6.0f,result);
     }
 
     [TestMethod]
@@ -87,9 +87,9 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("10*(5+5)");
 
         var context = parser.expression();
-        double result = (double)_visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
-        Assert.AreEqual(result, 100.0);
+        Assert.AreEqual(result, 100);
     }
 
     [TestMethod]
@@ -98,11 +98,22 @@ public class ExpressionEvaluatorTest
         FQLParser parser = Arrange("10*(5+var1)");
         _stateManager.SymbolTable.Add("var1",5);
         var context = parser.expression();
-        double result = (double)_visitor.Visit(context);
+        var result = _visitor.Visit(context);
 
-        Assert.AreEqual(result, 100.0);
+        Assert.AreEqual(result, 100);
     }
 
+    [TestMethod]
+    public void ExpressionShouldTruncateIntViaTypePromotion()
+    {
+        //should perform the division as int arithmetic.
+        FQLParser parser = Arrange("7/2");
+
+        var context = parser.expression();
+        var result = _visitor.Visit(context);
+
+        Assert.AreEqual(result, 3);
+    }
 
 
 }

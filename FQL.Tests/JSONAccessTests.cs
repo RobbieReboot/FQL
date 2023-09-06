@@ -90,7 +90,7 @@ public class JSONAccessTests
         var context = parser.program();
         var result = _visitor.Visit(context);
 
-        Assert.AreEqual(result,38.0);
+        Assert.AreEqual(result,38);
     }
 
     [TestMethod]

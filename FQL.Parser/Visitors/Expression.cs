@@ -17,18 +17,16 @@ public partial class FQLVisitor
         if (!Utils.IsNumericTypeBasedOnRefValueType(r))
             return r;
 
-        //if (r is bool | r is string)
-        //    return r;
-        double result = Convert.ToDouble(r);
+        dynamic result = r;
 
         for (int i = 1; i < context.mulDivExpr().Length; i++)
         {
             if (context.GetChild(i * 2 - 1).GetText() == "+")
             {
-                result += Convert.ToDouble(Visit(context.mulDivExpr(i)));
+                result +=(dynamic) Visit(context.mulDivExpr(i));
             }
             else
-                result -= Convert.ToDouble(Visit(context.mulDivExpr(i)));
+                result -= (dynamic)Visit(context.mulDivExpr(i));
         }
         return result;
     }
@@ -42,13 +40,13 @@ public partial class FQLVisitor
         //if (r is bool || r is string)
         //    return r;
 
-        var result = Convert.ToDouble(r);
+        dynamic result = r;
         for (int i = 1; i < context.powExpr().Length; i++)
         {
             if (context.GetChild(i * 2 - 1).GetText() == "*")
-                result *= Convert.ToDouble(Visit(context.powExpr(i)));
+                result *= (dynamic)Visit(context.powExpr(i));
             else
-                result /= Convert.ToDouble(Visit(context.powExpr(i)));
+                result /= (dynamic)Visit(context.powExpr(i));
         }
         return result;
     }
@@ -56,17 +54,17 @@ public partial class FQLVisitor
     public override object VisitExponentationExpr(FQLParser.ExponentationExprContext context)
     {
         if (context.CARET() != null)            // only do the exponent IF there is an exponent to raise the power to!
-            return Math.Pow(Convert.ToDouble(Visit(context.atom())), Convert.ToDouble(Visit(context.powExpr())));
+            return Math.Pow((dynamic)Visit(context.atom()),(dynamic) Visit(context.powExpr()));
         return Visit(context.atom());
     }
 
     public override object  VisitParenExpr(FQLParser.ParenExprContext context)
     {
-        var r = Visit(context.expression());
+        var r = (dynamic)Visit(context.expression());
         //if its NOT numeric, return it up the chain.
         if (!Utils.IsNumericTypeBasedOnRefValueType(r))
             return r;
-        return Convert.ToDouble(r);
+        return r;
     }
 
 

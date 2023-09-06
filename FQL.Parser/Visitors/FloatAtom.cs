@@ -4,7 +4,7 @@ public partial class FQLVisitor
 {
     public override object VisitFloatAtom(FQLParser.FloatAtomContext context)
     {
-        if (double.TryParse(context.f.Text, out var result))
+        if (float.TryParse(context.f.Text, out var result))
             return result; //new DoubleResult(result);
         _errorManager.Error(context, _stateManager.GrammarName, "Couldn't parse Float Atom.");
         return null;
