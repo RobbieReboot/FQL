@@ -161,8 +161,10 @@ powExpr
 atom
    : id = identifier                                        # IdentifierAtom
    | b = boolean                                            # BoolAtom
-   | i = integer                                            # IntAtom
    | f = FLOAT                                              # FloatAtom
+   | d = DOUBLE                                             # DoubleAtom
+   | m = DECIMAL                                            # DecimalAtom
+   | i = integer                                            # IntAtom
    | OPEN_PARENS expression CLOSE_PARENS                    # ParenExpr
    | string                                                 # stringAtom
    | OPEN_PARENS? complexAtomPart CLOSE_PARENS?             # complexAtom

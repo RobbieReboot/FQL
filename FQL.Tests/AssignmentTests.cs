@@ -137,20 +137,19 @@ public class AssignmentTests
         var context = parser.assignment();
         var result = _visitor.Visit(context);
 
-        Assert.AreEqual(typeof(float), _stateManager.SymbolTable["result"].GetType());
-        Assert.AreEqual(45.0f, _stateManager.SymbolTable["result"]);
+        Assert.AreEqual(typeof(double), _stateManager.SymbolTable["result"].GetType());
+        Assert.AreEqual(45.0d, _stateManager.SymbolTable["result"]);
 
     }
     [TestMethod]
     public void AssignmentShouldAssignByDoubleWithNoSuffix()
     {
-        FQLParser parser = Arrange("var result = 45.0d;");
-
+        FQLParser parser = Arrange("var result = 45.0;");
         var context = parser.assignment();
         var result = _visitor.Visit(context);
 
-        Assert.AreEqual(typeof(float), _stateManager.SymbolTable["result"].GetType());
-        Assert.AreEqual(45.0f, _stateManager.SymbolTable["result"]);
+        Assert.AreEqual(typeof(double), _stateManager.SymbolTable["result"].GetType());
+        Assert.AreEqual(45.0d, _stateManager.SymbolTable["result"]);
 
     }
 

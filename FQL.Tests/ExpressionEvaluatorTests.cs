@@ -73,13 +73,25 @@ public class ExpressionEvaluatorTest
     [TestMethod]
     public void ExpressionShouldCalculateFloatAddition()
     {
-        FQLParser parser = Arrange("3.5+2.5");
+        FQLParser parser = Arrange("3.5f+2.5f");
 
         var context = parser.expression();
         var result = _visitor.Visit(context);
 
         Assert.AreEqual(6.0f,result);
     }
+
+    [TestMethod]
+    public void ExpressionWithDoubleShouldPromoteToDouble()
+    {
+        FQLParser parser = Arrange("3.5+2.5f");
+
+        var context = parser.expression();
+        var result = _visitor.Visit(context);
+
+        Assert.AreEqual(6.0, result);
+    }
+
 
     [TestMethod]
     public void ExpressionShouldCalculateParenthesisedExpression()
@@ -115,5 +127,55 @@ public class ExpressionEvaluatorTest
         Assert.AreEqual(result, 3);
     }
 
+    [TestMethod]
+    public void IntegerAtomShouldReturnInteger()
+    {
+        FQLParser parser = Arrange("2");
 
+        var context = parser.expression();
+        var result = _visitor.Visit(context);
+
+        Assert.AreEqual(result, 2);
+    }
+
+    [TestMethod]
+    public void FloatAtomShouldReturnFloat()
+    {
+        FQLParser parser = Arrange("2.4f");
+
+        var context = parser.expression();
+        var result = _visitor.Visit(context);
+
+        Assert.AreEqual(result, 2.4f);
+    }
+    [TestMethod]
+    public void DoubleAtomShouldReturnDouble()
+    {
+        FQLParser parser = Arrange("2.4d");
+
+        var context = parser.expression();
+        var result = _visitor.Visit(context);
+
+        Assert.AreEqual(result, 2.4d);
+    }
+    [TestMethod]
+    public void DecimalAtomShouldReturnDecimal()
+    {
+        FQLParser parser = Arrange("2.4m");
+
+        var context = parser.expression();
+        var result = _visitor.Visit(context);
+
+        Assert.AreEqual(result, 2.4m);
+    }
+    [TestMethod]
+    public void DecimalNoSuffixShouldReturnDouble()
+    {
+        FQLParser parser = Arrange("2.4d");
+
+        var context = parser.expression();
+        var result = _visitor.Visit(context);
+
+        Assert.AreEqual(result, 2.4);
+    }
 }
