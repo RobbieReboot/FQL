@@ -89,6 +89,23 @@ INTERPOLATION_ID           : [a-zA-Z_][a-zA-Z0-9_]* ;  // For ID recognition wit
 // ID token already captures the variable name pattern, so we don't need a separate VAR_NAME rule.
 mode DEFAULT_MODE;
 
+//Json document lexing
+JSON_DOC_START
+	: '@"' -> pushMode(JSON_DOC_MODE)
+	;
+
+mode JSON_DOC_MODE;
+JSON_DOC_CONTENT
+	: ( ~["] | '"' ~[@] )+
+	;
+JSON_DOC_END
+	: '"@' -> popMode
+	;
+
+mode DEFAULT_MODE;
+
+
+
 OP_INC:						'++';
 OP_DEC:						'--';
 OP_AND:						'&&';

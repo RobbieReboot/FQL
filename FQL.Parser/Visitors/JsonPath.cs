@@ -21,48 +21,27 @@ public partial class FQLVisitor
         {
             _errorManager.Error(context, _stateManager.GrammarName, $"'{propertyName}' in Json path is NULL.");
             return null;
-            //throw new ArgumentNullException(Utils.CreateError(context, _stateManager.GrammarName,$"{propertyName} does not exist."));
         }
 
-        JsonDocument? jsonDoc = null;
-
-        //if its a string & not empty, try to parse it!
-        if (sym is string  && !String.IsNullOrEmpty((string)sym))
-        {
-            try
-            {
-                jsonDoc = JsonDocument.Parse((string)sym);
-            }
-            catch ( Exception ex)
-            {
-                _errorManager.Error(context, _stateManager.GrammarName, $"'{propertyName}' is not a valid Json fragment. {ex.Message}");
-                return null;
-                //throw new ArgumentException(Utils.CreateError(context, _stateManager.GrammarName,
-                //    $"{propertyName} is not a valid Json fragment. {ex.Message}"));
-            }
-        }
-        else
-        {
-            _errorManager.Error(context, _stateManager.GrammarName, $"'{propertyName}' in '{context.GetText()}' evaluates to empty.");
-            return null;
-        }
-
-        if (sym is JsonDocument)                                //probaby came from a get statement
-            jsonDoc = sym as JsonDocument;
+        var jsonDoc = sym as JsonDocument;
 
         if (jsonDoc == null)
         {
-            _errorManager.Error(context, _stateManager.GrammarName, $"'{propertyName}' is not a valid Json fragment.");
+            _errorManager.Error(context, _stateManager.GrammarName, $"'{propertyName}' is not a valid Json document.");
             return null;
-            //throw new ArgumentException(Utils.CreateError(context, _stateManager.GrammarName,
-            //    $"{propertyName} is not a valid Json fragment."));
         }
 
         JsonElement current = jsonDoc.RootElement;
 
         if (firstSegment.INTEGER() != null)
         {
+            // We're trying to index into a Json Array
             int index = int.Parse(firstSegment.INTEGER().GetText());
+            if (current.ValueKind != JsonValueKind.Array)
+            {
+                _errorManager.Error(context, _stateManager.GrammarName, $"{current} is not an array type.");
+                return null;
+            }
             current = current[index];
         }
 
@@ -79,7 +58,6 @@ public partial class FQLVisitor
             case JsonValueKind.Object:
                 _errorManager.Error(context, _stateManager.GrammarName, $"Object Arrays in JSON aren't implemented.");
                 return null;
-                //throw new NotImplementedException("Object Arrays in JSON aren't implemented.");
             case JsonValueKind.Array:
                 var result = current.EnumerateArray().Select(o => Utils.ConvertToDynamic(o))!;
                 return result.ToArray();

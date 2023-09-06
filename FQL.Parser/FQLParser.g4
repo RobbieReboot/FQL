@@ -168,6 +168,7 @@ atom
    | OPEN_PARENS expression CLOSE_PARENS                    # ParenExpr
    | string                                                 # stringAtom
    | OPEN_PARENS? complexAtomPart CLOSE_PARENS?             # complexAtom
+   | jsonDocument                                           # JsonDoc
    ;
 
 complexAtomPart
@@ -208,6 +209,10 @@ identifier
 string
     : interpolatedString                                    # InterpolationString
     | stringLiteral                                         # StrLiteral
+    ;
+
+jsonDocument
+    : JSON_DOC_START JSON_DOC_CONTENT JSON_DOC_END
     ;
 
 stringLiteral

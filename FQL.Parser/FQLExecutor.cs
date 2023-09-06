@@ -60,7 +60,7 @@ namespace FQL.Parser
                 result = false;
             }
 
-            if (_visitor.ErrorManager.HasErrors(FQLErrorSeverity.Info))
+            if (_visitor.ErrorManager.HasErrors(FQLErrorSeverity.Warning))
             {
                 Console.WriteLine("\nError Log"); 
                 Console.WriteLine(new string('-',80));
